@@ -2674,7 +2674,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v16';
+        const STORAGE_KEY = 'vilaRealFutsalData_v17';
 
         const DEFAULT_MENU = [
             { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-home', page: 'dashboard' },
@@ -2954,6 +2954,7 @@
             document.getElementById('userRole').textContent = user.perfil;
             document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
 
+            // Inicializar o sistema e renderizar o menu
             initSystem();
             return false;
         }
@@ -2966,6 +2967,194 @@
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
             showToast('Desconectado com sucesso');
+        }
+
+        // ============================================================
+        //  RENDERIZAR MENU - FUNÇÃO PRINCIPAL
+        // ============================================================
+        function renderizarMenu() {
+            const menu = data.config.menuItems || DEFAULT_MENU;
+            const container = document.getElementById('sidebarMenu');
+
+            if (!container) {
+                console.error('Container do menu não encontrado!');
+                return;
+            }
+
+            let html = '';
+
+            menu.forEach((item) => {
+                if (item.isSeparator) {
+                    html += `<div class="menu-label">${item.label}</div>`;
+                    return;
+                }
+
+                const iconHtml = item.icon && item.icon.startsWith('data:') ?
+                    `<img src="${item.icon}" alt="${item.label}" style="width:20px;height:20px;border-radius:4px;object-fit:cover;">` :
+                    `<i class="${item.icon || 'fas fa-circle'}"></i>`;
+
+                html += `
+                    <button class="menu-item" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
+                        ${iconHtml}
+                        <span>${item.label}</span>
+                        <span class="badge" id="badge_${item.page}"></span>
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // Atualizar badges
+            document.getElementById('badge_alunos').textContent = data.alunos.length || '';
+            document.getElementById('badge_notificacoes').textContent = data.notificacoes.length || '';
+
+            // Ativar item atual
+            const currentPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'dashboard';
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.page === currentPage);
+            });
+
+            // Aplicar permissões
+            verificarPermissoesMenu();
+
+            console.log('✅ Menu renderizado com sucesso!');
+        }
+
+        function verificarPermissoesMenu() {
+            if (!currentUser) return;
+            const isAdmin = currentUser.perfil === 'Administrador';
+            const permissoes = currentUser.permissoes || {};
+
+            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+                const page = item.dataset.page;
+                if (page === 'dashboard') { item.style.display = 'flex'; return; }
+                if (isAdmin) { item.style.display = 'flex'; return; }
+                const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
+                    'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
+                    'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
+                item.style.display = permissoes[mapa[page]] ? 'flex' : 'none';
+            });
+        }
+
+        // ============================================================
+        //  NAVEGAÇÃO
+        // ============================================================
+        function mudarPagina(page) {
+            fecharScanner();
+
+            // Verificar permissão
+            if (!temPermissao(page) && currentUser?.perfil !== 'Administrador' && page !== 'dashboard') {
+                showToast('Você não tem permissão para acessar esta área', 'error');
+                return;
+            }
+
+            document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.menu-item[data-page="${page}"]`)?.classList.add('active');
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+
+            const titles = {
+                dashboard: ['Dashboard', 'Visão geral do sistema'],
+                alunos: ['Alunos', 'Gerenciamento de alunos'],
+                carteirinhas: ['Carteirinhas', 'Geração de carteirinhas'],
+                presencas: ['Presenças', 'Confirmação via QR Code'],
+                notificacoes: ['Notificações', 'Histórico e envio de mensagens'],
+                relatorios: ['Relatórios', 'Análise de frequência'],
+                backup: ['Backup', 'Exportar e importar dados'],
+                configuracoes: ['Configurações', 'Ajustes do sistema'],
+                personalizar: ['Personalizar', 'Personalize menu e barra lateral'],
+                usuarios: ['Usuários', 'Gerenciamento de usuários']
+            };
+
+            const [title, subtitle] = titles[page] || ['Página', ''];
+            document.getElementById('pageTitle').textContent = title;
+            document.getElementById('pageSubtitle').textContent = subtitle;
+
+            // Carregar conteúdo da página
+            if (page === 'relatorios') renderRelatorio();
+            if (page === 'presencas') carregarPresencasHoje();
+            if (page === 'alunos') renderAlunos();
+            if (page === 'carteirinhas') carregarCarteirinhas();
+            if (page === 'dashboard') renderDashboard();
+            if (page === 'notificacoes') renderNotificacoes();
+            if (page === 'usuarios') renderUsuarios();
+            if (page === 'configuracoes') renderConfiguracoes();
+            if (page === 'personalizar') carregarPersonalizacao();
+        }
+
+        function temPermissao(pagina) {
+            if (!currentUser) return false;
+            if (currentUser.perfil === 'Administrador') return true;
+            const permissoes = currentUser.permissoes || {};
+            const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
+                'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
+                'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
+            return permissoes[mapa[pagina]] === true;
+        }
+
+        // ============================================================
+        //  INICIALIZAÇÃO DO SISTEMA
+        // ============================================================
+        function initSystem() {
+            console.log('🚀 Inicializando sistema...');
+            window.data = data;
+
+            // Carregar personalizações da sidebar
+            if (data.config.sidebarLogo) {
+                document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
+                document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
+            }
+            document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
+                ' <span>') + '</span>';
+            document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
+            document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
+            document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
+
+            // Renderizar o menu principal
+            renderizarMenu();
+
+            // Carregar editor do menu
+            carregarMenuEditor();
+
+            // Renderizar todas as páginas
+            renderDashboard();
+            renderAlunos();
+            renderCategoriasSelects();
+            renderConfiguracoes();
+            renderUsuarios();
+            renderRelatorio();
+            carregarPresencasHoje();
+            renderNotificacoes();
+
+            // Atualizar informações
+            document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            document.getElementById('alunosCount').textContent = data.alunos.length;
+            document.getElementById('notifCount').textContent = data.notificacoes.length;
+            document.getElementById('senhaMasterDisplay').textContent = '••••••••';
+
+            // Carregar configurações
+            if (data.config.whatsappNumero) {
+                document.getElementById('whatsappNumero').value = data.config.whatsappNumero;
+            }
+            if (data.config.mensagemPadrao) {
+                document.getElementById('mensagemPadrao').value = data.config.mensagemPadrao;
+            }
+            document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
+            document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
+
+            // Inicializar gráficos
+            initCharts();
+
+            console.log('✅ Sistema inicializado com sucesso!');
+            console.log('📊 Alunos:', data.alunos.length);
+            console.log('👥 Usuários:', data.usuarios.length);
+            console.log('📋 Menu renderizado:', document.querySelectorAll('.menu-item').length, 'itens');
         }
 
         // ============================================================
@@ -3011,64 +3200,8 @@
         }
 
         // ============================================================
-        //  PERSONALIZAÇÃO DO MENU
+        //  PERSONALIZAÇÃO DO MENU - EDITOR
         // ============================================================
-        function renderizarMenu() {
-            const menu = data.config.menuItems || [];
-            const container = document.getElementById('sidebarMenu');
-            let html = '';
-
-            menu.forEach((item) => {
-                if (item.isSeparator) {
-                    html += `<div class="menu-label">${item.label}</div>`;
-                    return;
-                }
-
-                const iconHtml = item.icon && item.icon.startsWith('data:') ?
-                    `<img src="${item.icon}" alt="${item.label}" style="width:20px;height:20px;border-radius:4px;object-fit:cover;">` :
-                    `<i class="${item.icon || 'fas fa-circle'}"></i>`;
-
-                html += `
-                    <button class="menu-item" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
-                        ${iconHtml}
-                        <span>${item.label}</span>
-                        <span class="badge" id="badge_${item.page}"></span>
-                    </button>
-                `;
-            });
-
-            container.innerHTML = html;
-
-            // Atualizar badges
-            document.getElementById('badge_alunos').textContent = data.alunos.length || '';
-            document.getElementById('badge_notificacoes').textContent = data.notificacoes.length || '';
-
-            // Ativar item atual
-            const currentPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'dashboard';
-            document.querySelectorAll('.menu-item').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.page === currentPage);
-            });
-
-            // Aplicar permissões
-            verificarPermissoesMenu();
-        }
-
-        function verificarPermissoesMenu() {
-            if (!currentUser) return;
-            const isAdmin = currentUser.perfil === 'Administrador';
-            const permissoes = currentUser.permissoes || {};
-
-            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
-                const page = item.dataset.page;
-                if (page === 'dashboard') { item.style.display = 'flex'; return; }
-                if (isAdmin) { item.style.display = 'flex'; return; }
-                const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
-                    'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
-                    'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
-                item.style.display = permissoes[mapa[page]] ? 'flex' : 'none';
-            });
-        }
-
         function carregarMenuEditor() {
             const container = document.getElementById('menuEditorContainer');
             const menu = data.config.menuItems || [];
@@ -3240,60 +3373,17 @@
             showToast('Menu salvo!');
         }
 
-        // ============================================================
-        //  NAVEGAÇÃO
-        // ============================================================
-        function mudarPagina(page) {
-            fecharScanner();
-
-            // Verificar permissão
-            if (!temPermissao(page) && currentUser?.perfil !== 'Administrador' && page !== 'dashboard') {
-                showToast('Você não tem permissão para acessar esta área', 'error');
-                return;
+        function carregarPersonalizacao() {
+            if (data.config.sidebarLogo) {
+                document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
+                document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
             }
-
-            document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.menu-item[data-page="${page}"]`)?.classList.add('active');
-
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + page).classList.add('active');
-
-            const titles = {
-                dashboard: ['Dashboard', 'Visão geral do sistema'],
-                alunos: ['Alunos', 'Gerenciamento de alunos'],
-                carteirinhas: ['Carteirinhas', 'Geração de carteirinhas'],
-                presencas: ['Presenças', 'Confirmação via QR Code'],
-                notificacoes: ['Notificações', 'Histórico e envio de mensagens'],
-                relatorios: ['Relatórios', 'Análise de frequência'],
-                backup: ['Backup', 'Exportar e importar dados'],
-                configuracoes: ['Configurações', 'Ajustes do sistema'],
-                personalizar: ['Personalizar', 'Personalize menu e barra lateral'],
-                usuarios: ['Usuários', 'Gerenciamento de usuários']
-            };
-
-            const [title, subtitle] = titles[page] || ['Página', ''];
-            document.getElementById('pageTitle').textContent = title;
-            document.getElementById('pageSubtitle').textContent = subtitle;
-
-            if (page === 'relatorios') renderRelatorio();
-            if (page === 'presencas') carregarPresencasHoje();
-            if (page === 'alunos') renderAlunos();
-            if (page === 'carteirinhas') carregarCarteirinhas();
-            if (page === 'dashboard') renderDashboard();
-            if (page === 'notificacoes') renderNotificacoes();
-            if (page === 'usuarios') renderUsuarios();
-            if (page === 'configuracoes') renderConfiguracoes();
-            if (page === 'personalizar') carregarPersonalizacao();
-        }
-
-        function temPermissao(pagina) {
-            if (!currentUser) return false;
-            if (currentUser.perfil === 'Administrador') return true;
-            const permissoes = currentUser.permissoes || {};
-            const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
-                'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
-                'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
-            return permissoes[mapa[pagina]] === true;
+            document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
+                ' <span>') + '</span>';
+            document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
+            document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
+            document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
+            carregarMenuEditor();
         }
 
         // ============================================================
@@ -3563,123 +3653,6 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearch').style.display = 'none';
             renderAlunos();
-        }
-
-        // ============================================================
-        //  INICIALIZAÇÃO
-        // ============================================================
-        function initSystem() {
-            window.data = data;
-
-            // Carregar personalizações
-            if (data.config.sidebarLogo) {
-                document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
-                document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
-            }
-            document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
-                ' <span>') + '</span>';
-            document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
-            document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
-            document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
-
-            // Renderizar menu
-            renderizarMenu();
-            carregarMenuEditor();
-
-            // Renderizar tudo
-            renderDashboard();
-            renderAlunos();
-            renderCategoriasSelects();
-            renderConfiguracoes();
-            renderUsuarios();
-            renderRelatorio();
-            carregarPresencasHoje();
-            renderNotificacoes();
-
-            document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-            document.getElementById('alunosCount').textContent = data.alunos.length;
-            document.getElementById('notifCount').textContent = data.notificacoes.length;
-            document.getElementById('senhaMasterDisplay').textContent = '••••••••';
-
-            if (data.config.whatsappNumero) {
-                document.getElementById('whatsappNumero').value = data.config.whatsappNumero;
-            }
-            if (data.config.mensagemPadrao) {
-                document.getElementById('mensagemPadrao').value = data.config.mensagemPadrao;
-            }
-            document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
-            document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
-
-            initCharts();
-        }
-
-        function carregarPersonalizacao() {
-            if (data.config.sidebarLogo) {
-                document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
-                document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
-            }
-            document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
-                ' <span>') + '</span>';
-            document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
-            document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
-            document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
-            carregarMenuEditor();
-        }
-
-        // ============================================================
-        //  GRÁFICOS
-        // ============================================================
-        function initCharts() {
-            const ctx1 = document.getElementById('categoriaChart').getContext('2d');
-            const catCount = {};
-            data.alunos.forEach(a => { catCount[a.categoria] = (catCount[a.categoria] || 0) + 1; });
-            const catLabels = Object.keys(catCount);
-            const catData = Object.values(catCount);
-
-            if (categoriaChart) categoriaChart.destroy();
-            categoriaChart = new Chart(ctx1, {
-                type: 'bar',
-                data: { labels: catLabels.length ? catLabels : ['Sem dados'],
-                    datasets: [{ label: 'Alunos por Categoria', data: catLabels.length ? catData : [0],
-                        backgroundColor: ['#d4a020', '#f5d060', '#e8b830', '#c49020', '#b08020', '#a07020'],
-                        borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
-            });
-
-            const ctx2 = document.getElementById('pieChart').getContext('2d');
-            if (pieChart) pieChart.destroy();
-            pieChart = new Chart(ctx2, {
-                type: 'pie',
-                data: { labels: catLabels.length ? catLabels : ['Sem dados'],
-                    datasets: [{ data: catLabels.length ? catData : [1],
-                        backgroundColor: ['#d4a020', '#f5d060', '#e8b830', '#c49020', '#b08020', '#a07020'] }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
-            });
-
-            const ctx3 = document.getElementById('frequenciaChart').getContext('2d');
-            const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-            const freqData = meses.map((m, i) => {
-                const mesAtual = i + 1;
-                const presencasMes = data.presencas.filter(p => new Date(p.data).getMonth() === mesAtual - 1);
-                const alunosMes = data.alunos.filter(a => new Date(a.criadoEm).getMonth() <= mesAtual - 1);
-                return alunosMes.length > 0 ? Math.round((presencasMes.length / (alunosMes.length * 4)) * 100) : 0;
-            });
-
-            if (frequenciaChart) frequenciaChart.destroy();
-            frequenciaChart = new Chart(ctx3, {
-                type: 'line',
-                data: { labels: meses, datasets: [{ label: 'Frequência Mensal (%)', data: freqData,
-                        borderColor: '#d4a020', backgroundColor: 'rgba(212, 160, 32, 0.1)', fill: true,
-                        tension: 0.4, pointBackgroundColor: '#d4a020' }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, max: 100 } } }
-            });
         }
 
         // ============================================================
@@ -4700,12 +4673,62 @@
         }
 
         // ============================================================
-        //  INICIALIZAÇÃO
+        //  GRÁFICOS
         // ============================================================
-        document.getElementById('mainContent').style.display = 'none';
-        document.getElementById('sidebar').style.display = 'none';
+        function initCharts() {
+            const ctx1 = document.getElementById('categoriaChart').getContext('2d');
+            const catCount = {};
+            data.alunos.forEach(a => { catCount[a.categoria] = (catCount[a.categoria] || 0) + 1; });
+            const catLabels = Object.keys(catCount);
+            const catData = Object.values(catCount);
 
+            if (categoriaChart) categoriaChart.destroy();
+            categoriaChart = new Chart(ctx1, {
+                type: 'bar',
+                data: { labels: catLabels.length ? catLabels : ['Sem dados'],
+                    datasets: [{ label: 'Alunos por Categoria', data: catLabels.length ? catData : [0],
+                        backgroundColor: ['#d4a020', '#f5d060', '#e8b830', '#c49020', '#b08020', '#a07020'],
+                        borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            });
+
+            const ctx2 = document.getElementById('pieChart').getContext('2d');
+            if (pieChart) pieChart.destroy();
+            pieChart = new Chart(ctx2, {
+                type: 'pie',
+                data: { labels: catLabels.length ? catLabels : ['Sem dados'],
+                    datasets: [{ data: catLabels.length ? catData : [1],
+                        backgroundColor: ['#d4a020', '#f5d060', '#e8b830', '#c49020', '#b08020', '#a07020'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+            });
+
+            const ctx3 = document.getElementById('frequenciaChart').getContext('2d');
+            const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            const freqData = meses.map((m, i) => {
+                const mesAtual = i + 1;
+                const presencasMes = data.presencas.filter(p => new Date(p.data).getMonth() === mesAtual - 1);
+                const alunosMes = data.alunos.filter(a => new Date(a.criadoEm).getMonth() <= mesAtual - 1);
+                return alunosMes.length > 0 ? Math.round((presencasMes.length / (alunosMes.length * 4)) * 100) : 0;
+            });
+
+            if (frequenciaChart) frequenciaChart.destroy();
+            frequenciaChart = new Chart(ctx3, {
+                type: 'line',
+                data: { labels: meses, datasets: [{ label: 'Frequência Mensal (%)', data: freqData,
+                        borderColor: '#d4a020', backgroundColor: 'rgba(212, 160, 32, 0.1)', fill: true,
+                        tension: 0.4, pointBackgroundColor: '#d4a020' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+        }
+
+        // ============================================================
+        //  INICIALIZAÇÃO - DOMContentLoaded
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Carregando sistema...');
+
             const adminExists = data.usuarios.some(u => u.id === 'admin_gleuber');
             if (!adminExists) {
                 data.usuarios.unshift(ADMIN_DATA);
@@ -4773,7 +4796,7 @@
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
-            console.log('📋 Menu lateral carregado com sucesso!');
+            console.log('📋 Sistema pronto para uso!');
         });
     </script>
 
