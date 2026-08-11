@@ -27,7 +27,10 @@
         }
 
         /* Permite seleção em campos de input */
-        input, textarea, select, [contenteditable] {
+        input,
+        textarea,
+        select,
+        [contenteditable] {
             -webkit-user-select: text;
             user-select: text;
         }
@@ -44,41 +47,6 @@
             --radius: 16px;
             --transition: all 0.3s ease;
             --sidebar-width: 250px;
-        }
-
-        /* Bloqueio de DevTools */
-        .devtools-block {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #0f1b2d;
-            color: white;
-            z-index: 99999;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .devtools-block.active {
-            display: flex;
-        }
-
-        .devtools-block i {
-            font-size: 48px;
-            color: var(--secondary);
-            margin-bottom: 16px;
-        }
-
-        .devtools-block h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .devtools-block p {
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 400px;
         }
 
         body {
@@ -1893,13 +1861,6 @@
 </head>
 <body>
 
-    <!-- ===== BLOQUEIO DE DEVOOLS ===== -->
-    <div id="devtoolsBlock" class="devtools-block">
-        <i class="fas fa-shield-alt"></i>
-        <h2>Acesso Negado</h2>
-        <p>Ferramentas de desenvolvedor não são permitidas neste sistema por questões de segurança.</p>
-    </div>
-
     <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">
         <i class="fas fa-check-circle"></i>
@@ -2836,48 +2797,14 @@
         (function() {
             // Bloquear teclas de atalho
             document.addEventListener('keydown', function(e) {
-                // F12
-                if (e.key === 'F12') {
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                    (e.ctrlKey && e.key === 'u') ||
+                    (e.ctrlKey && e.shiftKey && e.key === 'C')) {
                     e.preventDefault();
-                    document.getElementById('devtoolsBlock').classList.add('active');
-                    return false;
-                }
-                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) {
-                    e.preventDefault();
-                    document.getElementById('devtoolsBlock').classList.add('active');
-                    return false;
-                }
-                if (e.ctrlKey && e.key === 'u') {
-                    e.preventDefault();
-                    document.getElementById('devtoolsBlock').classList.add('active');
-                    return false;
-                }
-                // Ctrl+Shift+C (inspecionar elemento)
-                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
-                    e.preventDefault();
-                    document.getElementById('devtoolsBlock').classList.add('active');
                     return false;
                 }
             });
-
-            // Detectar DevTools abertas
-            let devtoolsOpen = false;
-            const element = new Image();
-            Object.defineProperty(element, 'id', {
-                get: function() {
-                    devtoolsOpen = true;
-                    document.getElementById('devtoolsBlock').classList.add('active');
-                }
-            });
-            setInterval(function() {
-                devtoolsOpen = false;
-                console.log('%c', element);
-                console.clear();
-                if (devtoolsOpen) {
-                    document.getElementById('devtoolsBlock').classList.add('active');
-                }
-            }, 1000);
 
             // Bloquear clique direito
             document.addEventListener('contextmenu', function(e) {
@@ -2896,7 +2823,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v13';
+        const STORAGE_KEY = 'vilaRealFutsalData_v14';
 
         const DEFAULT_MENU = [
             { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-home', page: 'dashboard' },
@@ -2934,11 +2861,9 @@
             }
         };
 
-        // Variável para armazenar código de verificação
         let codigoVerificacaoAtual = '';
         let codigoVerificacaoEmail = '';
-        let codigoVerificacaoTemporario = '';
-        let etapaRecuperacao = 1; // 1 = enviar código, 2 = validar código e nova senha
+        let etapaRecuperacao = 1;
 
         function getDefaultData() {
             return {
@@ -3002,7 +2927,6 @@
                         parsed.usuarios.unshift(ADMIN_DATA);
                     }
                     if (!parsed.config.horariosCategoria) parsed.config.horariosCategoria = {};
-                    // Garantir permissões para todos os usuários
                     parsed.usuarios.forEach(u => {
                         if (!u.permissoes) {
                             u.permissoes = {
@@ -3092,7 +3016,7 @@
                 const categoria = card.querySelector('.badge-categoria')?.textContent?.toLowerCase() || '';
 
                 const match = nome.includes(termo) || numero.includes(termo) || pai.includes(termo) || categoria.includes(
-                termo);
+                    termo);
                 card.style.display = match ? 'block' : 'none';
             });
 
@@ -3188,7 +3112,7 @@
                     <button class="menu-item" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
                         ${iconHtml}
                         <span>${item.label}</span>
-                        <span class="edit-icon" onclick="event.stopPropagation();abrirEditorMenu('${item.id}')">
+                        <span class="edit-icon" onclick="event.stopPropagation();abrirEditorMenu('${item.id}')" style="display:none;">
                             <i class="fas fa-pen"></i>
                         </span>
                     </button>
@@ -3205,6 +3129,39 @@
             const currentPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'dashboard';
             document.querySelectorAll('.menu-item').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.page === currentPage);
+            });
+
+            // Aplicar permissões
+            verificarPermissoesMenu();
+        }
+
+        function verificarPermissoesMenu() {
+            if (!currentUser) return;
+
+            const isAdmin = currentUser.perfil === 'Administrador';
+            const permissoes = currentUser.permissoes || {};
+
+            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+                const page = item.dataset.page;
+                if (page === 'dashboard') {
+                    item.style.display = 'flex';
+                    return;
+                }
+                if (isAdmin) {
+                    item.style.display = 'flex';
+                    return;
+                }
+                const mapa = {
+                    'alunos': 'alunos',
+                    'carteirinhas': 'carteirinhas',
+                    'presencas': 'presencas',
+                    'notificacoes': 'notificacoes',
+                    'relatorios': 'relatorios',
+                    'backup': 'backup',
+                    'configuracoes': 'configuracoes',
+                    'usuarios': 'usuarios'
+                };
+                item.style.display = permissoes[mapa[page]] ? 'flex' : 'none';
             });
         }
 
@@ -3406,7 +3363,7 @@
         }
 
         // ============================================================
-        //  CARTEIRINHA - LISTA DE ALUNOS POR CATEGORIA
+        //  CARTEIRINHA
         // ============================================================
         function carregarCarteirinhas() {
             const container = document.getElementById('carteirinhaAlunosList');
@@ -3540,8 +3497,24 @@
             }, 100);
         }
 
+        function verCarteirinha(id) {
+            const aluno = data.alunos.find(a => a.id === id);
+            if (!aluno) return;
+            const win = window.open('', '_blank');
+            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto">${aluno.foto ? `<img src="${aluno.foto}" alt="${aluno.nome}">` : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>'}</div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº Aluno</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai/Mãe</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>';}},200);<\/script></body></html>`);
+            win.document.close();
+        }
+
+        function imprimirCarteirinha() {
+            const conteudo = document.getElementById('carteirinhaImpressao');
+            if (!conteudo) return;
+            const win = window.open('', '_blank');
+            win.document.write(`<html><head><title>Carteirinha - Vila Real Futsal</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f2f5;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.3);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-foto div{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#e5e7eb;color:#6b7280;font-size:24px;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}@media print{body{background:white;}.carteirinha{box-shadow:none;}}</style></head><body>${conteudo.outerHTML}<script>window.onload=function(){window.print();setTimeout(()=>window.close(),1500);};<\/script></body></html>`);
+            win.document.close();
+        }
+
         // ============================================================
-        //  RECUPERAR SENHA COM CÓDIGO DE VERIFICAÇÃO
+        //  RECUPERAR SENHA
         // ============================================================
         function showRecuperarSenha() {
             document.getElementById('loginContainer').style.display = 'none';
@@ -3577,16 +3550,13 @@
             codigoVerificacaoAtual = gerarCodigoVerificacao();
             codigoVerificacaoEmail = email;
 
-            // Simular envio de e-mail
             console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
 
-            // Mostrar o código na interface (em produção, isso seria enviado por e-mail)
             showToast(`📧 Código de verificação enviado para ${email}`, 'success');
             document.getElementById('recuperarSuccess').innerHTML =
                 `✅ Código de verificação enviado para <strong>${email}</strong>. Verifique seu e-mail.`;
             document.getElementById('recuperarSuccess').style.display = 'block';
 
-            // Na versão de demonstração, mostrar o código na tela
             setTimeout(() => {
                 document.getElementById('recuperarSuccess').innerHTML +=
                     `<br><small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong> (apenas para demonstração)</small>`;
@@ -3603,7 +3573,6 @@
             successDiv.style.display = 'none';
 
             if (etapaRecuperacao === 1) {
-                // Primeira etapa: enviar código
                 const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
                 if (!admin) {
                     errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
@@ -3614,7 +3583,6 @@
                 codigoVerificacaoAtual = gerarCodigoVerificacao();
                 codigoVerificacaoEmail = email;
 
-                // Simular envio de e-mail
                 console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
 
                 document.getElementById('recuperarSuccess').innerHTML =
@@ -3631,7 +3599,6 @@
                 return false;
 
             } else {
-                // Segunda etapa: validar código e alterar senha
                 const codigo = document.getElementById('codigoVerificacao').value.trim();
                 const novaSenha = document.getElementById('recuperarNovaSenha').value;
                 const confirmar = document.getElementById('recuperarConfirmarSenha').value;
@@ -3660,7 +3627,6 @@
                     return false;
                 }
 
-                // Atualizar senha
                 const admin = data.usuarios.find(u => u.perfil === 'Administrador');
                 if (admin) {
                     admin.senha = novaSenha;
@@ -3672,7 +3638,6 @@
                     document.getElementById('recuperarSuccess').style.display = 'block';
                     document.getElementById('recuperarSuccess').style.color = '#22c55e';
 
-                    // Redirecionar para o login após 3 segundos
                     setTimeout(() => {
                         showLogin();
                         document.getElementById('loginPassword').value = novaSenha;
@@ -3722,7 +3687,6 @@
                 return false;
             }
 
-            // Marcar primeiro acesso como false
             if (user.primeiroAcesso) {
                 user.primeiroAcesso = false;
                 saveData();
@@ -3752,60 +3716,17 @@
         }
 
         // ============================================================
-        //  VERIFICAR PERMISSÕES
-        // ============================================================
-        function temPermissao(pagina) {
-            if (!currentUser) return false;
-            if (currentUser.perfil === 'Administrador') return true;
-
-            const permissoes = currentUser.permissoes || {};
-            const mapa = {
-                'alunos': 'alunos',
-                'carteirinhas': 'carteirinhas',
-                'presencas': 'presencas',
-                'notificacoes': 'notificacoes',
-                'relatorios': 'relatorios',
-                'backup': 'backup',
-                'configuracoes': 'configuracoes',
-                'usuarios': 'usuarios'
-            };
-
-            return permissoes[mapa[pagina]] === true;
-        }
-
-        function verificarPermissoesMenu() {
-            if (!currentUser) return;
-
-            const isAdmin = currentUser.perfil === 'Administrador';
-            const permissoes = currentUser.permissoes || {};
-
-            // Mostrar/ocultar itens do menu baseado nas permissões
-            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
-                const page = item.dataset.page;
-                if (page === 'dashboard') {
-                    item.style.display = 'flex';
-                    return;
-                }
-                if (isAdmin) {
-                    item.style.display = 'flex';
-                    return;
-                }
-                const temPerm = temPermissao(page);
-                item.style.display = temPerm ? 'flex' : 'none';
-            });
-        }
-
-        // ============================================================
         //  NAVEGAÇÃO
         // ============================================================
         function mudarPagina(page) {
+            fecharScanner();
+
             // Verificar permissão
             if (!temPermissao(page) && currentUser?.perfil !== 'Administrador' && page !== 'dashboard') {
                 showToast('Você não tem permissão para acessar esta área', 'error');
                 return;
             }
 
-            fecharScanner();
             document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
             document.querySelector(`.menu-item[data-page="${page}"]`)?.classList.add('active');
 
@@ -3838,6 +3759,25 @@
             if (page === 'usuarios') renderUsuarios();
             if (page === 'configuracoes') renderConfiguracoes();
             if (page === 'personalizar') carregarPersonalizacao();
+        }
+
+        function temPermissao(pagina) {
+            if (!currentUser) return false;
+            if (currentUser.perfil === 'Administrador') return true;
+
+            const permissoes = currentUser.permissoes || {};
+            const mapa = {
+                'alunos': 'alunos',
+                'carteirinhas': 'carteirinhas',
+                'presencas': 'presencas',
+                'notificacoes': 'notificacoes',
+                'relatorios': 'relatorios',
+                'backup': 'backup',
+                'configuracoes': 'configuracoes',
+                'usuarios': 'usuarios'
+            };
+
+            return permissoes[mapa[pagina]] === true;
         }
 
         // ============================================================
@@ -3982,7 +3922,6 @@
             carregarPresencasHoje();
             renderNotificacoes();
             renderizarMenu();
-            verificarPermissoesMenu();
 
             document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
                 weekday: 'long',
@@ -4238,7 +4177,9 @@
             win.document.close();
         }
 
-        function openModal(id) { document.getElementById(id).classList.add('active'); if (id === 'modalAluno') {
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            if (id === 'modalAluno') {
                 document.getElementById('modalAlunoTitle').textContent = 'Novo Aluno';
                 document.getElementById('alunoEditId').value = '';
                 document.getElementById('alunoForm').reset();
@@ -4249,9 +4190,12 @@
                 document.getElementById('alunoNumero').value = 'VRF-' + proximo;
                 document.getElementById('alunoIdade').value = '';
                 document.getElementById('alunoCategoria').value = '';
-            } }
+            }
+        }
 
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
 
         function calcularIdade() {
             const nasc = document.getElementById('alunoNascimento').value;
@@ -4388,22 +4332,6 @@
                 });
                 sel.value = current;
             });
-        }
-
-        function verCarteirinha(id) {
-            const aluno = data.alunos.find(a => a.id === id);
-            if (!aluno) return;
-            const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto">${aluno.foto ? `<img src="${aluno.foto}" alt="${aluno.nome}">` : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>'}</div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº Aluno</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai/Mãe</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>';}},200);<\/script></body></html>`);
-            win.document.close();
-        }
-
-        function imprimirCarteirinha() {
-            const conteudo = document.getElementById('carteirinhaImpressao');
-            if (!conteudo) return;
-            const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>Carteirinha - Vila Real Futsal</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f2f5;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.3);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-foto div{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#e5e7eb;color:#6b7280;font-size:24px;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}@media print{body{background:white;}.carteirinha{box-shadow:none;}}</style></head><body>${conteudo.outerHTML}<script>window.onload=function(){window.print();setTimeout(()=>window.close(),1500);};<\/script></body></html>`);
-            win.document.close();
         }
 
         // ============================================================
@@ -5010,7 +4938,6 @@
                     document.getElementById('usuarioWhatsapp').value = user.whatsapp || '';
                     document.getElementById('usuarioPerfil').value = user.perfil;
 
-                    // Carregar permissões
                     const perms = user.permissoes || {};
                     document.getElementById('permAlunos').checked = perms.alunos !== false;
                     document.getElementById('permPresencas').checked = perms.presencas !== false;
@@ -5033,7 +4960,6 @@
                 document.getElementById('usuarioForm').reset();
                 document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para gerar automaticamente';
 
-                // Permissões padrão
                 document.getElementById('permAlunos').checked = true;
                 document.getElementById('permPresencas').checked = true;
                 document.getElementById('permCarteirinhas').checked = true;
@@ -5059,7 +4985,6 @@
             const perfil = document.getElementById('usuarioPerfil').value;
             const senhaInput = document.getElementById('usuarioSenha').value.trim();
 
-            // Coletar permissões
             const permissoes = {
                 alunos: document.getElementById('permAlunos').checked,
                 presencas: document.getElementById('permPresencas').checked,
@@ -5307,9 +5232,8 @@
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
-            console.log('🔐 Sistema seguro ativado!');
-            console.log('📧 Recuperação de senha com código de verificação!');
-            console.log('🔑 Controle de permissões ativo!');
+            console.log('✅ Painel lateral totalmente habilitado!');
+            console.log('🔓 Todas as funcionalidades ativas!');
         });
     </script>
 
