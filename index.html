@@ -9,11 +9,27 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        /* ============================================================
+           RESET E VARIÁVEIS
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Proteção contra acesso ao código fonte via DevTools */
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* Permite seleção em campos de input */
+        input, textarea, select, [contenteditable] {
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         :root {
@@ -28,6 +44,41 @@
             --radius: 16px;
             --transition: all 0.3s ease;
             --sidebar-width: 250px;
+        }
+
+        /* Bloqueio de DevTools */
+        .devtools-block {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #0f1b2d;
+            color: white;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .devtools-block.active {
+            display: flex;
+        }
+
+        .devtools-block i {
+            font-size: 48px;
+            color: var(--secondary);
+            margin-bottom: 16px;
+        }
+
+        .devtools-block h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .devtools-block p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 400px;
         }
 
         body {
@@ -452,6 +503,15 @@
             background: #dc2626;
         }
 
+        .btn-warning {
+            background: #f59e0b;
+            color: var(--white);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
         .btn-sm {
             padding: 6px 14px;
             font-size: 12px;
@@ -560,43 +620,21 @@
             color: #2563eb;
         }
 
+        .list-item .item-badge.ativo {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .list-item .item-badge.pendente {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
         /* ===== CHART ===== */
         .chart-container {
             position: relative;
             height: 200px;
             width: 100%;
-        }
-
-        .chart-bars {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            height: 150px;
-            padding-top: 10px;
-            gap: 6px;
-        }
-
-        .chart-bars .bar-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            flex: 1;
-        }
-
-        .chart-bars .bar-item .bar {
-            width: 100%;
-            max-width: 40px;
-            border-radius: 6px 6px 0 0;
-            background: linear-gradient(180deg, var(--secondary), var(--secondary-light));
-            min-height: 8px;
-            transition: var(--transition);
-        }
-
-        .chart-bars .bar-item .bar-label {
-            font-size: 10px;
-            color: var(--gray-dark);
-            font-weight: 600;
         }
 
         /* ===== QUICK ACTIONS ===== */
@@ -1349,6 +1387,44 @@
             color: var(--secondary);
         }
 
+        /* ===== RECUPERAR SENHA ===== */
+        .codigo-verificacao-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .codigo-verificacao-container input {
+            flex: 1;
+        }
+
+        .codigo-verificacao-container .btn {
+            white-space: nowrap;
+        }
+
+        /* ===== PERMISSÕES ===== */
+        .permissoes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .permissoes-grid .perm-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--primary);
+        }
+
+        .permissoes-grid .perm-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--secondary);
+            cursor: pointer;
+        }
+
         /* ===== CONFIGURAÇÕES ===== */
         .config-item {
             display: flex;
@@ -1493,6 +1569,10 @@
                 width: 90px;
                 height: 90px;
             }
+
+            .permissoes-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1535,6 +1615,13 @@
             }
             .carteirinha-alunos-list {
                 grid-template-columns: 1fr;
+            }
+            .codigo-verificacao-container {
+                flex-direction: column;
+            }
+            .codigo-verificacao-container .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -1703,13 +1790,6 @@
             font-size: 13px;
         }
 
-        .file-upload-area .preview {
-            max-width: 100%;
-            max-height: 150px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
         .foto-upload-container {
             display: flex;
             flex-direction: column;
@@ -1737,14 +1817,88 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .list-item .item-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* ===== BADGE CATEGORIA ===== */
+        .badge-categoria {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* ===== MENU EDITOR ===== */
+        .menu-editor-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .menu-editor-item .menu-icon-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .menu-editor-item .menu-name-input {
+            flex: 1;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+            min-width: 80px;
+        }
+
+        .menu-editor-item .menu-icon-input {
+            width: 100px;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        /* ===== BADGE PERFIL ===== */
+        .perfil-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .perfil-badge.admin {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .perfil-badge.professor {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .perfil-badge.pai {
+            background: #dcfce7;
+            color: #166534;
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== BLOQUEIO DE DEVOOLS ===== -->
+    <div id="devtoolsBlock" class="devtools-block">
+        <i class="fas fa-shield-alt"></i>
+        <h2>Acesso Negado</h2>
+        <p>Ferramentas de desenvolvedor não são permitidas neste sistema por questões de segurança.</p>
+    </div>
 
     <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">
@@ -1789,7 +1943,7 @@
             </div>
 
             <div class="register-link" style="margin-top:8px;font-size:12px;color:#6b7280;">
-                <i class="fas fa-shield-alt"></i> Sistema seguro - Acesso restrito ao administrador
+                <i class="fas fa-shield-alt"></i> Sistema seguro - Acesso restrito
             </div>
         </div>
     </div>
@@ -1811,7 +1965,17 @@
                     <label><i class="fas fa-envelope"></i> E-mail do Administrador</label>
                     <input type="email" id="recuperarEmail" placeholder="Digite o e-mail do administrador" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="codigoVerificacaoGroup" style="display:none;">
+                    <label><i class="fas fa-shield-alt"></i> Código de Verificação</label>
+                    <div class="codigo-verificacao-container">
+                        <input type="text" id="codigoVerificacao" placeholder="Digite o código recebido" maxlength="6">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="reenviarCodigo()">
+                            <i class="fas fa-redo"></i> Reenviar
+                        </button>
+                    </div>
+                    <small style="color:var(--gray-dark);font-size:12px;">Digite o código de 6 dígitos enviado para seu e-mail</small>
+                </div>
+                <div class="form-group" id="novaSenhaGroup" style="display:none;">
                     <label><i class="fas fa-key"></i> Nova Senha</label>
                     <div class="password-wrapper">
                         <input type="password" id="recuperarNovaSenha" placeholder="Digite a nova senha" required minlength="6">
@@ -1820,7 +1984,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="confirmarSenhaGroup" style="display:none;">
                     <label><i class="fas fa-check-circle"></i> Confirmar Nova Senha</label>
                     <div class="password-wrapper">
                         <input type="password" id="recuperarConfirmarSenha" placeholder="Confirme a nova senha" required>
@@ -1830,8 +1994,9 @@
                     </div>
                 </div>
                 <div id="recuperarError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
-                <button type="submit" class="btn btn-secondary" style="width:100%;justify-content:center;">
-                    <i class="fas fa-save"></i> Recuperar Senha
+                <div id="recuperarSuccess" style="color:#22c55e;font-size:13px;margin-bottom:12px;display:none;"></div>
+                <button type="submit" class="btn btn-secondary" id="btnRecuperarSenha" style="width:100%;justify-content:center;">
+                    <i class="fas fa-paper-plane"></i> Enviar Código
                 </button>
             </form>
 
@@ -1854,42 +2019,8 @@
             </div>
         </div>
 
-        <div class="sidebar-menu">
-            <div class="menu-label">Menu Principal</div>
-            <button class="menu-item active" data-page="dashboard">
-                <i class="fas fa-home"></i> <span>Dashboard</span>
-            </button>
-            <button class="menu-item" data-page="alunos">
-                <i class="fas fa-users"></i> <span>Alunos</span>
-                <span class="badge" id="alunosCount">0</span>
-            </button>
-            <button class="menu-item" data-page="carteirinhas">
-                <i class="fas fa-id-card"></i> <span>Carteirinhas</span>
-            </button>
-            <button class="menu-item" data-page="presencas">
-                <i class="fas fa-qrcode"></i> <span>Presença QR</span>
-            </button>
-            <button class="menu-item" data-page="notificacoes">
-                <i class="fas fa-bell"></i> <span>Notificações</span>
-                <span class="badge" id="notifCount">0</span>
-            </button>
-            <button class="menu-item" data-page="relatorios">
-                <i class="fas fa-chart-bar"></i> <span>Relatórios</span>
-            </button>
-            <button class="menu-item" data-page="backup">
-                <i class="fas fa-database"></i> <span>Backup</span>
-            </button>
-
-            <div class="menu-label" style="margin-top:16px;">Administração</div>
-            <button class="menu-item" data-page="usuarios" id="navUsuarios">
-                <i class="fas fa-users-cog"></i> <span>Gerenciar Usuários</span>
-            </button>
-            <button class="menu-item" data-page="configuracoes" id="navConfig">
-                <i class="fas fa-cog"></i> <span>Configurações</span>
-            </button>
-            <button class="menu-item" data-page="personalizar" id="navPersonalizar">
-                <i class="fas fa-paint-brush"></i> <span>Personalizar</span>
-            </button>
+        <div class="sidebar-menu" id="sidebarMenu">
+            <!-- Renderizado via JavaScript -->
         </div>
 
         <div class="sidebar-footer">
@@ -2077,17 +2208,12 @@
                     <h3><i class="fas fa-id-card"></i> Carteirinha Digital</h3>
                 </div>
 
-                <!-- Filtro por categoria -->
                 <div class="carteirinha-categoria-filter" id="carteirinhaFiltros">
                     <button class="cat-filter-btn active" data-cat="todos" onclick="filtrarCarteirinhas('todos')">Todos</button>
                 </div>
 
-                <!-- Lista de alunos -->
-                <div id="carteirinhaAlunosList" class="carteirinha-alunos-list">
-                    <!-- Renderizado via JavaScript -->
-                </div>
+                <div id="carteirinhaAlunosList" class="carteirinha-alunos-list"></div>
 
-                <!-- Área da carteirinha -->
                 <div id="carteirinhaContent" style="display:none;margin-top:16px;"></div>
             </div>
         </div>
@@ -2367,9 +2493,7 @@
                         <p style="color:var(--gray-dark);font-size:13px;margin-bottom:12px;">
                             Clique no ícone de lápis ao lado de cada item no menu para editar.
                         </p>
-                        <div id="menuEditorContainer">
-                            <!-- Renderizado via JavaScript -->
-                        </div>
+                        <div id="menuEditorContainer"></div>
                         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
                             <button class="btn btn-success btn-sm" onclick="salvarMenuPersonalizacao()">
                                 <i class="fas fa-save"></i> Salvar Menu
@@ -2530,6 +2654,47 @@
                         <option value="Pai">Pai/Responsável</option>
                     </select>
                 </div>
+
+                <!-- Permissões -->
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Permissões de Acesso</label>
+                    <div class="permissoes-grid">
+                        <label class="perm-item">
+                            <input type="checkbox" id="permAlunos" checked>
+                            <span>Alunos</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permPresencas" checked>
+                            <span>Presenças</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permCarteirinhas" checked>
+                            <span>Carteirinhas</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permRelatorios" checked>
+                            <span>Relatórios</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permNotificacoes" checked>
+                            <span>Notificações</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permBackup" checked>
+                            <span>Backup</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permConfiguracoes">
+                            <span>Configurações</span>
+                        </label>
+                        <label class="perm-item">
+                            <input type="checkbox" id="permUsuarios">
+                            <span>Gerenciar Usuários</span>
+                        </label>
+                    </div>
+                    <small style="color:var(--gray-dark);font-size:12px;">Marque as áreas que este usuário poderá acessar</small>
+                </div>
+
                 <div class="form-group">
                     <label>Senha Temporária</label>
                     <div class="password-wrapper">
@@ -2666,9 +2831,72 @@
     <!-- ===== SCRIPT ===== -->
     <script>
         // ============================================================
+        //  BLOQUEIO DE DEvTOOLS
+        // ============================================================
+        (function() {
+            // Bloquear teclas de atalho
+            document.addEventListener('keydown', function(e) {
+                // F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                    return false;
+                }
+                // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) {
+                    e.preventDefault();
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                    return false;
+                }
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                    return false;
+                }
+                // Ctrl+Shift+C (inspecionar elemento)
+                if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                    e.preventDefault();
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                    return false;
+                }
+            });
+
+            // Detectar DevTools abertas
+            let devtoolsOpen = false;
+            const element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    devtoolsOpen = true;
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                }
+            });
+            setInterval(function() {
+                devtoolsOpen = false;
+                console.log('%c', element);
+                console.clear();
+                if (devtoolsOpen) {
+                    document.getElementById('devtoolsBlock').classList.add('active');
+                }
+            }, 1000);
+
+            // Bloquear clique direito
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Bloquear seleção de texto
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+                    e.preventDefault();
+                }
+            });
+        })();
+
+        // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v12';
+        const STORAGE_KEY = 'vilaRealFutsalData_v13';
 
         const DEFAULT_MENU = [
             { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-home', page: 'dashboard' },
@@ -2693,8 +2921,24 @@
             usuario: 'gleuber',
             senha: 'Opala77@2056',
             criadoEm: new Date().toISOString(),
-            primeiroAcesso: false
+            primeiroAcesso: false,
+            permissoes: {
+                alunos: true,
+                presencas: true,
+                carteirinhas: true,
+                relatorios: true,
+                notificacoes: true,
+                backup: true,
+                configuracoes: true,
+                usuarios: true
+            }
         };
+
+        // Variável para armazenar código de verificação
+        let codigoVerificacaoAtual = '';
+        let codigoVerificacaoEmail = '';
+        let codigoVerificacaoTemporario = '';
+        let etapaRecuperacao = 1; // 1 = enviar código, 2 = validar código e nova senha
 
         function getDefaultData() {
             return {
@@ -2758,6 +3002,21 @@
                         parsed.usuarios.unshift(ADMIN_DATA);
                     }
                     if (!parsed.config.horariosCategoria) parsed.config.horariosCategoria = {};
+                    // Garantir permissões para todos os usuários
+                    parsed.usuarios.forEach(u => {
+                        if (!u.permissoes) {
+                            u.permissoes = {
+                                alunos: true,
+                                presencas: true,
+                                carteirinhas: true,
+                                relatorios: true,
+                                notificacoes: true,
+                                backup: true,
+                                configuracoes: false,
+                                usuarios: false
+                            };
+                        }
+                    });
                     return parsed;
                 }
             } catch (e) { console.error('Erro ao carregar dados', e); }
@@ -2823,7 +3082,6 @@
 
             clearBtn.style.display = 'block';
 
-            // Buscar em todas as páginas
             const cards = document.querySelectorAll('.aluno-card');
             cards.forEach(card => {
                 const nome = card.querySelector('.aluno-nome')?.textContent?.toLowerCase() || '';
@@ -2838,11 +3096,10 @@
                 card.style.display = match ? 'block' : 'none';
             });
 
-            // Atualizar contagem visível
             const visiveis = document.querySelectorAll('.aluno-card[style*="display: block"]').length;
             const total = document.querySelectorAll('.aluno-card').length;
             const container = document.getElementById('alunosList');
-            const emptyMsg = container.querySelector('.empty-state');
+            const emptyMsg = container.querySelector('.empty-state:not(:first-child)');
             if (visiveis === 0 && total > 0) {
                 if (!emptyMsg) {
                     const msg = document.createElement('div');
@@ -2853,8 +3110,7 @@
                     container.appendChild(msg);
                 }
             } else {
-                const empty = container.querySelector('.empty-state:not(:first-child)');
-                if (empty) empty.remove();
+                if (emptyMsg) emptyMsg.remove();
             }
         }
 
@@ -2928,11 +3184,8 @@
                     `<img src="${item.icon}" alt="${item.label}" class="menu-icon-img">` :
                     `<i class="${item.icon || 'fas fa-circle'}"></i>`;
 
-                const isActive = document.querySelector(`.menu-item[data-page="${item.page}"]`)?.classList.contains(
-                'active');
-
                 html += `
-                    <button class="menu-item ${isActive ? 'active' : ''}" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
+                    <button class="menu-item" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
                         ${iconHtml}
                         <span>${item.label}</span>
                         <span class="edit-icon" onclick="event.stopPropagation();abrirEditorMenu('${item.id}')">
@@ -2947,6 +3200,12 @@
             // Atualizar badges
             document.getElementById('alunosCount').textContent = data.alunos.length;
             document.getElementById('notifCount').textContent = data.notificacoes.length;
+
+            // Ativar item atual
+            const currentPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'dashboard';
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.page === currentPage);
+            });
         }
 
         function carregarMenuEditor() {
@@ -2973,12 +3232,10 @@
                     `<i class="${item.icon || 'fas fa-circle'}" style="font-size:16px;"></i>`;
 
                 html += `
-                    <div class="menu-editor-item" style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f2f5;">
-                        <div class="menu-icon-preview" style="width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--gray);overflow:hidden;flex-shrink:0;">
-                            ${iconPreview}
-                        </div>
-                        <input type="text" class="menu-name-input" value="${item.label}" id="menuName_${item.id}" placeholder="Nome" style="flex:1;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;min-width:80px;">
-                        <input type="text" class="menu-icon-input" value="${item.icon || ''}" id="menuIcon_${item.id}" placeholder="Ícone" style="width:100px;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;">
+                    <div class="menu-editor-item">
+                        <div class="menu-icon-preview">${iconPreview}</div>
+                        <input type="text" class="menu-name-input" value="${item.label}" id="menuName_${item.id}" placeholder="Nome">
+                        <input type="text" class="menu-icon-input" value="${item.icon || ''}" id="menuIcon_${item.id}" placeholder="Ícone">
                         <button class="btn btn-secondary btn-sm" onclick="abrirEditorIcone('${item.id}')"><i class="fas fa-image"></i></button>
                         <button class="btn btn-success btn-sm" onclick="salvarItemMenu('${item.id}')"><i class="fas fa-check"></i></button>
                         <button class="btn btn-danger btn-sm" onclick="removerItemMenu('${item.id}')"><i class="fas fa-times"></i></button>
@@ -3155,7 +3412,6 @@
             const container = document.getElementById('carteirinhaAlunosList');
             const filtrosContainer = document.getElementById('carteirinhaFiltros');
 
-            // Carregar filtros de categoria
             const categorias = [...new Set(data.alunos.map(a => a.categoria))];
             let filtrosHtml = `<button class="cat-filter-btn active" data-cat="todos" onclick="filtrarCarteirinhas('todos')">Todos</button>`;
             categorias.forEach(cat => {
@@ -3164,7 +3420,6 @@
             });
             filtrosContainer.innerHTML = filtrosHtml;
 
-            // Filtrar alunos
             let alunosFiltrados = data.alunos;
             if (categoriaSelecionadaCarteirinha !== 'todos') {
                 alunosFiltrados = alunosFiltrados.filter(a => a.categoria === categoriaSelecionadaCarteirinha);
@@ -3197,7 +3452,6 @@
                 `;
             }).join('');
 
-            // Se já havia um aluno selecionado, manter seleção
             const selected = document.querySelector('.carteirinha-aluno-item.selected');
             if (selected) {
                 const id = selected.dataset.id;
@@ -3208,7 +3462,6 @@
                     document.getElementById('carteirinhaContent').style.display = 'none';
                 }
             } else if (alunosFiltrados.length > 0) {
-                // Selecionar o primeiro automaticamente
                 selecionarAlunoCarteirinha(alunosFiltrados[0].id);
             }
         }
@@ -3288,50 +3541,153 @@
         }
 
         // ============================================================
+        //  RECUPERAR SENHA COM CÓDIGO DE VERIFICAÇÃO
+        // ============================================================
+        function showRecuperarSenha() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('recuperarSenhaContainer').style.display = 'flex';
+            document.getElementById('recuperarError').style.display = 'none';
+            document.getElementById('recuperarSuccess').style.display = 'none';
+            document.getElementById('codigoVerificacaoGroup').style.display = 'none';
+            document.getElementById('novaSenhaGroup').style.display = 'none';
+            document.getElementById('confirmarSenhaGroup').style.display = 'none';
+            document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Código';
+            etapaRecuperacao = 1;
+            codigoVerificacaoAtual = '';
+            codigoVerificacaoEmail = '';
+        }
+
+        function gerarCodigoVerificacao() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function reenviarCodigo() {
+            const email = document.getElementById('recuperarEmail').value.trim();
+            if (!email) {
+                showToast('Digite o e-mail primeiro', 'error');
+                return;
+            }
+
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
+            if (!admin) {
+                showToast('E-mail não encontrado', 'error');
+                return;
+            }
+
+            codigoVerificacaoAtual = gerarCodigoVerificacao();
+            codigoVerificacaoEmail = email;
+
+            // Simular envio de e-mail
+            console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
+
+            // Mostrar o código na interface (em produção, isso seria enviado por e-mail)
+            showToast(`📧 Código de verificação enviado para ${email}`, 'success');
+            document.getElementById('recuperarSuccess').innerHTML =
+                `✅ Código de verificação enviado para <strong>${email}</strong>. Verifique seu e-mail.`;
+            document.getElementById('recuperarSuccess').style.display = 'block';
+
+            // Na versão de demonstração, mostrar o código na tela
+            setTimeout(() => {
+                document.getElementById('recuperarSuccess').innerHTML +=
+                    `<br><small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong> (apenas para demonstração)</small>`;
+            }, 500);
+        }
+
+        function handleRecuperarSenha(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('recuperarEmail').value.trim();
+            const errorDiv = document.getElementById('recuperarError');
+            const successDiv = document.getElementById('recuperarSuccess');
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            if (etapaRecuperacao === 1) {
+                // Primeira etapa: enviar código
+                const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
+                if (!admin) {
+                    errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                codigoVerificacaoAtual = gerarCodigoVerificacao();
+                codigoVerificacaoEmail = email;
+
+                // Simular envio de e-mail
+                console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
+
+                document.getElementById('recuperarSuccess').innerHTML =
+                    `✅ Código de verificação enviado para <strong>${email}</strong>.<br>
+                    <small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong></small>
+                    <br><small style="font-size:12px;color:var(--gray-dark);">Digite o código abaixo para continuar</small>`;
+                document.getElementById('recuperarSuccess').style.display = 'block';
+
+                document.getElementById('codigoVerificacaoGroup').style.display = 'block';
+                document.getElementById('novaSenhaGroup').style.display = 'block';
+                document.getElementById('confirmarSenhaGroup').style.display = 'block';
+                document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-check-circle"></i> Validar e Alterar Senha';
+                etapaRecuperacao = 2;
+                return false;
+
+            } else {
+                // Segunda etapa: validar código e alterar senha
+                const codigo = document.getElementById('codigoVerificacao').value.trim();
+                const novaSenha = document.getElementById('recuperarNovaSenha').value;
+                const confirmar = document.getElementById('recuperarConfirmarSenha').value;
+
+                if (!codigo) {
+                    errorDiv.textContent = 'Digite o código de verificação';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                if (codigo !== codigoVerificacaoAtual) {
+                    errorDiv.textContent = 'Código de verificação inválido';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                if (novaSenha.length < 6) {
+                    errorDiv.textContent = 'A nova senha deve ter no mínimo 6 caracteres';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                if (novaSenha !== confirmar) {
+                    errorDiv.textContent = 'As senhas não coincidem';
+                    errorDiv.style.display = 'block';
+                    return false;
+                }
+
+                // Atualizar senha
+                const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+                if (admin) {
+                    admin.senha = novaSenha;
+                    data.config.senhaMaster = novaSenha;
+                    saveData();
+                    showToast('✅ Senha alterada com sucesso!');
+                    document.getElementById('recuperarSuccess').innerHTML =
+                        `✅ Senha alterada com sucesso! Você já pode fazer login.`;
+                    document.getElementById('recuperarSuccess').style.display = 'block';
+                    document.getElementById('recuperarSuccess').style.color = '#22c55e';
+
+                    // Redirecionar para o login após 3 segundos
+                    setTimeout(() => {
+                        showLogin();
+                        document.getElementById('loginPassword').value = novaSenha;
+                    }, 3000);
+                }
+                return false;
+            }
+        }
+
+        // ============================================================
         //  FUNÇÕES DE LOGIN
         // ============================================================
         function showLogin() {
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('recuperarSenhaContainer').style.display = 'none';
-        }
-
-        function showRecuperarSenha() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('recuperarSenhaContainer').style.display = 'flex';
-        }
-
-        function handleRecuperarSenha(e) {
-            e.preventDefault();
-            const email = document.getElementById('recuperarEmail').value.trim();
-            const novaSenha = document.getElementById('recuperarNovaSenha').value;
-            const confirmar = document.getElementById('recuperarConfirmarSenha').value;
-            const errorDiv = document.getElementById('recuperarError');
-            errorDiv.style.display = 'none';
-
-            if (!email) { errorDiv.textContent = 'Digite o e-mail do administrador';
-                errorDiv.style.display = 'block'; return false; }
-            if (novaSenha.length < 6) { errorDiv.textContent = 'A nova senha deve ter no mínimo 6 caracteres';
-                errorDiv.style.display = 'block'; return false; }
-            if (novaSenha !== confirmar) { errorDiv.textContent = 'As senhas não coincidem';
-                errorDiv.style.display = 'block'; return false; }
-
-            if (email !== ADMIN_DATA.email) {
-                errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-
-            const admin = data.usuarios.find(u => u.id === 'admin_gleuber');
-            if (admin) {
-                admin.senha = novaSenha;
-                data.config.senhaMaster = novaSenha;
-                saveData();
-                showToast('✅ Senha recuperada com sucesso!');
-                document.getElementById('recuperarSenhaForm').reset();
-                showLogin();
-                document.getElementById('loginPassword').value = novaSenha;
-            }
-            return false;
         }
 
         function handleLogin(e) {
@@ -3366,6 +3722,12 @@
                 return false;
             }
 
+            // Marcar primeiro acesso como false
+            if (user.primeiroAcesso) {
+                user.primeiroAcesso = false;
+                saveData();
+            }
+
             currentUser = user;
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
@@ -3390,9 +3752,59 @@
         }
 
         // ============================================================
+        //  VERIFICAR PERMISSÕES
+        // ============================================================
+        function temPermissao(pagina) {
+            if (!currentUser) return false;
+            if (currentUser.perfil === 'Administrador') return true;
+
+            const permissoes = currentUser.permissoes || {};
+            const mapa = {
+                'alunos': 'alunos',
+                'carteirinhas': 'carteirinhas',
+                'presencas': 'presencas',
+                'notificacoes': 'notificacoes',
+                'relatorios': 'relatorios',
+                'backup': 'backup',
+                'configuracoes': 'configuracoes',
+                'usuarios': 'usuarios'
+            };
+
+            return permissoes[mapa[pagina]] === true;
+        }
+
+        function verificarPermissoesMenu() {
+            if (!currentUser) return;
+
+            const isAdmin = currentUser.perfil === 'Administrador';
+            const permissoes = currentUser.permissoes || {};
+
+            // Mostrar/ocultar itens do menu baseado nas permissões
+            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+                const page = item.dataset.page;
+                if (page === 'dashboard') {
+                    item.style.display = 'flex';
+                    return;
+                }
+                if (isAdmin) {
+                    item.style.display = 'flex';
+                    return;
+                }
+                const temPerm = temPermissao(page);
+                item.style.display = temPerm ? 'flex' : 'none';
+            });
+        }
+
+        // ============================================================
         //  NAVEGAÇÃO
         // ============================================================
         function mudarPagina(page) {
+            // Verificar permissão
+            if (!temPermissao(page) && currentUser?.perfil !== 'Administrador' && page !== 'dashboard') {
+                showToast('Você não tem permissão para acessar esta área', 'error');
+                return;
+            }
+
             fecharScanner();
             document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
             document.querySelector(`.menu-item[data-page="${page}"]`)?.classList.add('active');
@@ -3559,7 +3971,6 @@
         function initSystem() {
             window.data = data;
 
-            // Aplicar personalizações
             carregarPersonalizacao();
 
             renderDashboard();
@@ -3571,6 +3982,7 @@
             carregarPresencasHoje();
             renderNotificacoes();
             renderizarMenu();
+            verificarPermissoesMenu();
 
             document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
                 weekday: 'long',
@@ -3757,7 +4169,6 @@
                 </div>
             `}).join('');
 
-            // Aplicar busca se houver texto
             const searchText = document.getElementById('searchInput').value.trim();
             if (searchText) {
                 buscarAlunoGlobal(searchText);
@@ -4532,17 +4943,38 @@
                             <th style="padding:8px 12px;text-align:left;">Perfil</th>
                             <th style="padding:8px 12px;text-align:left;">E-mail</th>
                             <th style="padding:8px 12px;text-align:center;">Status</th>
+                            ${isAdmin ? `<th style="padding:8px 12px;text-align:center;">Permissões</th>` : ''}
                             ${isAdmin ? `<th style="padding:8px 12px;text-align:center;">Ações</th>` : ''}
                         </tr></thead>
                         <tbody>
-                            ${data.usuarios.map(u => `
+                            ${data.usuarios.map(u => {
+                                const permissoes = u.permissoes || {};
+                                const permsList = [];
+                                if (permissoes.alunos) permsList.push('Alunos');
+                                if (permissoes.presencas) permsList.push('Presenças');
+                                if (permissoes.carteirinhas) permsList.push('Carteirinhas');
+                                if (permissoes.relatorios) permsList.push('Relatórios');
+                                if (permissoes.notificacoes) permsList.push('Notificações');
+                                if (permissoes.backup) permsList.push('Backup');
+                                if (permissoes.configuracoes) permsList.push('Config');
+                                if (permissoes.usuarios) permsList.push('Usuários');
+
+                                return `
                                 <tr style="border-bottom:1px solid #e5e7eb;">
                                     <td style="padding:8px 12px;font-weight:600;">${u.usuario || u.email}</td>
                                     <td style="padding:8px 12px;">${u.nome} ${u.id === 'admin_gleuber' ? '👑' : ''}</td>
                                     <td style="padding:8px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;font-size:11px;">${u.perfil}</span></td>
                                     <td style="padding:8px 12px;color:var(--gray-dark);">${u.email}</td>
-                                    <td style="padding:8px 12px;text-align:center;">${u.primeiroAcesso ? '<span class="status-badge" style="background:#fef3c7;color:#d97706;">Pendente</span>' : '<span class="status-badge presente">Ativo</span>'}</td>
+                                    <td style="padding:8px 12px;text-align:center;">
+                                        ${u.primeiroAcesso ? 
+                                            '<span class="status-badge" style="background:#fef3c7;color:#d97706;">Pendente</span>' : 
+                                            '<span class="status-badge" style="background:#dcfce7;color:#16a34a;">Ativo</span>'
+                                        }
+                                    </td>
                                     ${isAdmin ? `
+                                        <td style="padding:8px 12px;font-size:11px;">
+                                            ${permsList.length > 0 ? permsList.join(', ') : 'Nenhuma'}
+                                        </td>
                                         <td style="padding:8px 12px;text-align:center;">
                                             ${u.id !== 'admin_gleuber' ? `
                                                 <button class="btn btn-primary btn-sm" onclick="abrirAlterarSenha('${u.id}')" title="Alterar Senha"><i class="fas fa-key"></i></button>
@@ -4552,7 +4984,7 @@
                                         </td>
                                     ` : ''}
                                 </tr>
-                            `).join('')}
+                            `}).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -4577,6 +5009,18 @@
                     document.getElementById('usuarioEmail').value = user.email || '';
                     document.getElementById('usuarioWhatsapp').value = user.whatsapp || '';
                     document.getElementById('usuarioPerfil').value = user.perfil;
+
+                    // Carregar permissões
+                    const perms = user.permissoes || {};
+                    document.getElementById('permAlunos').checked = perms.alunos !== false;
+                    document.getElementById('permPresencas').checked = perms.presencas !== false;
+                    document.getElementById('permCarteirinhas').checked = perms.carteirinhas !== false;
+                    document.getElementById('permRelatorios').checked = perms.relatorios !== false;
+                    document.getElementById('permNotificacoes').checked = perms.notificacoes !== false;
+                    document.getElementById('permBackup').checked = perms.backup !== false;
+                    document.getElementById('permConfiguracoes').checked = perms.configuracoes === true;
+                    document.getElementById('permUsuarios').checked = perms.usuarios === true;
+
                     document.getElementById('usuarioSenha').value = '';
                     document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para manter a senha atual';
                 } else if (user && user.id === 'admin_gleuber') {
@@ -4588,6 +5032,16 @@
                 document.getElementById('usuarioEditId').value = '';
                 document.getElementById('usuarioForm').reset();
                 document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para gerar automaticamente';
+
+                // Permissões padrão
+                document.getElementById('permAlunos').checked = true;
+                document.getElementById('permPresencas').checked = true;
+                document.getElementById('permCarteirinhas').checked = true;
+                document.getElementById('permRelatorios').checked = true;
+                document.getElementById('permNotificacoes').checked = true;
+                document.getElementById('permBackup').checked = true;
+                document.getElementById('permConfiguracoes').checked = false;
+                document.getElementById('permUsuarios').checked = false;
             }
         }
 
@@ -4604,6 +5058,18 @@
             const whatsapp = document.getElementById('usuarioWhatsapp').value.trim();
             const perfil = document.getElementById('usuarioPerfil').value;
             const senhaInput = document.getElementById('usuarioSenha').value.trim();
+
+            // Coletar permissões
+            const permissoes = {
+                alunos: document.getElementById('permAlunos').checked,
+                presencas: document.getElementById('permPresencas').checked,
+                carteirinhas: document.getElementById('permCarteirinhas').checked,
+                relatorios: document.getElementById('permRelatorios').checked,
+                notificacoes: document.getElementById('permNotificacoes').checked,
+                backup: document.getElementById('permBackup').checked,
+                configuracoes: document.getElementById('permConfiguracoes').checked,
+                usuarios: document.getElementById('permUsuarios').checked
+            };
 
             if (!nome || !email) { showToast('Nome e e-mail são obrigatórios', 'error'); return false; }
 
@@ -4625,6 +5091,7 @@
                 usuario.email = email;
                 usuario.whatsapp = whatsapp;
                 usuario.perfil = perfil;
+                usuario.permissoes = permissoes;
                 if (senhaInput) { usuario.senha = senhaInput; }
                 data.usuarios[index] = usuario;
                 showToast('Usuário atualizado com sucesso!');
@@ -4641,6 +5108,7 @@
                     perfil: perfil,
                     usuario: usuarioGerado,
                     senha: senha,
+                    permissoes: permissoes,
                     criadoEm: new Date().toISOString(),
                     primeiroAcesso: true
                 };
@@ -4839,8 +5307,9 @@
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
-            console.log('🔍 Busca global ativada!');
-            console.log('📇 Carteirinhas com seleção por categoria!');
+            console.log('🔐 Sistema seguro ativado!');
+            console.log('📧 Recuperação de senha com código de verificação!');
+            console.log('🔑 Controle de permissões ativo!');
         });
     </script>
 
