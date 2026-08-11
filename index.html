@@ -24,6 +24,11 @@
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             --radius: 16px;
             --sidebar-width: 250px;
+            --login-bg: linear-gradient(135deg, #0f1b2d, #1a2d4a);
+            --login-logo-size: 80px;
+            --login-box-bg: #ffffff;
+            --login-text-color: #0f1b2d;
+            --login-accent-color: #d4a020;
         }
 
         body {
@@ -149,10 +154,6 @@
             border-radius: 12px;
             font-size: 10px;
             font-weight: 700;
-        }
-
-        .sidebar-menu .menu-item.active .badge {
-            background: rgba(15, 27, 45, 0.2);
         }
 
         .sidebar-footer {
@@ -943,18 +944,36 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f1b2d, #1a2d4a);
+            background: var(--login-bg);
             padding: 20px;
             width: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: background 0.5s ease;
+            position: relative;
+        }
+
+        .login-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .login-page>* {
+            position: relative;
+            z-index: 1;
         }
 
         .login-box {
-            background: var(--white);
+            background: var(--login-box-bg);
             border-radius: var(--radius);
             padding: 40px 44px;
             max-width: 420px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
         }
 
         .login-box .login-brand {
@@ -963,8 +982,8 @@
         }
 
         .login-box .login-brand .logo-big {
-            width: 80px;
-            height: 80px;
+            width: var(--login-logo-size);
+            height: var(--login-logo-size);
             border-radius: 50%;
             background: var(--secondary);
             display: flex;
@@ -974,17 +993,25 @@
             font-size: 28px;
             color: var(--primary);
             margin: 0 auto 12px;
-            border: 3px solid #f5d060;
+            border: 4px solid var(--login-accent-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .login-box .login-brand .logo-big img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .login-box .login-brand h2 {
-            color: var(--primary);
+            color: var(--login-text-color);
             font-size: 22px;
             font-weight: 800;
         }
 
         .login-box .login-brand h2 span {
-            color: var(--secondary);
+            color: var(--login-accent-color);
         }
 
         .login-box .login-brand p {
@@ -998,7 +1025,7 @@
         }
 
         .login-box .form-group label {
-            color: var(--primary);
+            color: var(--login-text-color);
             font-weight: 600;
             font-size: 13px;
         }
@@ -1010,14 +1037,17 @@
         }
 
         .login-box .form-group input:focus {
-            border-color: var(--secondary);
+            border-color: var(--login-accent-color);
         }
 
-        .login-box .btn {
-            width: 100%;
-            justify-content: center;
-            padding: 14px;
-            font-size: 16px;
+        .login-box .btn-primary {
+            background: var(--login-accent-color);
+            color: var(--login-text-color);
+        }
+
+        .login-box .btn-primary:hover {
+            background: #f5d060;
+            transform: translateY(-2px);
         }
 
         .login-box .register-link {
@@ -1028,14 +1058,14 @@
         }
 
         .login-box .register-link a {
-            color: var(--primary);
+            color: var(--login-accent-color);
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
         }
 
         .login-box .register-link a:hover {
-            color: var(--secondary);
+            color: #f5d060;
         }
 
         .login-box .forgot-password {
@@ -1051,7 +1081,7 @@
         }
 
         .login-box .forgot-password a:hover {
-            color: var(--secondary);
+            color: var(--login-accent-color);
         }
 
         /* ===== PASSWORD WRAPPER ===== */
@@ -1080,6 +1110,200 @@
 
         .password-wrapper .toggle-password:hover {
             color: var(--secondary);
+        }
+
+        /* ===== PERSONALIZAÇÃO ===== */
+        .foto-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .foto-upload-container input[type="file"] {
+            display: none;
+        }
+
+        .foto-perfil {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            background: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .foto-perfil:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-preview {
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 16px;
+            background: #f8fafc;
+        }
+
+        .login-preview .preview-box {
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-preview .preview-box .preview-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--secondary);
+            margin-bottom: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-preview .preview-box .preview-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-preview .preview-box .preview-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-preview .preview-box .preview-title span {
+            color: var(--secondary);
+        }
+
+        .login-preview .preview-box .preview-sub {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-item .config-label {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .config-item .config-label small {
+            display: block;
+            font-weight: 400;
+            color: var(--gray-dark);
+            font-size: 12px;
+        }
+
+        .config-item input[type="color"] {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .config-item input[type="number"] {
+            width: 70px;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .notificacao-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .notificacao-item:last-child {
+            border-bottom: none;
+        }
+
+        .notificacao-item .notif-time {
+            font-size: 11px;
+            color: var(--gray-dark);
+        }
+
+        .notificacao-item .notif-msg {
+            font-size: 13px;
+        }
+
+        .notificacao-item .notif-msg i {
+            color: var(--secondary);
+            margin-right: 6px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--secondary);
+            background: var(--gray);
+        }
+
+        .file-upload-area i {
+            font-size: 32px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .file-upload-area p {
+            color: var(--gray-dark);
+            font-size: 13px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-badge.presente {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.ausente {
+            background: #fee2e2;
+            color: #dc2626;
         }
 
         /* ===== RESPONSIVO ===== */
@@ -1200,7 +1424,6 @@
             }
         }
 
-        /* ===== PÁGINAS ===== */
         .page {
             display: none;
             animation: fadeIn 0.35s ease;
@@ -1219,84 +1442,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .status-badge.presente {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .status-badge.ausente {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .config-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-
-        .config-item:last-child {
-            border-bottom: none;
-        }
-
-        .notificacao-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-
-        .notificacao-item:last-child {
-            border-bottom: none;
-        }
-
-        .notificacao-item .notif-time {
-            font-size: 11px;
-            color: var(--gray-dark);
-        }
-
-        .notificacao-item .notif-msg {
-            font-size: 13px;
-        }
-
-        .notificacao-item .notif-msg i {
-            color: var(--secondary);
-            margin-right: 6px;
-        }
-
-        .file-upload-area {
-            border: 2px dashed #e5e7eb;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-upload-area:hover {
-            border-color: var(--secondary);
-            background: var(--gray);
-        }
-
-        .file-upload-area i {
-            font-size: 32px;
-            color: var(--secondary);
-            margin-bottom: 8px;
-        }
-
-        .file-upload-area p {
-            color: var(--gray-dark);
-            font-size: 13px;
         }
 
         ::-webkit-scrollbar {
@@ -1323,9 +1468,9 @@
     <div id="loginContainer" class="login-page">
         <div class="login-box">
             <div class="login-brand">
-                <div class="logo-big">⚽</div>
-                <h2>VILA <span>REAL</span></h2>
-                <p>Futsal · Gestão de Presenças</p>
+                <div class="logo-big" id="loginLogoBig">⚽</div>
+                <h2 id="loginTitle">VILA <span>REAL</span></h2>
+                <p id="loginSubtitle">Futsal · Gestão de Presenças</p>
             </div>
 
             <form id="loginForm" onsubmit="return handleLogin(event)">
@@ -1343,7 +1488,7 @@
                     </div>
                 </div>
                 <div id="loginError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" id="loginButton">
                     <i class="fas fa-sign-in-alt"></i> Entrar
                 </button>
             </form>
@@ -1778,6 +1923,102 @@
             </div>
         </div>
 
+        <!-- ===== PERSONALIZAR ===== -->
+        <div class="page" id="page-personalizar">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-paint-brush"></i> Personalização da Página de Login</h3>
+                </div>
+
+                <div class="form-row" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Logo da Página de Login</label>
+                        <div class="foto-upload-container">
+                            <div id="loginLogoPreview" style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:3px solid var(--secondary);background:white;display:flex;align-items:center;justify-content:center;">
+                                <span style="font-size:40px;">⚽</span>
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('loginLogoInput').click()">
+                                <i class="fas fa-upload"></i> Alterar Logo
+                            </button>
+                            <input type="file" id="loginLogoInput" accept="image/*" style="display:none;" onchange="alterarLoginLogo(event)">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="resetarLoginLogo()">
+                                <i class="fas fa-undo"></i> Restaurar Padrão
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Fundo da Página de Login</label>
+                        <div class="foto-upload-container">
+                            <div id="loginBgPreview" style="width:100%;height:100px;border-radius:10px;border:2px solid #e5e7eb;background:linear-gradient(135deg,#0f1b2d,#1a2d4a);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;opacity:0.7;">
+                                Fundo atual
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('loginBgInput').click()">
+                                <i class="fas fa-upload"></i> Alterar Fundo
+                            </button>
+                            <input type="file" id="loginBgInput" accept="image/*" style="display:none;" onchange="alterarLoginBg(event)">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="resetarLoginBg()">
+                                <i class="fas fa-undo"></i> Restaurar Padrão
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor Principal</label>
+                        <input type="color" id="loginPrimaryColor" value="#d4a020" onchange="aplicarCoresLogin()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor do Texto</label>
+                        <input type="color" id="loginTextColor" value="#0f1b2d" onchange="aplicarCoresLogin()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor do Fundo do Box</label>
+                        <input type="color" id="loginBoxBgColor" value="#ffffff" onchange="aplicarCoresLogin()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Tamanho do Logo</label>
+                        <input type="number" id="loginLogoSize" value="80" min="60" max="150" onchange="aplicarCoresLogin()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-font"></i> Título da Página</label>
+                    <input type="text" id="loginPageTitle" value="VILA REAL" onchange="atualizarLoginTextos()">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-font"></i> Subtítulo da Página</label>
+                    <input type="text" id="loginPageSubtitle" value="Futsal · Gestão de Presenças" onchange="atualizarLoginTextos()">
+                </div>
+
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+                    <button class="btn btn-success" onclick="salvarPersonalizacao()">
+                        <i class="fas fa-save"></i> Salvar Personalização
+                    </button>
+                    <button class="btn btn-danger" onclick="resetarPersonalizacao()">
+                        <i class="fas fa-undo"></i> Restaurar Padrão
+                    </button>
+                </div>
+
+                <!-- Preview -->
+                <div class="login-preview">
+                    <h4 style="margin-bottom:8px;color:var(--primary);">Pré-visualização</h4>
+                    <div class="preview-box" id="previewBox">
+                        <div class="preview-logo" id="previewLogo">
+                            <span style="font-size:30px;">⚽</span>
+                        </div>
+                        <div class="preview-title" id="previewTitle">VILA <span>REAL</span></div>
+                        <div class="preview-sub" id="previewSub">Futsal · Gestão de Presenças</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== USUÁRIOS ===== -->
         <div class="page" id="page-usuarios">
             <div class="card">
@@ -1909,7 +2150,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v19';
+        const STORAGE_KEY = 'vilaRealFutsalData_v20';
 
         const ADMIN_DATA = {
             id: 'admin',
@@ -1931,7 +2172,8 @@
             { id: 'backup', label: 'Backup', icon: 'fas fa-database', page: 'backup' },
             { id: 'separator', label: 'Administração', isSeparator: true },
             { id: 'usuarios', label: 'Usuários', icon: 'fas fa-users-cog', page: 'usuarios' },
-            { id: 'configuracoes', label: 'Configurações', icon: 'fas fa-cog', page: 'configuracoes' }
+            { id: 'configuracoes', label: 'Configurações', icon: 'fas fa-cog', page: 'configuracoes' },
+            { id: 'personalizar', label: 'Personalizar', icon: 'fas fa-paint-brush', page: 'personalizar' }
         ];
 
         function getDefaultData() {
@@ -1953,7 +2195,16 @@
                     notifAutomatica: true,
                     mensagemPadrao: 'Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje!',
                     senhaMaster: 'Opala77@2056',
-                    whatsappNumero: '111946359524'
+                    whatsappNumero: '111946359524',
+                    // Personalização do Login
+                    loginLogo: '',
+                    loginBg: '',
+                    loginPrimaryColor: '#d4a020',
+                    loginTextColor: '#0f1b2d',
+                    loginBoxBg: '#ffffff',
+                    loginLogoSize: 80,
+                    loginTitle: 'VILA REAL',
+                    loginSubtitle: 'Futsal · Gestão de Presenças'
                 },
                 proximoNumeroAluno: 1,
                 proximoNumeroUsuario: 2
@@ -2029,6 +2280,7 @@
         function showLogin() {
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('recuperarSenhaContainer').style.display = 'none';
+            aplicarPersonalizacao();
         }
 
         function showRecuperarSenha() {
@@ -2119,7 +2371,189 @@
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
+            aplicarPersonalizacao();
             showToast('Desconectado');
+        }
+
+        // ============================================================
+        //  PERSONALIZAÇÃO DA PÁGINA DE LOGIN
+        // ============================================================
+        function aplicarPersonalizacao() {
+            const config = data.config;
+
+            // Aplicar fundo
+            const loginPage = document.getElementById('loginContainer');
+            if (config.loginBg) {
+                loginPage.style.background = `url(${config.loginBg}) center/cover no-repeat`;
+            } else {
+                loginPage.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            }
+
+            // Aplicar logo
+            const logoBig = document.getElementById('loginLogoBig');
+            if (config.loginLogo) {
+                logoBig.innerHTML = `<img src="${config.loginLogo}" alt="Logo">`;
+            } else {
+                logoBig.innerHTML = '⚽';
+            }
+
+            // Aplicar cores
+            const root = document.documentElement;
+            root.style.setProperty('--login-accent-color', config.loginPrimaryColor || '#d4a020');
+            root.style.setProperty('--login-text-color', config.loginTextColor || '#0f1b2d');
+            root.style.setProperty('--login-box-bg', config.loginBoxBg || '#ffffff');
+            root.style.setProperty('--login-logo-size', (config.loginLogoSize || 80) + 'px');
+
+            // Aplicar títulos
+            const titleEl = document.getElementById('loginTitle');
+            const subtitleEl = document.getElementById('loginSubtitle');
+            if (titleEl) {
+                titleEl.innerHTML = (config.loginTitle || 'VILA REAL').replace(/ /g, ' <span>') + '</span>';
+            }
+            if (subtitleEl) {
+                subtitleEl.textContent = config.loginSubtitle || 'Futsal · Gestão de Presenças';
+            }
+
+            // Atualizar preview
+            atualizarPreview();
+        }
+
+        function atualizarPreview() {
+            const config = data.config;
+            const previewBox = document.getElementById('previewBox');
+            const previewLogo = document.getElementById('previewLogo');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewSub = document.getElementById('previewSub');
+
+            // Fundo do preview
+            if (config.loginBg) {
+                previewBox.style.background = `url(${config.loginBg}) center/cover no-repeat`;
+                previewBox.style.backgroundColor = 'transparent';
+            } else {
+                previewBox.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            }
+
+            // Logo do preview
+            if (config.loginLogo) {
+                previewLogo.innerHTML = `<img src="${config.loginLogo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                previewLogo.innerHTML = '<span style="font-size:30px;">⚽</span>';
+            }
+
+            // Títulos do preview
+            const titleText = config.loginTitle || 'VILA REAL';
+            previewTitle.innerHTML = titleText.replace(/ /g, ' <span>') + '</span>';
+            previewSub.textContent = config.loginSubtitle || 'Futsal · Gestão de Presenças';
+        }
+
+        function alterarLoginLogo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                data.config.loginLogo = dataUrl;
+                aplicarPersonalizacao();
+                showToast('Logo atualizado!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetarLoginLogo() {
+            data.config.loginLogo = '';
+            aplicarPersonalizacao();
+            showToast('Logo restaurado para o padrão!');
+        }
+
+        function alterarLoginBg(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                document.getElementById('loginBgPreview').style.background = `url(${dataUrl}) center/cover no-repeat`;
+                document.getElementById('loginBgPreview').textContent = '';
+                data.config.loginBg = dataUrl;
+                aplicarPersonalizacao();
+                showToast('Fundo atualizado!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetarLoginBg() {
+            const preview = document.getElementById('loginBgPreview');
+            preview.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            preview.textContent = 'Fundo padrão';
+            data.config.loginBg = '';
+            aplicarPersonalizacao();
+            showToast('Fundo restaurado para o padrão!');
+        }
+
+        function aplicarCoresLogin() {
+            const primary = document.getElementById('loginPrimaryColor').value;
+            const text = document.getElementById('loginTextColor').value;
+            const boxBg = document.getElementById('loginBoxBgColor').value;
+            const size = document.getElementById('loginLogoSize').value;
+
+            data.config.loginPrimaryColor = primary;
+            data.config.loginTextColor = text;
+            data.config.loginBoxBg = boxBg;
+            data.config.loginLogoSize = parseInt(size) || 80;
+
+            aplicarPersonalizacao();
+        }
+
+        function atualizarLoginTextos() {
+            const title = document.getElementById('loginPageTitle').value.trim();
+            const subtitle = document.getElementById('loginPageSubtitle').value.trim();
+
+            data.config.loginTitle = title || 'VILA REAL';
+            data.config.loginSubtitle = subtitle || 'Futsal · Gestão de Presenças';
+
+            aplicarPersonalizacao();
+        }
+
+        function salvarPersonalizacao() {
+            data.config.loginPrimaryColor = document.getElementById('loginPrimaryColor').value;
+            data.config.loginTextColor = document.getElementById('loginTextColor').value;
+            data.config.loginBoxBg = document.getElementById('loginBoxBgColor').value;
+            data.config.loginLogoSize = parseInt(document.getElementById('loginLogoSize').value) || 80;
+            data.config.loginTitle = document.getElementById('loginPageTitle').value.trim() || 'VILA REAL';
+            data.config.loginSubtitle = document.getElementById('loginPageSubtitle').value.trim() || 'Futsal · Gestão de Presenças';
+
+            saveData();
+            aplicarPersonalizacao();
+            showToast('✅ Personalização salva com sucesso!');
+        }
+
+        function resetarPersonalizacao() {
+            if (!confirm('Deseja restaurar todas as configurações de personalização para o padrão?')) return;
+
+            data.config.loginLogo = '';
+            data.config.loginBg = '';
+            data.config.loginPrimaryColor = '#d4a020';
+            data.config.loginTextColor = '#0f1b2d';
+            data.config.loginBoxBg = '#ffffff';
+            data.config.loginLogoSize = 80;
+            data.config.loginTitle = 'VILA REAL';
+            data.config.loginSubtitle = 'Futsal · Gestão de Presenças';
+
+            document.getElementById('loginPrimaryColor').value = '#d4a020';
+            document.getElementById('loginTextColor').value = '#0f1b2d';
+            document.getElementById('loginBoxBgColor').value = '#ffffff';
+            document.getElementById('loginLogoSize').value = 80;
+            document.getElementById('loginPageTitle').value = 'VILA REAL';
+            document.getElementById('loginPageSubtitle').value = 'Futsal · Gestão de Presenças';
+
+            // Resetar previews
+            resetarLoginLogo();
+            resetarLoginBg();
+
+            saveData();
+            aplicarPersonalizacao();
+            showToast('✅ Personalização restaurada para o padrão!');
         }
 
         // ============================================================
@@ -2166,7 +2600,6 @@
             });
 
             console.log('✅ Menu renderizado com sucesso!');
-            console.log('📋 Itens do menu:', document.querySelectorAll('.menu-item').length);
         }
 
         // ============================================================
@@ -2190,6 +2623,7 @@
                 relatorios: ['Relatórios', 'Análise de frequência'],
                 backup: ['Backup', 'Exportar e importar dados'],
                 configuracoes: ['Configurações', 'Ajustes do sistema'],
+                personalizar: ['Personalizar', 'Personalize a página de login'],
                 usuarios: ['Usuários', 'Gerenciamento de usuários']
             };
 
@@ -2206,6 +2640,28 @@
             if (page === 'notificacoes') renderNotificacoes();
             if (page === 'usuarios') renderUsuarios();
             if (page === 'configuracoes') renderConfiguracoes();
+            if (page === 'personalizar') carregarPersonalizacao();
+        }
+
+        function carregarPersonalizacao() {
+            document.getElementById('loginPrimaryColor').value = data.config.loginPrimaryColor || '#d4a020';
+            document.getElementById('loginTextColor').value = data.config.loginTextColor || '#0f1b2d';
+            document.getElementById('loginBoxBgColor').value = data.config.loginBoxBg || '#ffffff';
+            document.getElementById('loginLogoSize').value = data.config.loginLogoSize || 80;
+            document.getElementById('loginPageTitle').value = data.config.loginTitle || 'VILA REAL';
+            document.getElementById('loginPageSubtitle').value = data.config.loginSubtitle || 'Futsal · Gestão de Presenças';
+
+            if (data.config.loginLogo) {
+                document.getElementById('loginLogoPreview').innerHTML =
+                    `<img src="${data.config.loginLogo}" style="width:100%;height:100%;object-fit:cover;">`;
+            }
+            if (data.config.loginBg) {
+                document.getElementById('loginBgPreview').style.background =
+                    `url(${data.config.loginBg}) center/cover no-repeat`;
+                document.getElementById('loginBgPreview').textContent = '';
+            }
+
+            aplicarPersonalizacao();
         }
 
         // ============================================================
@@ -2246,6 +2702,9 @@
             }
             document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
             document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
+
+            // Carregar personalização
+            carregarPersonalizacao();
 
             console.log('✅ Sistema inicializado!');
             console.log('📊 Alunos:', data.alunos.length);
@@ -2438,7 +2897,6 @@
             renderCategoriasSelects();
             renderRelatorio();
             carregarCarteirinhas();
-            // Atualizar badge
             const badgeAlunos = document.getElementById('badge_alunos');
             if (badgeAlunos) badgeAlunos.textContent = data.alunos.length;
             showToast(id ? 'Aluno atualizado!' : 'Aluno cadastrado!');
@@ -3285,6 +3743,7 @@
             console.log('📊 Alunos:', data.alunos.length);
             console.log('📋 Sistema pronto!');
             console.log('💡 Use o usuário: gleuber | Senha: Opala77@2056');
+            console.log('🎨 Personalização disponível em "Personalizar"');
         });
     </script>
 
