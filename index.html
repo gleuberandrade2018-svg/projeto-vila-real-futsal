@@ -9,9 +9,6 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* ============================================================
-           RESET E VARIÁVEIS
-           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -40,7 +37,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--primary);
@@ -218,7 +214,6 @@
             color: #ef4444;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main-content {
             margin-left: var(--sidebar-width);
             flex: 1;
@@ -274,10 +269,6 @@
             width: 100%;
         }
 
-        .top-header .header-actions .search-box i {
-            color: var(--gray-dark);
-        }
-
         .top-header .header-actions .search-box .clear-search {
             cursor: pointer;
             color: var(--gray-dark);
@@ -288,7 +279,6 @@
             color: #ef4444;
         }
 
-        /* ===== CARDS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -402,7 +392,6 @@
             color: var(--secondary-light);
         }
 
-        /* ===== BOTÕES ===== */
         .btn {
             padding: 10px 22px;
             border: none;
@@ -455,15 +444,6 @@
             background: #dc2626;
         }
 
-        .btn-warning {
-            background: #f59e0b;
-            color: var(--white);
-        }
-
-        .btn-warning:hover {
-            background: #d97706;
-        }
-
         .btn-sm {
             padding: 6px 14px;
             font-size: 12px;
@@ -481,10 +461,6 @@
             transform: scale(1.02);
         }
 
-        .btn-scan i {
-            font-size: 20px;
-        }
-
         .btn-whatsapp {
             background: #25D366;
             color: white;
@@ -495,7 +471,6 @@
             transform: translateY(-2px);
         }
 
-        /* ===== LISTAS ===== */
         .list-item {
             display: flex;
             justify-content: space-between;
@@ -572,24 +547,12 @@
             color: #2563eb;
         }
 
-        .list-item .item-badge.ativo {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .list-item .item-badge.pendente {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        /* ===== CHART ===== */
         .chart-container {
             position: relative;
             height: 200px;
             width: 100%;
         }
 
-        /* ===== QUICK ACTIONS ===== */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -628,7 +591,6 @@
             color: var(--primary);
         }
 
-        /* ===== ALUNOS GRID ===== */
         .alunos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -696,7 +658,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== CARTEIRINHA ===== */
         .carteirinha-wrapper {
             display: flex;
             justify-content: center;
@@ -829,7 +790,6 @@
             z-index: 1;
         }
 
-        /* ===== CARTEIRINHA SELETOR ===== */
         .carteirinha-alunos-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -934,7 +894,6 @@
             color: var(--primary);
         }
 
-        /* ===== QR CODE SCANNER ===== */
         .scanner-container {
             width: 100%;
             max-width: 500px;
@@ -1030,7 +989,6 @@
             font-weight: 700;
         }
 
-        /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1095,7 +1053,6 @@
             transform: rotate(90deg);
         }
 
-        /* ===== FORMULÁRIOS ===== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -1139,7 +1096,6 @@
             gap: 16px;
         }
 
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -1185,7 +1141,6 @@
             }
         }
 
-        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -1208,7 +1163,6 @@
             font-size: 14px;
         }
 
-        /* ===== LOGIN ===== */
         .login-page {
             display: flex;
             justify-content: center;
@@ -1339,7 +1293,6 @@
             color: var(--secondary);
         }
 
-        /* ===== RECUPERAR SENHA ===== */
         .codigo-verificacao-container {
             display: flex;
             gap: 10px;
@@ -1354,7 +1307,6 @@
             white-space: nowrap;
         }
 
-        /* ===== PERMISSÕES ===== */
         .permissoes-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1377,7 +1329,6 @@
             cursor: pointer;
         }
 
-        /* ===== CONFIGURAÇÕES ===== */
         .config-item {
             display: flex;
             justify-content: space-between;
@@ -1409,7 +1360,6 @@
             font-size: 13px;
         }
 
-        /* ===== NOTIFICAÇÕES ===== */
         .notificacao-item {
             padding: 10px 0;
             border-bottom: 1px solid #f0f2f5;
@@ -1433,7 +1383,207 @@
             margin-right: 6px;
         }
 
-        /* ===== RESPONSIVO ===== */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-badge.presente {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.ausente {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-badge.enviado {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .senha-master-container {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .senha-master-container h4 {
+            color: #92400e;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .senha-master-container .senha-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .senha-master-container .senha-display code {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .senha-master-container .senha-display .btn {
+            font-size: 12px;
+            padding: 6px 14px;
+        }
+
+        .whatsapp-config {
+            background: #ecfdf5;
+            border: 2px solid #25D366;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+
+        .whatsapp-config h4 {
+            color: #065f46;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: var(--gray-dark);
+            transition: var(--transition);
+            font-size: 18px;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .password-wrapper .toggle-password:hover {
+            color: var(--secondary);
+        }
+
+        .file-upload-area {
+            border: 2px dashed #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--secondary);
+            background: var(--gray);
+        }
+
+        .file-upload-area i {
+            font-size: 32px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .file-upload-area p {
+            color: var(--gray-dark);
+            font-size: 13px;
+        }
+
+        .foto-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .foto-upload-container input[type="file"] {
+            display: none;
+        }
+
+        .foto-perfil {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            background: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .foto-perfil:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .badge-categoria {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .menu-editor-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .menu-editor-item .menu-icon-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .menu-editor-item .menu-name-input {
+            flex: 1;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+            min-width: 80px;
+        }
+
+        .menu-editor-item .menu-icon-input {
+            width: 100px;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
         @media (max-width: 1024px) {
             .double-grid {
                 grid-template-columns: 1fr;
@@ -1577,7 +1727,6 @@
             }
         }
 
-        /* ===== SCROLL ===== */
         ::-webkit-scrollbar {
             width: 5px;
         }
@@ -1589,7 +1738,6 @@
             border-radius: 10px;
         }
 
-        /* ===== PÁGINAS ===== */
         .page {
             display: none;
             animation: fadeIn 0.35s ease;
@@ -1609,249 +1757,16 @@
                 transform: translateY(0);
             }
         }
-
-        /* ===== STATUS BADGE ===== */
-        .status-badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .status-badge.presente {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .status-badge.ausente {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .status-badge.enviado {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-
-        /* ===== SENHA MASTER ===== */
-        .senha-master-container {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            margin-bottom: 20px;
-        }
-
-        .senha-master-container h4 {
-            color: #92400e;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .senha-master-container .senha-display {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .senha-master-container .senha-display code {
-            background: var(--primary);
-            color: var(--secondary);
-            padding: 6px 16px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            min-width: 120px;
-            text-align: center;
-        }
-
-        .senha-master-container .senha-display .btn {
-            font-size: 12px;
-            padding: 6px 14px;
-        }
-
-        /* ===== WHATSAPP CONFIG ===== */
-        .whatsapp-config {
-            background: #ecfdf5;
-            border: 2px solid #25D366;
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            margin-top: 16px;
-        }
-
-        .whatsapp-config h4 {
-            color: #065f46;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        /* ===== PASSWORD WRAPPER ===== */
-        .password-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .password-wrapper input {
-            width: 100%;
-            padding-right: 45px;
-        }
-
-        .password-wrapper .toggle-password {
-            position: absolute;
-            right: 12px;
-            cursor: pointer;
-            color: var(--gray-dark);
-            transition: var(--transition);
-            font-size: 18px;
-            background: none;
-            border: none;
-            padding: 5px;
-        }
-
-        .password-wrapper .toggle-password:hover {
-            color: var(--secondary);
-        }
-
-        /* ===== FILE UPLOAD ===== */
-        .file-upload-area {
-            border: 2px dashed #e5e7eb;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .file-upload-area:hover {
-            border-color: var(--secondary);
-            background: var(--gray);
-        }
-
-        .file-upload-area i {
-            font-size: 32px;
-            color: var(--secondary);
-            margin-bottom: 8px;
-        }
-
-        .file-upload-area p {
-            color: var(--gray-dark);
-            font-size: 13px;
-        }
-
-        .foto-upload-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .foto-upload-container input[type="file"] {
-            display: none;
-        }
-
-        .foto-perfil {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--secondary);
-            background: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .foto-perfil:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* ===== BADGE CATEGORIA ===== */
-        .badge-categoria {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            background: var(--secondary);
-            color: var(--primary);
-        }
-
-        /* ===== MENU EDITOR ===== */
-        .menu-editor-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f2f5;
-        }
-
-        .menu-editor-item .menu-icon-preview {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gray);
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .menu-editor-item .menu-name-input {
-            flex: 1;
-            padding: 4px 8px;
-            border: 2px solid #e5e7eb;
-            border-radius: 6px;
-            font-size: 13px;
-            min-width: 80px;
-        }
-
-        .menu-editor-item .menu-icon-input {
-            width: 100px;
-            padding: 4px 8px;
-            border: 2px solid #e5e7eb;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        /* ===== BADGE PERFIL ===== */
-        .perfil-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .perfil-badge.admin {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .perfil-badge.professor {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .perfil-badge.pai {
-            background: #dcfce7;
-            color: #166534;
-        }
     </style>
 </head>
 <body>
 
-    <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">Mensagem</span>
     </div>
 
-    <!-- ===== LOGIN ===== -->
+    <!-- LOGIN -->
     <div id="loginContainer" class="login-page">
         <div class="login-box">
             <div class="login-brand">
@@ -1893,7 +1808,7 @@
         </div>
     </div>
 
-    <!-- ===== RECUPERAR SENHA ===== -->
+    <!-- RECUPERAR SENHA -->
     <div id="recuperarSenhaContainer" class="login-page" style="display:none;">
         <div class="login-box">
             <div class="login-brand">
@@ -1951,8 +1866,8 @@
         </div>
     </div>
 
-    <!-- ===== SIDEBAR ===== -->
-    <div class="sidebar" id="sidebar">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar" style="display:none;">
         <div class="sidebar-brand">
             <div class="logo-container">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
@@ -1965,7 +1880,7 @@
         </div>
 
         <div class="sidebar-menu" id="sidebarMenu">
-            <!-- Renderizado via JavaScript - Menu com todas as funções -->
+            <!-- Renderizado via JavaScript -->
         </div>
 
         <div class="sidebar-footer">
@@ -1982,8 +1897,8 @@
         </div>
     </div>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <div class="main-content" id="mainContent">
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent" style="display:none;">
 
         <div class="top-header">
             <div class="page-title">
@@ -1993,7 +1908,7 @@
             <div class="header-actions">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar aluno por nome ou número..." id="searchInput" oninput="buscarAlunoGlobal(this.value)">
+                    <input type="text" placeholder="Buscar aluno..." id="searchInput" oninput="buscarAlunoGlobal(this.value)">
                     <span class="clear-search" id="clearSearch" onclick="limparBusca()">&times;</span>
                 </div>
                 <button class="btn btn-secondary btn-sm" onclick="openModal('modalAluno')">
@@ -2002,7 +1917,7 @@
             </div>
         </div>
 
-        <!-- ===== DASHBOARD ===== -->
+        <!-- DASHBOARD -->
         <div class="page active" id="page-dashboard">
             <div class="stats-grid">
                 <div class="stat-card" onclick="mudarPagina('alunos')">
@@ -2128,7 +2043,7 @@
             </div>
         </div>
 
-        <!-- ===== ALUNOS ===== -->
+        <!-- ALUNOS -->
         <div class="page" id="page-alunos">
             <div class="card">
                 <div class="card-header">
@@ -2146,30 +2061,26 @@
             </div>
         </div>
 
-        <!-- ===== CARTEIRINHAS ===== -->
+        <!-- CARTEIRINHAS -->
         <div class="page" id="page-carteirinhas">
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-id-card"></i> Carteirinha Digital</h3>
                 </div>
-
                 <div class="carteirinha-categoria-filter" id="carteirinhaFiltros">
                     <button class="cat-filter-btn active" data-cat="todos" onclick="filtrarCarteirinhas('todos')">Todos</button>
                 </div>
-
                 <div id="carteirinhaAlunosList" class="carteirinha-alunos-list"></div>
-
                 <div id="carteirinhaContent" style="display:none;margin-top:16px;"></div>
             </div>
         </div>
 
-        <!-- ===== PRESENÇAS ===== -->
+        <!-- PRESENÇAS -->
         <div class="page" id="page-presencas">
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-qrcode"></i> Confirmação de Presença</h3>
                 </div>
-
                 <div style="text-align:center;margin-bottom:16px;">
                     <button class="btn btn-scan" onclick="abrirScanner()">
                         <i class="fas fa-camera"></i> 📷 Abrir Câmera para Escanear QR Code
@@ -2231,7 +2142,7 @@
             </div>
         </div>
 
-        <!-- ===== NOTIFICAÇÕES ===== -->
+        <!-- NOTIFICAÇÕES -->
         <div class="page" id="page-notificacoes">
             <div class="card">
                 <div class="card-header">
@@ -2250,7 +2161,7 @@
             </div>
         </div>
 
-        <!-- ===== RELATÓRIOS ===== -->
+        <!-- RELATÓRIOS -->
         <div class="page" id="page-relatorios">
             <div class="card">
                 <div class="card-header">
@@ -2292,15 +2203,13 @@
             </div>
         </div>
 
-        <!-- ===== BACKUP ===== -->
+        <!-- BACKUP -->
         <div class="page" id="page-backup">
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-download"></i> Exportar Backup</h3>
                 </div>
-                <p style="color:var(--gray-dark);margin-bottom:16px;">
-                    Baixe um arquivo com todos os dados do sistema para fazer backup.
-                </p>
+                <p style="color:var(--gray-dark);margin-bottom:16px;">Baixe um arquivo com todos os dados do sistema para fazer backup.</p>
                 <button class="btn btn-secondary" onclick="exportarBackup()">
                     <i class="fas fa-download"></i> Baixar Backup (JSON)
                 </button>
@@ -2313,9 +2222,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-upload"></i> Importar Backup</h3>
                 </div>
-                <p style="color:var(--gray-dark);margin-bottom:16px;">
-                    Restaure os dados a partir de um arquivo de backup.
-                </p>
+                <p style="color:var(--gray-dark);margin-bottom:16px;">Restaure os dados a partir de um arquivo de backup.</p>
                 <div class="file-upload-area" onclick="document.getElementById('fileInputBackup').click()">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <p>Clique para selecionar um arquivo JSON ou CSV</p>
@@ -2328,9 +2235,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-file-import"></i> Importar Alunos em Massa (CSV)</h3>
                 </div>
-                <p style="color:var(--gray-dark);margin-bottom:16px;">
-                    Formato: nome,pai,telefone,whatsapp,email,nascimento,categoria
-                </p>
+                <p style="color:var(--gray-dark);margin-bottom:16px;">Formato: nome,pai,telefone,whatsapp,email,nascimento,categoria</p>
                 <div class="file-upload-area" onclick="document.getElementById('fileInputCSV').click()">
                     <i class="fas fa-file-csv"></i>
                     <p>Clique para selecionar um arquivo CSV com os alunos</p>
@@ -2340,7 +2245,7 @@
             </div>
         </div>
 
-        <!-- ===== CONFIGURAÇÕES ===== -->
+        <!-- CONFIGURAÇÕES -->
         <div class="page" id="page-configuracoes">
             <div class="card">
                 <div class="card-header">
@@ -2395,7 +2300,7 @@
             </div>
         </div>
 
-        <!-- ===== PERSONALIZAR ===== -->
+        <!-- PERSONALIZAR -->
         <div class="page" id="page-personalizar">
             <div class="card">
                 <div class="card-header">
@@ -2455,7 +2360,7 @@
             </div>
         </div>
 
-        <!-- ===== USUÁRIOS ===== -->
+        <!-- USUÁRIOS -->
         <div class="page" id="page-usuarios">
             <div class="card">
                 <div class="card-header">
@@ -2500,7 +2405,7 @@
 
     </div>
 
-    <!-- ===== MODAL ALUNO ===== -->
+    <!-- MODAL ALUNO -->
     <div class="modal-overlay" id="modalAluno">
         <div class="modal">
             <div class="modal-header">
@@ -2570,7 +2475,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL USUÁRIO ===== -->
+    <!-- MODAL USUÁRIO -->
     <div class="modal-overlay" id="modalUsuario">
         <div class="modal">
             <div class="modal-header">
@@ -2599,47 +2504,20 @@
                         <option value="Pai">Pai/Responsável</option>
                     </select>
                 </div>
-
-                <!-- Permissões -->
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Permissões de Acesso</label>
                     <div class="permissoes-grid">
-                        <label class="perm-item">
-                            <input type="checkbox" id="permAlunos" checked>
-                            <span>Alunos</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permPresencas" checked>
-                            <span>Presenças</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permCarteirinhas" checked>
-                            <span>Carteirinhas</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permRelatorios" checked>
-                            <span>Relatórios</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permNotificacoes" checked>
-                            <span>Notificações</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permBackup" checked>
-                            <span>Backup</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permConfiguracoes">
-                            <span>Configurações</span>
-                        </label>
-                        <label class="perm-item">
-                            <input type="checkbox" id="permUsuarios">
-                            <span>Gerenciar Usuários</span>
-                        </label>
+                        <label class="perm-item"><input type="checkbox" id="permAlunos" checked><span>Alunos</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permPresencas" checked><span>Presenças</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permCarteirinhas" checked><span>Carteirinhas</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permRelatorios" checked><span>Relatórios</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permNotificacoes" checked><span>Notificações</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permBackup" checked><span>Backup</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permConfiguracoes"><span>Configurações</span></label>
+                        <label class="perm-item"><input type="checkbox" id="permUsuarios"><span>Gerenciar Usuários</span></label>
                     </div>
                     <small style="color:var(--gray-dark);font-size:12px;">Marque as áreas que este usuário poderá acessar</small>
                 </div>
-
                 <div class="form-group">
                     <label>Senha Temporária</label>
                     <div class="password-wrapper">
@@ -2657,7 +2535,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL ALTERAR SENHA ===== -->
+    <!-- MODAL ALTERAR SENHA -->
     <div class="modal-overlay" id="modalAlterarSenha">
         <div class="modal" style="max-width:450px;">
             <div class="modal-header">
@@ -2691,7 +2569,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL ALTERAR SENHA MASTER ===== -->
+    <!-- MODAL ALTERAR SENHA MASTER -->
     <div class="modal-overlay" id="modalAlterarSenhaMaster">
         <div class="modal" style="max-width:450px;">
             <div class="modal-header">
@@ -2733,7 +2611,7 @@
         </div>
     </div>
 
-    <!-- ===== MODAL EDITAR ÍCONE DO MENU ===== -->
+    <!-- MODAL EDITAR ÍCONE DO MENU -->
     <div class="modal-overlay" id="modalEditarIcone">
         <div class="modal" style="max-width:450px;">
             <div class="modal-header">
@@ -2773,7 +2651,6 @@
         </div>
     </div>
 
-    <!-- ===== SCRIPT ===== -->
     <script>
         // ============================================================
         //  BLOQUEIO DE DEvTOOLS
@@ -2788,23 +2665,16 @@
                     return false;
                 }
             });
-
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
-            });
-
-            document.addEventListener('selectstart', function(e) {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
-                    e.preventDefault();
-                }
             });
         })();
 
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v15';
+        const STORAGE_KEY = 'vilaRealFutsalData_v16';
 
         const DEFAULT_MENU = [
             { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-home', page: 'dashboard' },
@@ -2830,20 +2700,21 @@
             senha: 'Opala77@2056',
             criadoEm: new Date().toISOString(),
             primeiroAcesso: false,
-            permissoes: {
-                alunos: true,
-                presencas: true,
-                carteirinhas: true,
-                relatorios: true,
-                notificacoes: true,
-                backup: true,
-                configuracoes: true,
-                usuarios: true
-            }
+            permissoes: { alunos: true, presencas: true, carteirinhas: true, relatorios: true, notificacoes: true,
+                backup: true, configuracoes: true, usuarios: true }
         };
 
+        let data = loadData();
+        let currentUser = null;
+        let html5QrCode = null;
+        let scannerAtivo = false;
+        let mostrarSenhaFlag = false;
+        let categoriaChart = null;
+        let pieChart = null;
+        let frequenciaChart = null;
+        let menuEditandoId = null;
+        let categoriaSelecionadaCarteirinha = 'todos';
         let codigoVerificacaoAtual = '';
-        let codigoVerificacaoEmail = '';
         let etapaRecuperacao = 1;
 
         function getDefaultData() {
@@ -2880,17 +2751,6 @@
             };
         }
 
-        let data = loadData();
-        let currentUser = null;
-        let html5QrCode = null;
-        let scannerAtivo = false;
-        let mostrarSenhaFlag = false;
-        let categoriaChart = null;
-        let pieChart = null;
-        let frequenciaChart = null;
-        let menuEditandoId = null;
-        let categoriaSelecionadaCarteirinha = 'todos';
-
         function loadData() {
             try {
                 const stored = localStorage.getItem(STORAGE_KEY);
@@ -2904,22 +2764,12 @@
                         parsed.config.menuItems = JSON.parse(JSON.stringify(DEFAULT_MENU));
                     }
                     const adminExists = parsed.usuarios.some(u => u.id === 'admin_gleuber');
-                    if (!adminExists) {
-                        parsed.usuarios.unshift(ADMIN_DATA);
-                    }
+                    if (!adminExists) parsed.usuarios.unshift(ADMIN_DATA);
                     if (!parsed.config.horariosCategoria) parsed.config.horariosCategoria = {};
                     parsed.usuarios.forEach(u => {
                         if (!u.permissoes) {
-                            u.permissoes = {
-                                alunos: true,
-                                presencas: true,
-                                carteirinhas: true,
-                                relatorios: true,
-                                notificacoes: true,
-                                backup: true,
-                                configuracoes: false,
-                                usuarios: false
-                            };
+                            u.permissoes = { alunos: true, presencas: true, carteirinhas: true, relatorios: true,
+                                notificacoes: true, backup: true, configuracoes: false, usuarios: false };
                         }
                     });
                     return parsed;
@@ -2931,9 +2781,7 @@
         function saveData() {
             try {
                 const adminExists = data.usuarios.some(u => u.id === 'admin_gleuber');
-                if (!adminExists) {
-                    data.usuarios.unshift(ADMIN_DATA);
-                }
+                if (!adminExists) data.usuarios.unshift(ADMIN_DATA);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             } catch (e) { console.error('Erro ao salvar dados', e); }
         }
@@ -2973,56 +2821,151 @@
         }
 
         // ============================================================
-        //  BUSCA GLOBAL
+        //  FUNÇÕES DE LOGIN
         // ============================================================
-        function buscarAlunoGlobal(texto) {
-            const termo = texto.toLowerCase().trim();
-            const clearBtn = document.getElementById('clearSearch');
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('recuperarSenhaContainer').style.display = 'none';
+        }
 
-            if (termo === '') {
-                clearBtn.style.display = 'none';
-                renderAlunos();
-                return;
-            }
+        function showRecuperarSenha() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('recuperarSenhaContainer').style.display = 'flex';
+            document.getElementById('recuperarError').style.display = 'none';
+            document.getElementById('recuperarSuccess').style.display = 'none';
+            document.getElementById('codigoVerificacaoGroup').style.display = 'none';
+            document.getElementById('novaSenhaGroup').style.display = 'none';
+            document.getElementById('confirmarSenhaGroup').style.display = 'none';
+            document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Código';
+            etapaRecuperacao = 1;
+            codigoVerificacaoAtual = '';
+        }
 
-            clearBtn.style.display = 'block';
+        function gerarCodigoVerificacao() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
 
-            const cards = document.querySelectorAll('.aluno-card');
-            cards.forEach(card => {
-                const nome = card.querySelector('.aluno-nome')?.textContent?.toLowerCase() || '';
-                const numero = card.querySelector('.aluno-info .fas.fa-hashtag')?.parentElement?.textContent?.toLowerCase() ||
-                    '';
-                const pai = card.querySelector('.aluno-info .fas.fa-user-friends')?.parentElement?.textContent?.toLowerCase() ||
-                    '';
-                const categoria = card.querySelector('.badge-categoria')?.textContent?.toLowerCase() || '';
+        function reenviarCodigo() {
+            const email = document.getElementById('recuperarEmail').value.trim();
+            if (!email) { showToast('Digite o e-mail primeiro', 'error'); return; }
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
+            if (!admin) { showToast('E-mail não encontrado', 'error'); return; }
 
-                const match = nome.includes(termo) || numero.includes(termo) || pai.includes(termo) || categoria.includes(
-                    termo);
-                card.style.display = match ? 'block' : 'none';
-            });
+            codigoVerificacaoAtual = gerarCodigoVerificacao();
+            document.getElementById('recuperarSuccess').innerHTML =
+                `✅ Código de verificação enviado para <strong>${email}</strong>.<br>
+                <small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong></small>`;
+            document.getElementById('recuperarSuccess').style.display = 'block';
+            showToast(`📧 Código enviado para ${email}`, 'success');
+        }
 
-            const visiveis = document.querySelectorAll('.aluno-card[style*="display: block"]').length;
-            const total = document.querySelectorAll('.aluno-card').length;
-            const container = document.getElementById('alunosList');
-            const emptyMsg = container.querySelector('.empty-state:not(:first-child)');
-            if (visiveis === 0 && total > 0) {
-                if (!emptyMsg) {
-                    const msg = document.createElement('div');
-                    msg.className = 'empty-state';
-                    msg.style.gridColumn = '1/-1';
-                    msg.innerHTML =
-                        `<i class="fas fa-search"></i><h3>Nenhum aluno encontrado</h3><p>Nenhum aluno corresponde à busca "${texto}"</p>`;
-                    container.appendChild(msg);
+        function handleRecuperarSenha(e) {
+            e.preventDefault();
+            const email = document.getElementById('recuperarEmail').value.trim();
+            const errorDiv = document.getElementById('recuperarError');
+            const successDiv = document.getElementById('recuperarSuccess');
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            if (etapaRecuperacao === 1) {
+                const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
+                if (!admin) {
+                    errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
+                    errorDiv.style.display = 'block';
+                    return false;
                 }
+
+                codigoVerificacaoAtual = gerarCodigoVerificacao();
+                successDiv.innerHTML =
+                    `✅ Código enviado para <strong>${email}</strong>.<br>
+                    <small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong></small>
+                    <br><small style="font-size:12px;color:var(--gray-dark);">Digite o código abaixo</small>`;
+                successDiv.style.display = 'block';
+
+                document.getElementById('codigoVerificacaoGroup').style.display = 'block';
+                document.getElementById('novaSenhaGroup').style.display = 'block';
+                document.getElementById('confirmarSenhaGroup').style.display = 'block';
+                document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-check-circle"></i> Validar e Alterar';
+                etapaRecuperacao = 2;
+                return false;
             } else {
-                if (emptyMsg) emptyMsg.remove();
+                const codigo = document.getElementById('codigoVerificacao').value.trim();
+                const novaSenha = document.getElementById('recuperarNovaSenha').value;
+                const confirmar = document.getElementById('recuperarConfirmarSenha').value;
+
+                if (!codigo) { errorDiv.textContent = 'Digite o código de verificação';
+                    errorDiv.style.display = 'block'; return false; }
+                if (codigo !== codigoVerificacaoAtual) { errorDiv.textContent = 'Código inválido';
+                    errorDiv.style.display = 'block'; return false; }
+                if (novaSenha.length < 6) { errorDiv.textContent = 'Mínimo 6 caracteres';
+                    errorDiv.style.display = 'block'; return false; }
+                if (novaSenha !== confirmar) { errorDiv.textContent = 'Senhas não coincidem';
+                    errorDiv.style.display = 'block'; return false; }
+
+                const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+                if (admin) {
+                    admin.senha = novaSenha;
+                    data.config.senhaMaster = novaSenha;
+                    saveData();
+                    showToast('✅ Senha alterada com sucesso!');
+                    successDiv.innerHTML = `✅ Senha alterada! Faça login.`;
+                    successDiv.style.display = 'block';
+                    setTimeout(() => { showLogin();
+                        document.getElementById('loginPassword').value = novaSenha; }, 3000);
+                }
+                return false;
             }
         }
 
-        function limparBusca() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('clearSearch').style.display = 'none';
-            renderAlunos();
+        function handleLogin(e) {
+            e.preventDefault();
+            const loginUser = document.getElementById('loginUser').value.trim();
+            const loginPass = document.getElementById('loginPassword').value.trim();
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.style.display = 'none';
+
+            if (!loginUser || !loginPass) {
+                errorDiv.textContent = 'Preencha todos os campos';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            const user = data.usuarios.find(u =>
+                (u.usuario && u.usuario === loginUser) ||
+                (u.email && u.email.toLowerCase() === loginUser.toLowerCase())
+            );
+
+            if (!user) { errorDiv.textContent = 'Usuário não encontrado';
+                errorDiv.style.display = 'block'; return false; }
+            if (user.senha !== loginPass) { errorDiv.textContent = 'Senha incorreta';
+                errorDiv.style.display = 'block'; return false; }
+
+            if (user.primeiroAcesso) {
+                user.primeiroAcesso = false;
+                saveData();
+            }
+
+            currentUser = user;
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('sidebar').style.display = 'flex';
+
+            document.getElementById('userName').textContent = user.nome;
+            document.getElementById('userRole').textContent = user.perfil;
+            document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
+
+            initSystem();
+            return false;
+        }
+
+        function logout() {
+            currentUser = null;
+            fecharScanner();
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+            showToast('Desconectado com sucesso');
         }
 
         // ============================================================
@@ -3030,11 +2973,7 @@
         // ============================================================
         function alterarSidebarLogo(event) {
             const file = event?.target?.files?.[0];
-            if (!file) {
-                document.getElementById('sidebarLogoInput').click();
-                return;
-            }
-
+            if (!file) { document.getElementById('sidebarLogoInput').click(); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 const dataUrl = e.target.result;
@@ -3042,7 +2981,7 @@
                 document.getElementById('sidebarLogoPreviewImg').src = dataUrl;
                 data.config.sidebarLogo = dataUrl;
                 saveData();
-                showToast('Logo da barra lateral atualizada!');
+                showToast('Logo atualizada!');
             };
             reader.readAsDataURL(file);
         }
@@ -3054,7 +2993,7 @@
             document.getElementById('sidebarLogoPreviewImg').src = defaultLogo;
             data.config.sidebarLogo = '';
             saveData();
-            showToast('Logo restaurado para o padrão!');
+            showToast('Logo restaurado!');
         }
 
         function atualizarSidebarTitulo() {
@@ -3116,30 +3055,16 @@
 
         function verificarPermissoesMenu() {
             if (!currentUser) return;
-
             const isAdmin = currentUser.perfil === 'Administrador';
             const permissoes = currentUser.permissoes || {};
 
             document.querySelectorAll('.menu-item[data-page]').forEach(item => {
                 const page = item.dataset.page;
-                if (page === 'dashboard') {
-                    item.style.display = 'flex';
-                    return;
-                }
-                if (isAdmin) {
-                    item.style.display = 'flex';
-                    return;
-                }
-                const mapa = {
-                    'alunos': 'alunos',
-                    'carteirinhas': 'carteirinhas',
-                    'presencas': 'presencas',
-                    'notificacoes': 'notificacoes',
-                    'relatorios': 'relatorios',
-                    'backup': 'backup',
-                    'configuracoes': 'configuracoes',
-                    'usuarios': 'usuarios'
-                };
+                if (page === 'dashboard') { item.style.display = 'flex'; return; }
+                if (isAdmin) { item.style.display = 'flex'; return; }
+                const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
+                    'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
+                    'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
                 item.style.display = permissoes[mapa[page]] ? 'flex' : 'none';
             });
         }
@@ -3147,8 +3072,8 @@
         function carregarMenuEditor() {
             const container = document.getElementById('menuEditorContainer');
             const menu = data.config.menuItems || [];
-
             let html = '';
+
             menu.forEach((item) => {
                 if (item.isSeparator) {
                     html += `
@@ -3169,9 +3094,7 @@
 
                 html += `
                     <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f2f5;">
-                        <div style="width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--gray);overflow:hidden;flex-shrink:0;">
-                            ${iconPreview}
-                        </div>
+                        <div style="width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--gray);overflow:hidden;flex-shrink:0;">${iconPreview}</div>
                         <input type="text" class="menu-name-input" value="${item.label}" id="menuName_${item.id}" placeholder="Nome" style="flex:1;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;min-width:80px;">
                         <input type="text" class="menu-icon-input" value="${item.icon || ''}" id="menuIcon_${item.id}" placeholder="Ícone" style="width:100px;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;">
                         <button class="btn btn-secondary btn-sm" onclick="abrirEditorIcone('${item.id}')"><i class="fas fa-image"></i></button>
@@ -3204,12 +3127,11 @@
         function previewMenuIcone(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 const dataUrl = e.target.result;
-                const preview = document.getElementById('menuIconePreview');
-                preview.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;">`;
+                document.getElementById('menuIconePreview').innerHTML =
+                    `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;">`;
                 document.getElementById('menuIconeInput').value = dataUrl;
             };
             reader.readAsDataURL(file);
@@ -3217,14 +3139,12 @@
 
         function removerMenuIconeImagem() {
             document.getElementById('menuIconeInput').value = '';
-            const preview = document.getElementById('menuIconePreview');
-            preview.innerHTML = `<i class="fas fa-home" style="font-size:24px;"></i>`;
+            document.getElementById('menuIconePreview').innerHTML = `<i class="fas fa-home" style="font-size:24px;"></i>`;
         }
 
         function salvarIconeMenu() {
             const icone = document.getElementById('menuIconeInput').value.trim();
             if (!menuEditandoId) return;
-
             const item = data.config.menuItems.find(i => i.id === menuEditandoId);
             if (item) {
                 item.icon = icone || 'fas fa-circle';
@@ -3239,7 +3159,6 @@
         function salvarItemMenu(itemId) {
             const nameInput = document.getElementById(`menuName_${itemId}`);
             const iconInput = document.getElementById(`menuIcon_${itemId}`);
-
             const item = data.config.menuItems.find(i => i.id === itemId);
             if (item) {
                 item.label = nameInput.value.trim() || item.label;
@@ -3247,14 +3166,13 @@
                 saveData();
                 carregarMenuEditor();
                 renderizarMenu();
-                showToast('Item do menu atualizado!');
+                showToast('Item atualizado!');
             }
         }
 
         function editarSeparador(separatorId) {
             const item = data.config.menuItems.find(i => i.id === separatorId);
             if (!item) return;
-
             const novoNome = prompt('Digite o novo nome do separador:', item.label);
             if (novoNome !== null && novoNome.trim()) {
                 item.label = novoNome.trim();
@@ -3272,14 +3190,12 @@
                 icon: 'fas fa-circle',
                 page: 'item_' + Date.now()
             };
-
             const adminIndex = data.config.menuItems.findIndex(i => i.id === 'separator1');
             if (adminIndex !== -1) {
                 data.config.menuItems.splice(adminIndex, 0, novoItem);
             } else {
                 data.config.menuItems.push(novoItem);
             }
-
             saveData();
             carregarMenuEditor();
             renderizarMenu();
@@ -3291,9 +3207,7 @@
                 showToast('Não é possível remover itens essenciais', 'error');
                 return;
             }
-
             if (!confirm('Remover este item do menu?')) return;
-
             data.config.menuItems = data.config.menuItems.filter(i => i.id !== itemId);
             saveData();
             carregarMenuEditor();
@@ -3302,13 +3216,12 @@
         }
 
         function resetarMenuPadrao() {
-            if (!confirm('Restaurar o menu para o padrão? Todas as personalizações serão perdidas.')) return;
-
+            if (!confirm('Restaurar o menu para o padrão?')) return;
             data.config.menuItems = JSON.parse(JSON.stringify(DEFAULT_MENU));
             saveData();
             carregarMenuEditor();
             renderizarMenu();
-            showToast('Menu restaurado para o padrão!');
+            showToast('Menu restaurado!');
         }
 
         function salvarMenuPersonalizacao() {
@@ -3317,372 +3230,14 @@
                 if (!item.isSeparator) {
                     const nameInput = document.getElementById(`menuName_${item.id}`);
                     const iconInput = document.getElementById(`menuIcon_${item.id}`);
-                    if (nameInput) {
-                        item.label = nameInput.value.trim() || item.label;
-                    }
-                    if (iconInput) {
-                        item.icon = iconInput.value.trim() || item.icon;
-                    }
+                    if (nameInput) item.label = nameInput.value.trim() || item.label;
+                    if (iconInput) item.icon = iconInput.value.trim() || item.icon;
                 }
             });
-
             saveData();
             renderizarMenu();
             carregarMenuEditor();
-            showToast('Menu salvo com sucesso!');
-        }
-
-        // ============================================================
-        //  CARTEIRINHA
-        // ============================================================
-        function carregarCarteirinhas() {
-            const container = document.getElementById('carteirinhaAlunosList');
-            const filtrosContainer = document.getElementById('carteirinhaFiltros');
-
-            const categorias = [...new Set(data.alunos.map(a => a.categoria))];
-            let filtrosHtml = `<button class="cat-filter-btn active" data-cat="todos" onclick="filtrarCarteirinhas('todos')">Todos</button>`;
-            categorias.forEach(cat => {
-                filtrosHtml +=
-                    `<button class="cat-filter-btn" data-cat="${cat}" onclick="filtrarCarteirinhas('${cat}')">${cat}</button>`;
-            });
-            filtrosContainer.innerHTML = filtrosHtml;
-
-            let alunosFiltrados = data.alunos;
-            if (categoriaSelecionadaCarteirinha !== 'todos') {
-                alunosFiltrados = alunosFiltrados.filter(a => a.categoria === categoriaSelecionadaCarteirinha);
-            }
-
-            if (alunosFiltrados.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state" style="grid-column:1/-1;padding:20px;">
-                        <i class="fas fa-users"></i>
-                        <h3>Nenhum aluno encontrado</h3>
-                        <p>${categoriaSelecionadaCarteirinha !== 'todos' ? `Nenhum aluno na categoria ${categoriaSelecionadaCarteirinha}` : 'Cadastre um aluno para gerar a carteirinha'}</p>
-                    </div>
-                `;
-                document.getElementById('carteirinhaContent').style.display = 'none';
-                return;
-            }
-
-            container.innerHTML = alunosFiltrados.map(aluno => {
-                const fotoHtml = aluno.foto ?
-                    `<img src="${aluno.foto}" alt="${aluno.nome}">` :
-                    `<span style="font-size:14px;font-weight:700;">${aluno.nome.charAt(0).toUpperCase()}</span>`;
-
-                return `
-                    <div class="carteirinha-aluno-item" data-id="${aluno.id}" onclick="selecionarAlunoCarteirinha('${aluno.id}')">
-                        <div class="aluno-avatar">${fotoHtml}</div>
-                        <div class="aluno-nome">${aluno.nome}</div>
-                        <div class="aluno-numero">${aluno.numero}</div>
-                        <span class="aluno-categoria-badge">${aluno.categoria}</span>
-                    </div>
-                `;
-            }).join('');
-
-            const selected = document.querySelector('.carteirinha-aluno-item.selected');
-            if (selected) {
-                const id = selected.dataset.id;
-                const aluno = data.alunos.find(a => a.id === id);
-                if (aluno) {
-                    gerarCarteirinhaAluno(aluno);
-                } else {
-                    document.getElementById('carteirinhaContent').style.display = 'none';
-                }
-            } else if (alunosFiltrados.length > 0) {
-                selecionarAlunoCarteirinha(alunosFiltrados[0].id);
-            }
-        }
-
-        function filtrarCarteirinhas(categoria) {
-            categoriaSelecionadaCarteirinha = categoria;
-            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.cat === categoria);
-            });
-            carregarCarteirinhas();
-        }
-
-        function selecionarAlunoCarteirinha(alunoId) {
-            document.querySelectorAll('.carteirinha-aluno-item').forEach(item => {
-                item.classList.toggle('selected', item.dataset.id === alunoId);
-            });
-
-            const aluno = data.alunos.find(a => a.id === alunoId);
-            if (aluno) {
-                gerarCarteirinhaAluno(aluno);
-            }
-        }
-
-        function gerarCarteirinhaAluno(aluno) {
-            const container = document.getElementById('carteirinhaContent');
-            container.style.display = 'block';
-
-            const fotoHtml = aluno.foto ?
-                `<img src="${aluno.foto}" alt="${aluno.nome}">` :
-                `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>`;
-
-            container.innerHTML = `
-                <div class="carteirinha-wrapper">
-                    <div class="carteirinha" id="carteirinhaImpressao">
-                        <div class="crt-header">
-                            <div class="crt-foto">${fotoHtml}</div>
-                            <div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha de Identificação</small></div>
-                        </div>
-                        <div class="crt-body">
-                            <div class="crt-info">
-                                <div class="info-row"><span class="label">Nº Aluno</span><span class="value">${aluno.numero}</span></div>
-                                <div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div>
-                                <div class="info-row"><span class="label">Pai/Mãe</span><span class="value">${aluno.pai}</span></div>
-                                <div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div>
-                                <div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div>
-                                <div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div>
-                            </div>
-                            <div class="crt-qr" id="qrCodeContainerCrt"></div>
-                        </div>
-                        <div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div>
-                    </div>
-                </div>
-                <div style="text-align:center;margin-top:14px;">
-                    <button class="btn btn-secondary btn-sm" onclick="imprimirCarteirinha()"><i class="fas fa-print"></i> Imprimir</button>
-                    <button class="btn btn-primary btn-sm" onclick="verCarteirinha('${aluno.id}')" style="margin-left:8px;"><i class="fas fa-expand"></i> Ampliar</button>
-                    <button class="btn btn-scan btn-sm" onclick="gerarQRCodeAluno('${aluno.id}')" style="background:#1a73e8;color:white;margin-left:8px;"><i class="fas fa-qrcode"></i> QR Code</button>
-                </div>
-            `;
-
-            setTimeout(() => {
-                const containerQR = document.getElementById('qrCodeContainerCrt');
-                containerQR.innerHTML = '';
-                try {
-                    new QRCode(containerQR, {
-                        text: JSON.stringify({ id: aluno.id, numero: aluno.numero }),
-                        width: 110,
-                        height: 110,
-                        colorDark: '#0f1b2d',
-                        colorLight: '#ffffff',
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                } catch (e) {
-                    containerQR.innerHTML =
-                        `<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>`;
-                }
-            }, 100);
-        }
-
-        function verCarteirinha(id) {
-            const aluno = data.alunos.find(a => a.id === id);
-            if (!aluno) return;
-            const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto">${aluno.foto ? `<img src="${aluno.foto}" alt="${aluno.nome}">` : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>'}</div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº Aluno</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai/Mãe</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>';}},200);<\/script></body></html>`);
-            win.document.close();
-        }
-
-        function imprimirCarteirinha() {
-            const conteudo = document.getElementById('carteirinhaImpressao');
-            if (!conteudo) return;
-            const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>Carteirinha - Vila Real Futsal</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f2f5;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.3);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-foto div{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#e5e7eb;color:#6b7280;font-size:24px;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}@media print{body{background:white;}.carteirinha{box-shadow:none;}}</style></head><body>${conteudo.outerHTML}<script>window.onload=function(){window.print();setTimeout(()=>window.close(),1500);};<\/script></body></html>`);
-            win.document.close();
-        }
-
-        // ============================================================
-        //  RECUPERAR SENHA
-        // ============================================================
-        function showRecuperarSenha() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('recuperarSenhaContainer').style.display = 'flex';
-            document.getElementById('recuperarError').style.display = 'none';
-            document.getElementById('recuperarSuccess').style.display = 'none';
-            document.getElementById('codigoVerificacaoGroup').style.display = 'none';
-            document.getElementById('novaSenhaGroup').style.display = 'none';
-            document.getElementById('confirmarSenhaGroup').style.display = 'none';
-            document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Código';
-            etapaRecuperacao = 1;
-            codigoVerificacaoAtual = '';
-            codigoVerificacaoEmail = '';
-        }
-
-        function gerarCodigoVerificacao() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        function reenviarCodigo() {
-            const email = document.getElementById('recuperarEmail').value.trim();
-            if (!email) {
-                showToast('Digite o e-mail primeiro', 'error');
-                return;
-            }
-
-            const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
-            if (!admin) {
-                showToast('E-mail não encontrado', 'error');
-                return;
-            }
-
-            codigoVerificacaoAtual = gerarCodigoVerificacao();
-            codigoVerificacaoEmail = email;
-
-            console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
-
-            showToast(`📧 Código de verificação enviado para ${email}`, 'success');
-            document.getElementById('recuperarSuccess').innerHTML =
-                `✅ Código de verificação enviado para <strong>${email}</strong>. Verifique seu e-mail.`;
-            document.getElementById('recuperarSuccess').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('recuperarSuccess').innerHTML +=
-                    `<br><small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong> (apenas para demonstração)</small>`;
-            }, 500);
-        }
-
-        function handleRecuperarSenha(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('recuperarEmail').value.trim();
-            const errorDiv = document.getElementById('recuperarError');
-            const successDiv = document.getElementById('recuperarSuccess');
-            errorDiv.style.display = 'none';
-            successDiv.style.display = 'none';
-
-            if (etapaRecuperacao === 1) {
-                const admin = data.usuarios.find(u => u.perfil === 'Administrador' && u.email === email);
-                if (!admin) {
-                    errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
-                    errorDiv.style.display = 'block';
-                    return false;
-                }
-
-                codigoVerificacaoAtual = gerarCodigoVerificacao();
-                codigoVerificacaoEmail = email;
-
-                console.log(`📧 Código de verificação para ${email}: ${codigoVerificacaoAtual}`);
-
-                document.getElementById('recuperarSuccess').innerHTML =
-                    `✅ Código de verificação enviado para <strong>${email}</strong>.<br>
-                    <small style="font-size:13px;color:var(--gray-dark);">🔑 Código: <strong style="color:var(--secondary);font-size:18px;">${codigoVerificacaoAtual}</strong></small>
-                    <br><small style="font-size:12px;color:var(--gray-dark);">Digite o código abaixo para continuar</small>`;
-                document.getElementById('recuperarSuccess').style.display = 'block';
-
-                document.getElementById('codigoVerificacaoGroup').style.display = 'block';
-                document.getElementById('novaSenhaGroup').style.display = 'block';
-                document.getElementById('confirmarSenhaGroup').style.display = 'block';
-                document.getElementById('btnRecuperarSenha').innerHTML = '<i class="fas fa-check-circle"></i> Validar e Alterar Senha';
-                etapaRecuperacao = 2;
-                return false;
-
-            } else {
-                const codigo = document.getElementById('codigoVerificacao').value.trim();
-                const novaSenha = document.getElementById('recuperarNovaSenha').value;
-                const confirmar = document.getElementById('recuperarConfirmarSenha').value;
-
-                if (!codigo) {
-                    errorDiv.textContent = 'Digite o código de verificação';
-                    errorDiv.style.display = 'block';
-                    return false;
-                }
-
-                if (codigo !== codigoVerificacaoAtual) {
-                    errorDiv.textContent = 'Código de verificação inválido';
-                    errorDiv.style.display = 'block';
-                    return false;
-                }
-
-                if (novaSenha.length < 6) {
-                    errorDiv.textContent = 'A nova senha deve ter no mínimo 6 caracteres';
-                    errorDiv.style.display = 'block';
-                    return false;
-                }
-
-                if (novaSenha !== confirmar) {
-                    errorDiv.textContent = 'As senhas não coincidem';
-                    errorDiv.style.display = 'block';
-                    return false;
-                }
-
-                const admin = data.usuarios.find(u => u.perfil === 'Administrador');
-                if (admin) {
-                    admin.senha = novaSenha;
-                    data.config.senhaMaster = novaSenha;
-                    saveData();
-                    showToast('✅ Senha alterada com sucesso!');
-                    document.getElementById('recuperarSuccess').innerHTML =
-                        `✅ Senha alterada com sucesso! Você já pode fazer login.`;
-                    document.getElementById('recuperarSuccess').style.display = 'block';
-                    document.getElementById('recuperarSuccess').style.color = '#22c55e';
-
-                    setTimeout(() => {
-                        showLogin();
-                        document.getElementById('loginPassword').value = novaSenha;
-                    }, 3000);
-                }
-                return false;
-            }
-        }
-
-        // ============================================================
-        //  FUNÇÕES DE LOGIN
-        // ============================================================
-        function showLogin() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('recuperarSenhaContainer').style.display = 'none';
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-
-            const loginUser = document.getElementById('loginUser').value.trim();
-            const loginPass = document.getElementById('loginPassword').value.trim();
-            const errorDiv = document.getElementById('loginError');
-
-            errorDiv.style.display = 'none';
-
-            if (!loginUser || !loginPass) {
-                errorDiv.textContent = 'Preencha todos os campos';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-
-            const user = data.usuarios.find(u =>
-                (u.usuario && u.usuario === loginUser) ||
-                (u.email && u.email.toLowerCase() === loginUser.toLowerCase())
-            );
-
-            if (!user) {
-                errorDiv.textContent = 'Usuário não encontrado';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-
-            if (user.senha !== loginPass) {
-                errorDiv.textContent = 'Senha incorreta';
-                errorDiv.style.display = 'block';
-                return false;
-            }
-
-            if (user.primeiroAcesso) {
-                user.primeiroAcesso = false;
-                saveData();
-            }
-
-            currentUser = user;
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('sidebar').style.display = 'flex';
-
-            document.getElementById('userName').textContent = user.nome;
-            document.getElementById('userRole').textContent = user.perfil;
-            document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
-
-            initSystem();
-            return false;
-        }
-
-        function logout() {
-            currentUser = null;
-            fecharScanner();
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('sidebar').style.display = 'none';
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('loginForm').reset();
-            showToast('Desconectado com sucesso');
+            showToast('Menu salvo!');
         }
 
         // ============================================================
@@ -3734,20 +3289,149 @@
         function temPermissao(pagina) {
             if (!currentUser) return false;
             if (currentUser.perfil === 'Administrador') return true;
-
             const permissoes = currentUser.permissoes || {};
-            const mapa = {
-                'alunos': 'alunos',
-                'carteirinhas': 'carteirinhas',
-                'presencas': 'presencas',
-                'notificacoes': 'notificacoes',
-                'relatorios': 'relatorios',
-                'backup': 'backup',
-                'configuracoes': 'configuracoes',
-                'usuarios': 'usuarios'
-            };
-
+            const mapa = { 'alunos': 'alunos', 'carteirinhas': 'carteirinhas', 'presencas': 'presencas',
+                'notificacoes': 'notificacoes', 'relatorios': 'relatorios', 'backup': 'backup',
+                'configuracoes': 'configuracoes', 'usuarios': 'usuarios' };
             return permissoes[mapa[pagina]] === true;
+        }
+
+        // ============================================================
+        //  CARTEIRINHA
+        // ============================================================
+        function carregarCarteirinhas() {
+            const container = document.getElementById('carteirinhaAlunosList');
+            const filtrosContainer = document.getElementById('carteirinhaFiltros');
+
+            const categorias = [...new Set(data.alunos.map(a => a.categoria))];
+            let filtrosHtml =
+                `<button class="cat-filter-btn active" data-cat="todos" onclick="filtrarCarteirinhas('todos')">Todos</button>`;
+            categorias.forEach(cat => {
+                filtrosHtml +=
+                    `<button class="cat-filter-btn" data-cat="${cat}" onclick="filtrarCarteirinhas('${cat}')">${cat}</button>`;
+            });
+            filtrosContainer.innerHTML = filtrosHtml;
+
+            let alunosFiltrados = data.alunos;
+            if (categoriaSelecionadaCarteirinha !== 'todos') {
+                alunosFiltrados = alunosFiltrados.filter(a => a.categoria === categoriaSelecionadaCarteirinha);
+            }
+
+            if (alunosFiltrados.length === 0) {
+                container.innerHTML =
+                    `<div class="empty-state" style="grid-column:1/-1;padding:20px;"><i class="fas fa-users"></i><h3>Nenhum aluno encontrado</h3></div>`;
+                document.getElementById('carteirinhaContent').style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = alunosFiltrados.map(aluno => {
+                const fotoHtml = aluno.foto ?
+                    `<img src="${aluno.foto}" alt="${aluno.nome}">` :
+                    `<span style="font-size:14px;font-weight:700;">${aluno.nome.charAt(0).toUpperCase()}</span>`;
+                return `
+                    <div class="carteirinha-aluno-item" data-id="${aluno.id}" onclick="selecionarAlunoCarteirinha('${aluno.id}')">
+                        <div class="aluno-avatar">${fotoHtml}</div>
+                        <div class="aluno-nome">${aluno.nome}</div>
+                        <div class="aluno-numero">${aluno.numero}</div>
+                        <span class="aluno-categoria-badge">${aluno.categoria}</span>
+                    </div>
+                `;
+            }).join('');
+
+            const selected = document.querySelector('.carteirinha-aluno-item.selected');
+            if (selected) {
+                const id = selected.dataset.id;
+                const aluno = data.alunos.find(a => a.id === id);
+                if (aluno) gerarCarteirinhaAluno(aluno);
+                else document.getElementById('carteirinhaContent').style.display = 'none';
+            } else if (alunosFiltrados.length > 0) {
+                selecionarAlunoCarteirinha(alunosFiltrados[0].id);
+            }
+        }
+
+        function filtrarCarteirinhas(categoria) {
+            categoriaSelecionadaCarteirinha = categoria;
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.cat === categoria);
+            });
+            carregarCarteirinhas();
+        }
+
+        function selecionarAlunoCarteirinha(alunoId) {
+            document.querySelectorAll('.carteirinha-aluno-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.id === alunoId);
+            });
+            const aluno = data.alunos.find(a => a.id === alunoId);
+            if (aluno) gerarCarteirinhaAluno(aluno);
+        }
+
+        function gerarCarteirinhaAluno(aluno) {
+            const container = document.getElementById('carteirinhaContent');
+            container.style.display = 'block';
+
+            const fotoHtml = aluno.foto ?
+                `<img src="${aluno.foto}" alt="${aluno.nome}">` :
+                `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>`;
+
+            container.innerHTML = `
+                <div class="carteirinha-wrapper">
+                    <div class="carteirinha" id="carteirinhaImpressao">
+                        <div class="crt-header">
+                            <div class="crt-foto">${fotoHtml}</div>
+                            <div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div>
+                        </div>
+                        <div class="crt-body">
+                            <div class="crt-info">
+                                <div class="info-row"><span class="label">Nº</span><span class="value">${aluno.numero}</span></div>
+                                <div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div>
+                                <div class="info-row"><span class="label">Pai</span><span class="value">${aluno.pai}</span></div>
+                                <div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div>
+                                <div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div>
+                                <div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div>
+                            </div>
+                            <div class="crt-qr" id="qrCodeContainerCrt"></div>
+                        </div>
+                        <div class="crt-footer">Válido para o ano letivo atual · Vila Real Futsal</div>
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:14px;">
+                    <button class="btn btn-secondary btn-sm" onclick="imprimirCarteirinha()"><i class="fas fa-print"></i> Imprimir</button>
+                    <button class="btn btn-primary btn-sm" onclick="verCarteirinha('${aluno.id}')"><i class="fas fa-expand"></i> Ampliar</button>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const containerQR = document.getElementById('qrCodeContainerCrt');
+                containerQR.innerHTML = '';
+                try {
+                    new QRCode(containerQR, {
+                        text: JSON.stringify({ id: aluno.id, numero: aluno.numero }),
+                        width: 110,
+                        height: 110,
+                        colorDark: '#0f1b2d',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                } catch (e) {
+                    containerQR.innerHTML = `<div style="padding:12px;background:#fff;border-radius:6px;color:#333;">QR</div>`;
+                }
+            }, 100);
+        }
+
+        function verCarteirinha(id) {
+            const aluno = data.alunos.find(a => a.id === id);
+            if (!aluno) return;
+            const win = window.open('', '_blank');
+            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto">${aluno.foto ? `<img src="${aluno.foto}" alt="${aluno.nome}">` : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>'}</div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;">QR</div>';}},200);<\/script></body></html>`);
+            win.document.close();
+        }
+
+        function imprimirCarteirinha() {
+            const conteudo = document.getElementById('carteirinhaImpressao');
+            if (!conteudo) return;
+            const win = window.open('', '_blank');
+            win.document.write(`<html><head><title>Carteirinha - Vila Real Futsal</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f2f5;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.3);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}@media print{body{background:white;}.carteirinha{box-shadow:none;}}</style></head><body>${conteudo.outerHTML}<script>window.onload=function(){window.print();setTimeout(()=>window.close(),1500);};<\/script></body></html>`);
+            win.document.close();
         }
 
         // ============================================================
@@ -3756,92 +3440,60 @@
         function abrirScanner() {
             const container = document.getElementById('scannerContainer');
             const status = document.getElementById('scannerStatus');
-
             container.style.display = 'block';
             status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inicializando câmera...';
 
             if (typeof Html5Qrcode === 'undefined') {
-                status.innerHTML =
-                    '<span class="error"><i class="fas fa-exclamation-circle"></i> Biblioteca de QR Code não carregada.</span>';
+                status.innerHTML = '<span class="error">Biblioteca não carregada.</span>';
                 return;
             }
 
             try {
-                if (html5QrCode) {
-                    html5QrCode.clear();
-                    html5QrCode = null;
-                }
-
+                if (html5QrCode) { html5QrCode.clear();
+                    html5QrCode = null; }
                 html5QrCode = new Html5Qrcode('qr-reader');
-
-                const config = {
-                    fps: 15,
-                    qrbox: { width: 220, height: 220 },
-                    aspectRatio: 1.0
-                };
-
-                html5QrCode.start({ facingMode: 'environment' },
-                    config,
-                    onScanSuccess,
-                    onScanError
-                );
-
+                const config = { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1.0 };
+                html5QrCode.start({ facingMode: 'environment' }, config, onScanSuccess, onScanError);
                 scannerAtivo = true;
-
             } catch (err) {
-                status.innerHTML =
-                    `<span class="error"><i class="fas fa-exclamation-circle"></i> Erro ao acessar câmera: ${err.message}</span>`;
-                console.error('Erro no scanner:', err);
+                status.innerHTML = `<span class="error">Erro: ${err.message}</span>`;
             }
         }
 
-        function onScanSuccess(decodedText, decodedResult) {
+        function onScanSuccess(decodedText) {
             const status = document.getElementById('scannerStatus');
-            status.innerHTML = `<span class="found"><i class="fas fa-check-circle"></i> QR Code identificado!</span>`;
+            status.innerHTML = `<span class="found">QR Code identificado!</span>`;
 
             try {
                 const data = JSON.parse(decodedText);
                 const alunoId = data.id;
-
                 if (alunoId) {
                     const aluno = window.data.alunos.find(a => a.id === alunoId);
                     if (aluno) {
                         confirmarPresenca(alunoId);
-                        setTimeout(() => {
-                            fecharScanner();
-                            mudarPagina('presencas');
-                        }, 1500);
+                        setTimeout(() => { fecharScanner();
+                            mudarPagina('presencas'); }, 1500);
                     } else {
-                        status.innerHTML =
-                            `<span class="error"><i class="fas fa-exclamation-circle"></i> Aluno não encontrado!</span>`;
-                        showToast('Aluno não encontrado no sistema', 'error');
+                        status.innerHTML = `<span class="error">Aluno não encontrado!</span>`;
                     }
                 } else {
                     const aluno = window.data.alunos.find(a => a.numero === decodedText || a.id === decodedText);
                     if (aluno) {
                         confirmarPresenca(aluno.id);
-                        setTimeout(() => {
-                            fecharScanner();
-                            mudarPagina('presencas');
-                        }, 1500);
+                        setTimeout(() => { fecharScanner();
+                            mudarPagina('presencas'); }, 1500);
                     } else {
-                        status.innerHTML =
-                            `<span class="error"><i class="fas fa-exclamation-circle"></i> Código inválido!</span>`;
-                        showToast('Código não reconhecido', 'error');
+                        status.innerHTML = `<span class="error">Código inválido!</span>`;
                     }
                 }
             } catch (e) {
                 const aluno = window.data.alunos.find(a => a.numero === decodedText || a.id === decodedText);
                 if (aluno) {
                     confirmarPresenca(aluno.id);
-                    setTimeout(() => {
-                        fecharScanner();
-                        mudarPagina('presencas');
-                    }, 1500);
+                    setTimeout(() => { fecharScanner();
+                        mudarPagina('presencas'); }, 1500);
                 } else {
-                    status.innerHTML =
-                        `<span class="error"><i class="fas fa-exclamation-circle"></i> Código não reconhecido!</span>`;
-                    showToast('Código não reconhecido', 'error');
+                    status.innerHTML = `<span class="error">Código não reconhecido!</span>`;
                 }
             }
         }
@@ -3855,24 +3507,62 @@
                         html5QrCode.clear();
                         scannerAtivo = false;
                         document.getElementById('scannerContainer').style.display = 'none';
-                        document.getElementById('scannerStatus').innerHTML =
-                            '<i class="fas fa-spinner fa-spin"></i> Aguardando leitura...';
-                    }).catch(() => {
-                        scannerAtivo = false;
-                        document.getElementById('scannerContainer').style.display = 'none';
-                    });
-                } catch (e) {
-                    scannerAtivo = false;
-                    document.getElementById('scannerContainer').style.display = 'none';
-                }
+                        document.getElementById('scannerStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aguardando...';
+                    }).catch(() => { scannerAtivo = false;
+                        document.getElementById('scannerContainer').style.display = 'none'; });
+                } catch (e) { scannerAtivo = false;
+                    document.getElementById('scannerContainer').style.display = 'none'; }
             } else {
                 document.getElementById('scannerContainer').style.display = 'none';
             }
         }
 
-        function reiniciarScanner() {
-            fecharScanner();
-            setTimeout(() => { abrirScanner(); }, 500);
+        function reiniciarScanner() { fecharScanner();
+            setTimeout(() => abrirScanner(), 500); }
+
+        // ============================================================
+        //  BUSCA GLOBAL
+        // ============================================================
+        function buscarAlunoGlobal(texto) {
+            const termo = texto.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearch');
+            if (termo === '') { clearBtn.style.display = 'none';
+                renderAlunos(); return; }
+            clearBtn.style.display = 'block';
+
+            const cards = document.querySelectorAll('.aluno-card');
+            cards.forEach(card => {
+                const nome = card.querySelector('.aluno-nome')?.textContent?.toLowerCase() || '';
+                const numero = card.querySelector('.aluno-info .fas.fa-hashtag')?.parentElement?.textContent?.toLowerCase() ||
+                    '';
+                const pai = card.querySelector('.aluno-info .fas.fa-user-friends')?.parentElement?.textContent?.toLowerCase() ||
+                    '';
+                const categoria = card.querySelector('.badge-categoria')?.textContent?.toLowerCase() || '';
+                const match = nome.includes(termo) || numero.includes(termo) || pai.includes(termo) || categoria.includes(
+                    termo);
+                card.style.display = match ? 'block' : 'none';
+            });
+
+            const visiveis = document.querySelectorAll('.aluno-card[style*="display: block"]').length;
+            const total = document.querySelectorAll('.aluno-card').length;
+            const container = document.getElementById('alunosList');
+            const emptyMsg = container.querySelector('.empty-state:not(:first-child)');
+            if (visiveis === 0 && total > 0) {
+                if (!emptyMsg) {
+                    const msg = document.createElement('div');
+                    msg.className = 'empty-state';
+                    msg.style.gridColumn = '1/-1';
+                    msg.innerHTML =
+                        `<i class="fas fa-search"></i><h3>Nenhum aluno encontrado</h3><p>"${texto}"</p>`;
+                    container.appendChild(msg);
+                }
+            } else { if (emptyMsg) emptyMsg.remove(); }
+        }
+
+        function limparBusca() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearch').style.display = 'none';
+            renderAlunos();
         }
 
         // ============================================================
@@ -3881,8 +3571,22 @@
         function initSystem() {
             window.data = data;
 
-            carregarPersonalizacao();
+            // Carregar personalizações
+            if (data.config.sidebarLogo) {
+                document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
+                document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
+            }
+            document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
+                ' <span>') + '</span>';
+            document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
+            document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
+            document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
 
+            // Renderizar menu
+            renderizarMenu();
+            carregarMenuEditor();
+
+            // Renderizar tudo
             renderDashboard();
             renderAlunos();
             renderCategoriasSelects();
@@ -3892,19 +3596,14 @@
             carregarPresencasHoje();
             renderNotificacoes();
 
-            // Renderizar o menu com todas as funções
-            renderizarMenu();
-
             document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
                 weekday: 'long',
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric'
             });
-
             document.getElementById('alunosCount').textContent = data.alunos.length;
             document.getElementById('notifCount').textContent = data.notificacoes.length;
-
             document.getElementById('senhaMasterDisplay').textContent = '••••••••';
 
             if (data.config.whatsappNumero) {
@@ -3924,13 +3623,11 @@
                 document.getElementById('sidebarLogo').src = data.config.sidebarLogo;
                 document.getElementById('sidebarLogoPreviewImg').src = data.config.sidebarLogo;
             }
-
             document.getElementById('sidebarTitle').innerHTML = (data.config.sidebarTitle || 'VILA REAL').replace(/ /g,
                 ' <span>') + '</span>';
             document.getElementById('sidebarSubtitle').textContent = data.config.sidebarSubtitle || 'Futsal';
             document.getElementById('sidebarTitleInput').value = data.config.sidebarTitle || 'VILA REAL';
             document.getElementById('sidebarSubtitleInput').value = data.config.sidebarSubtitle || 'Futsal';
-
             carregarMenuEditor();
         }
 
@@ -3947,12 +3644,10 @@
             if (categoriaChart) categoriaChart.destroy();
             categoriaChart = new Chart(ctx1, {
                 type: 'bar',
-                data: {
-                    labels: catLabels.length ? catLabels : ['Sem dados'],
+                data: { labels: catLabels.length ? catLabels : ['Sem dados'],
                     datasets: [{ label: 'Alunos por Categoria', data: catLabels.length ? catData : [0],
                         backgroundColor: ['#d4a020', '#f5d060', '#e8b830', '#c49020', '#b08020', '#a07020'],
-                        borderRadius: 6 }]
-                },
+                        borderRadius: 6 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
                     scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
             });
@@ -4009,20 +3704,11 @@
             const ultimas = data.presencas.slice(-5).reverse();
             const presencasContainer = document.getElementById('ultimasPresencas');
             if (ultimas.length === 0) {
-                presencasContainer.innerHTML = '<div class="empty-state" style="padding:20px;"><p>Nenhuma presença registrada</p></div>';
+                presencasContainer.innerHTML = '<div class="empty-state" style="padding:20px;"><p>Nenhuma presença</p></div>';
             } else {
-                presencasContainer.innerHTML = ultimas.map(p => `
-                    <div class="list-item">
-                        <div class="item-info">
-                            <div class="item-avatar">${p.alunoNome.charAt(0)}</div>
-                            <div class="item-text">
-                                <div class="name">${p.alunoNome}</div>
-                                <div class="sub">${p.alunoNumero} · ${p.categoria}</div>
-                            </div>
-                        </div>
-                        <span class="item-badge presente">Presente</span>
-                    </div>
-                `).join('');
+                presencasContainer.innerHTML = ultimas.map(p =>
+                    `<div class="list-item"><div class="item-info"><div class="item-avatar">${p.alunoNome.charAt(0)}</div><div class="item-text"><div class="name">${p.alunoNome}</div><div class="sub">${p.alunoNumero} · ${p.categoria}</div></div></div><span class="item-badge presente">Presente</span></div>`
+                ).join('');
             }
             initCharts();
         }
@@ -4033,13 +3719,8 @@
         function renderAlunos() {
             const container = document.getElementById('alunosList');
             if (data.alunos.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state" style="grid-column:1/-1;">
-                        <i class="fas fa-user-graduate"></i>
-                        <h3>Nenhum aluno cadastrado</h3>
-                        <p>Clique em "Novo Aluno" ou importe via CSV.</p>
-                    </div>
-                `;
+                container.innerHTML =
+                    `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-user-graduate"></i><h3>Nenhum aluno</h3></div>`;
                 return;
             }
 
@@ -4048,8 +3729,7 @@
                 return `
                 <div class="aluno-card">
                     <span class="badge-categoria">${aluno.categoria}</span>
-                    ${foto ? `<img src="${foto}" alt="${aluno.nome}" class="aluno-foto">` : 
-                              `<div class="aluno-foto" style="display:flex;align-items:center;justify-content:center;background:var(--gray);font-size:24px;">📷</div>`}
+                    ${foto ? `<img src="${foto}" alt="${aluno.nome}" class="aluno-foto">` : `<div class="aluno-foto" style="display:flex;align-items:center;justify-content:center;background:var(--gray);font-size:24px;">📷</div>`}
                     <div class="aluno-nome">${aluno.nome}</div>
                     <div class="aluno-info"><i class="fas fa-hashtag"></i> Nº ${aluno.numero}</div>
                     <div class="aluno-info"><i class="fas fa-calendar-alt"></i> ${aluno.idade} anos</div>
@@ -4058,95 +3738,17 @@
                     ${aluno.whatsapp ? `<div class="aluno-info"><i class="fab fa-whatsapp"></i> ${aluno.whatsapp}</div>` : ''}
                     ${aluno.email ? `<div class="aluno-info"><i class="fas fa-envelope"></i> ${aluno.email}</div>` : ''}
                     <div class="actions">
-                        <button class="btn btn-secondary btn-sm" onclick="verCarteirinha('${aluno.id}')">
-                            <i class="fas fa-id-card"></i>
-                        </button>
-                        <button class="btn btn-primary btn-sm" onclick="editarAluno('${aluno.id}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="excluirAluno('${aluno.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button class="btn btn-success btn-sm" onclick="confirmarPresenca('${aluno.id}')">
-                            <i class="fas fa-check"></i> Presença
-                        </button>
-                        ${aluno.whatsapp ? `<button class="btn btn-whatsapp btn-sm" onclick="enviarWhatsAppIndividual('${aluno.id}')">
-                            <i class="fab fa-whatsapp"></i>
-                        </button>` : ''}
-                        <button class="btn btn-scan btn-sm" onclick="gerarQRCodeAluno('${aluno.id}')" style="background:#1a73e8;color:white;">
-                            <i class="fas fa-qrcode"></i> QR
-                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="verCarteirinha('${aluno.id}')"><i class="fas fa-id-card"></i></button>
+                        <button class="btn btn-primary btn-sm" onclick="editarAluno('${aluno.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="excluirAluno('${aluno.id}')"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-success btn-sm" onclick="confirmarPresenca('${aluno.id}')"><i class="fas fa-check"></i> Presença</button>
+                        ${aluno.whatsapp ? `<button class="btn btn-whatsapp btn-sm" onclick="enviarWhatsAppIndividual('${aluno.id}')"><i class="fab fa-whatsapp"></i></button>` : ''}
                     </div>
                 </div>
             `}).join('');
 
             const searchText = document.getElementById('searchInput').value.trim();
-            if (searchText) {
-                buscarAlunoGlobal(searchText);
-            }
-        }
-
-        function gerarQRCodeAluno(alunoId) {
-            const aluno = data.alunos.find(a => a.id === alunoId);
-            if (!aluno) return;
-
-            const qrData = JSON.stringify({ id: aluno.id, numero: aluno.numero });
-            const win = window.open('', '_blank');
-            win.document.write(`
-                <html>
-                <head>
-                    <title>QR Code - ${aluno.nome}</title>
-                    <style>
-                        body { display:flex; justify-content:center; align-items:center; min-height:100vh; background:#0f1b2d; font-family:'Segoe UI',sans-serif; margin:0; }
-                        .container { background:white; border-radius:16px; padding:40px; text-align:center; max-width:400px; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
-                        .container .logo { width:60px; height:60px; border-radius:50%; overflow:hidden; margin:0 auto 12px; border:2px solid #d4a020; }
-                        .container .logo img { width:100%; height:100%; object-fit:cover; }
-                        .container .foto { width:80px; height:80px; border-radius:50%; overflow:hidden; margin:12px auto; border:2px solid #d4a020; }
-                        .container .foto img { width:100%; height:100%; object-fit:cover; }
-                        .container h2 { color:#0f1b2d; margin-bottom:4px; }
-                        .container h2 span { color:#d4a020; }
-                        .container p { color:#6b7280; margin-bottom:16px; }
-                        #qrCodeContainer { display:flex; justify-content:center; margin:16px 0; }
-                        .info { text-align:left; margin:12px 0; padding:12px; background:#f0f2f5; border-radius:8px; }
-                        .info div { padding:4px 0; font-size:14px; }
-                        .info .label { font-weight:600; color:#0f1b2d; }
-                        .btn { margin-top:16px; padding:10px 30px; background:#d4a020; border:none; border-radius:10px; font-weight:700; color:#0f1b2d; cursor:pointer; font-size:14px; }
-                        .btn:hover { background:#f5d060; }
-                        .btn-close { background:#1a73e8; color:white; margin-left:8px; }
-                        .btn-close:hover { background:#1557b0; }
-                        @media print { body { background:white; } .btn, .btn-close { display:none; } }
-                    </style>
-                    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="logo"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E" alt="Vila Real"></div>
-                        ${aluno.foto ? `<div class="foto"><img src="${aluno.foto}" alt="${aluno.nome}"></div>` : ''}
-                        <h2>VILA <span>REAL</span></h2>
-                        <p>QR Code para confirmação de presença</p>
-                        <div id="qrCodeContainer"></div>
-                        <div class="info">
-                            <div><span class="label">Aluno:</span> ${aluno.nome}</div>
-                            <div><span class="label">Nº:</span> ${aluno.numero}</div>
-                            <div><span class="label">Categoria:</span> ${aluno.categoria}</div>
-                        </div>
-                        <div>
-                            <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
-                            <button class="btn btn-close" onclick="window.close()">Fechar</button>
-                        </div>
-                    </div>
-                    <script>
-                        setTimeout(() => {
-                            const container = document.getElementById('qrCodeContainer');
-                            try {
-                                new QRCode(container, { text: '${qrData}', width: 200, height: 200, colorDark: '#0f1b2d', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
-                            } catch(e) { container.innerHTML = '<p style="color:#ef4444;">Erro ao gerar QR Code</p>'; }
-                        }, 200);
-                    <\/script>
-                </body>
-                </html>
-            `);
-            win.document.close();
+            if (searchText) buscarAlunoGlobal(searchText);
         }
 
         function openModal(id) {
@@ -4165,9 +3767,7 @@
             }
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
         function calcularIdade() {
             const nasc = document.getElementById('alunoNascimento').value;
@@ -4261,7 +3861,7 @@
         }
 
         function excluirAluno(id) {
-            if (!confirm('Tem certeza que deseja excluir este aluno?')) return;
+            if (!confirm('Tem certeza?')) return;
             data.alunos = data.alunos.filter(a => a.id !== id);
             saveData();
             window.data = data;
@@ -4289,7 +3889,7 @@
         }
 
         // ============================================================
-        //  CARTEIRINHA - FUNÇÕES AUXILIARES
+        //  CARTEIRINHA - AUXILIAR
         // ============================================================
         function renderCategoriasSelects() {
             const selects = ['filtroCategoria'];
@@ -4299,9 +3899,7 @@
                 const current = sel.value;
                 sel.innerHTML = '<option value="">Todas</option>';
                 const categorias = [...new Set(data.alunos.map(a => a.categoria))];
-                categorias.forEach(cat => {
-                    sel.innerHTML += `<option value="${cat}">${cat}</option>`;
-                });
+                categorias.forEach(cat => { sel.innerHTML += `<option value="${cat}">${cat}</option>`; });
                 sel.value = current;
             });
         }
@@ -4353,12 +3951,12 @@
             if (!aluno) { showToast('Aluno não encontrado', 'error'); return; }
 
             const confirmado = confirmarPresenca(aluno.id);
-            if (confirmado) { input.value = ''; }
+            if (confirmado) input.value = '';
         }
 
         function enviarNotificacaoWhatsApp(aluno) {
             const mensagem = data.config.mensagemPadrao ||
-                `Prezado(a) ${aluno.pai}, informamos que ${aluno.nome} esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação! 🏆⚽`;
+                `Prezado(a) ${aluno.pai}, ${aluno.nome} esteve presente no treino hoje! 🏆⚽`;
             const numeroDestino = aluno.whatsapp.replace(/\D/g, '');
             window.open(`https://wa.me/55${numeroDestino}?text=${encodeURIComponent(mensagem)}`, '_blank');
 
@@ -4374,7 +3972,6 @@
                 status: 'enviado',
                 enviadoPor: currentUser ? currentUser.nome : 'Sistema'
             };
-
             data.notificacoes.push(notificacao);
             saveData();
             window.data = data;
@@ -4387,15 +3984,16 @@
 
             renderNotificacoes();
             document.getElementById('notifCount').textContent = data.notificacoes.length;
-            showToast(`📱 WhatsApp enviado para ${aluno.pai} (${aluno.whatsapp})`);
+            showToast(`📱 WhatsApp enviado para ${aluno.pai}`);
         }
 
         function enviarWhatsAppIndividual(alunoId) {
             const aluno = data.alunos.find(a => a.id === alunoId);
             if (!aluno) { showToast('Aluno não encontrado', 'error'); return; }
-            if (!aluno.whatsapp) { showToast('Aluno sem WhatsApp cadastrado', 'error'); return; }
+            if (!aluno.whatsapp) { showToast('Sem WhatsApp', 'error'); return; }
 
-            const mensagem = `Olá ${aluno.pai}! 👋\n\nO ${aluno.nome} está participando do Projeto Vila Real Futsal.\nNúmero do aluno: ${aluno.numero}\nCategoria: ${aluno.categoria}\n\nPara mais informações, entre em contato conosco.`;
+            const mensagem =
+                `Olá ${aluno.pai}! 👋\n\nO ${aluno.nome} está participando do Vila Real Futsal.\nNº: ${aluno.numero}\nCategoria: ${aluno.categoria}`;
             const numero = aluno.whatsapp.replace(/\D/g, '');
             window.open(`https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`, '_blank');
 
@@ -4415,36 +4013,30 @@
             window.data = data;
             renderNotificacoes();
             document.getElementById('notifCount').textContent = data.notificacoes.length;
-            showToast(`📱 WhatsApp aberto para ${aluno.pai}`);
+            showToast(`📱 WhatsApp aberto`);
         }
 
         function renderNotificacoes() {
             const container = document.getElementById('listaNotificacoes');
             if (data.notificacoes.length === 0) {
                 container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-bell-slash"></i><h3>Nenhuma notificação</h3><p>As notificações enviadas aparecerão aqui.</p></div>`;
+                    `<div class="empty-state"><i class="fas fa-bell-slash"></i><h3>Nenhuma notificação</h3></div>`;
                 return;
             }
             const notifs = [...data.notificacoes].reverse();
-            container.innerHTML = notifs.slice(0, 50).map(n => `
-                <div class="notificacao-item">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <div class="notif-msg"><i class="${n.canal === 'whatsapp' ? 'fab fa-whatsapp' : 'fas fa-envelope'}" style="color:${n.canal === 'whatsapp' ? '#25D366' : '#ea4335'};"></i> <strong>${n.alunoNome}</strong> - ${n.destinatario}</div>
-                        <span class="notif-time">${new Date(n.data).toLocaleString('pt-BR')}</span>
-                    </div>
-                    <div style="font-size:13px;color:var(--gray-dark);margin-top:4px;padding-left:24px;">${n.mensagem.length > 100 ? n.mensagem.substring(0,100)+'...' : n.mensagem} ${n.canal === 'whatsapp' ? '📱' : '📧'} ${n.destino}</div>
-                </div>
-            `).join('');
+            container.innerHTML = notifs.slice(0, 50).map(n =>
+                `<div class="notificacao-item"><div style="display:flex;justify-content:space-between;"><div class="notif-msg"><i class="${n.canal === 'whatsapp' ? 'fab fa-whatsapp' : 'fas fa-envelope'}" style="color:${n.canal === 'whatsapp' ? '#25D366' : '#ea4335'};"></i> <strong>${n.alunoNome}</strong> - ${n.destinatario}</div><span class="notif-time">${new Date(n.data).toLocaleString('pt-BR')}</span></div><div style="font-size:13px;color:var(--gray-dark);margin-top:4px;padding-left:24px;">${n.mensagem.length > 100 ? n.mensagem.substring(0,100)+'...' : n.mensagem}</div></div>`
+                ).join('');
         }
 
         function limparNotificacoes() {
-            if (!confirm('Tem certeza que deseja limpar todo o histórico de notificações?')) return;
+            if (!confirm('Limpar histórico?')) return;
             data.notificacoes = [];
             saveData();
             window.data = data;
             renderNotificacoes();
             document.getElementById('notifCount').textContent = 0;
-            showToast('Histórico de notificações limpo');
+            showToast('Histórico limpo');
         }
 
         // ============================================================
@@ -4457,23 +4049,13 @@
 
             if (presencasHoje.length === 0) {
                 container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-calendar-day"></i><h3>Nenhuma presença registrada hoje</h3></div>`;
+                    `<div class="empty-state"><i class="fas fa-calendar-day"></i><h3>Nenhuma presença hoje</h3></div>`;
                 return;
             }
 
-            container.innerHTML = presencasHoje.map(p => `
-                <div class="list-item">
-                    <div class="item-info">
-                        <div class="item-avatar">${p.alunoNome.charAt(0)}</div>
-                        <div class="item-text"><div class="name">${p.alunoNome}</div><div class="sub">${p.alunoNumero} · ${p.categoria}</div></div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <span class="item-badge presente">Presente</span>
-                        ${p.notificacaoEnviada ? '<span class="item-badge enviado">📨</span>' : ''}
-                        <span style="font-size:12px;color:var(--gray-dark);">${new Date(p.data).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})}</span>
-                    </div>
-                </div>
-            `).join('');
+            container.innerHTML = presencasHoje.map(p =>
+                `<div class="list-item"><div class="item-info"><div class="item-avatar">${p.alunoNome.charAt(0)}</div><div class="item-text"><div class="name">${p.alunoNome}</div><div class="sub">${p.alunoNumero} · ${p.categoria}</div></div></div><div style="display:flex;gap:8px;"><span class="item-badge presente">Presente</span><span style="font-size:12px;color:var(--gray-dark);">${new Date(p.data).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})}</span></div></div>`
+                ).join('');
         }
 
         // ============================================================
@@ -4488,12 +4070,12 @@
 
             if (alunos.length === 0) {
                 container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-file-alt"></i><h3>Nenhum aluno encontrado</h3></div>`;
+                    `<div class="empty-state"><i class="fas fa-file-alt"></i><h3>Nenhum aluno</h3></div>`;
                 return;
             }
 
             let html =
-                `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:var(--primary);color:white;"><th style="padding:10px 12px;text-align:left;">Nº</th><th style="padding:10px 12px;text-align:left;">Nome</th><th style="padding:10px 12px;text-align:left;">Categoria</th><th style="padding:10px 12px;text-align:center;">Presenças</th><th style="padding:10px 12px;text-align:center;">Frequência</th><th style="padding:10px 12px;text-align:center;">Notificações</th></tr></thead><tbody>`;
+                `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:var(--primary);color:white;"><th style="padding:10px 12px;">Nº</th><th style="padding:10px 12px;">Nome</th><th style="padding:10px 12px;">Categoria</th><th style="padding:10px 12px;text-align:center;">Presenças</th><th style="padding:10px 12px;text-align:center;">Frequência</th><th style="padding:10px 12px;text-align:center;">Notificações</th></tr></thead><tbody>`;
 
             alunos.forEach(aluno => {
                 const presencas = data.presencas.filter(p => p.alunoId === aluno.id);
@@ -4507,7 +4089,7 @@
                     <tr style="border-bottom:1px solid #e5e7eb;">
                         <td style="padding:10px 12px;font-weight:600;">${aluno.numero}</td>
                         <td style="padding:10px 12px;">${aluno.nome}</td>
-                        <td style="padding:10px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;">${aluno.categoria}</span></td>
+                        <td style="padding:10px 12px;"><span class="badge-categoria">${aluno.categoria}</span></td>
                         <td style="padding:10px 12px;text-align:center;font-weight:600;">${total}</td>
                         <td style="padding:10px 12px;text-align:center;">
                             <div style="display:flex;align-items:center;gap:8px;justify-content:center;">
@@ -4517,7 +4099,7 @@
                                 <span style="font-weight:700;font-size:13px;">${freq}%</span>
                             </div>
                         </td>
-                        <td style="padding:10px 12px;text-align:center;"><span style="font-size:13px;">${notifs}</span>${notifs > 0 ? '📨' : ''}</td>
+                        <td style="padding:10px 12px;text-align:center;">${notifs}</td>
                     </tr>
                 `;
             });
@@ -4532,7 +4114,7 @@
             let alunos = data.alunos;
             if (filtro) alunos = alunos.filter(a => a.categoria === filtro);
 
-            if (alunos.length === 0) { showToast('Nenhum dado para exportar', 'error'); return; }
+            if (alunos.length === 0) { showToast('Nenhum dado', 'error'); return; }
 
             let csv = 'Número,Nome,Categoria,Presenças,Frequência,Notificações\n';
             alunos.forEach(aluno => {
@@ -4557,27 +4139,20 @@
         //  BACKUP
         // ============================================================
         function exportarBackup() {
-            const dados = {
-                usuarios: data.usuarios,
-                alunos: data.alunos,
-                presencas: data.presencas,
-                notificacoes: data.notificacoes,
-                config: data.config,
-                proximoNumeroAluno: data.proximoNumeroAluno,
-                proximoNumeroUsuario: data.proximoNumeroUsuario,
-                sistemaInicializado: data.sistemaInicializado,
-                exportadoEm: new Date().toISOString()
-            };
+            const dados = { usuarios: data.usuarios, alunos: data.alunos, presencas: data.presencas,
+                notificacoes: data.notificacoes, config: data.config, proximoNumeroAluno: data.proximoNumeroAluno,
+                proximoNumeroUsuario: data.proximoNumeroUsuario, sistemaInicializado: data.sistemaInicializado,
+                exportadoEm: new Date().toISOString() };
             const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = `backup_vila_real_${new Date().toISOString().slice(0,10)}.json`;
             link.click();
-            showToast('Backup exportado com sucesso!');
+            showToast('Backup exportado!');
         }
 
         function exportarBackupCSV() {
-            if (data.alunos.length === 0) { showToast('Nenhum aluno para exportar', 'error'); return; }
+            if (data.alunos.length === 0) { showToast('Nenhum aluno', 'error'); return; }
             let csv = 'Número,Nome,Pai,Telefone,WhatsApp,Email,Nascimento,Idade,Categoria,Foto\n';
             data.alunos.forEach(aluno => {
                 csv +=
@@ -4588,7 +4163,7 @@
             link.href = URL.createObjectURL(blob);
             link.download = `backup_alunos_${new Date().toISOString().slice(0,10)}.csv`;
             link.click();
-            showToast('Backup CSV exportado com sucesso!');
+            showToast('Backup CSV exportado!');
         }
 
         function importarBackup(event) {
@@ -4599,13 +4174,13 @@
                 try {
                     const importedData = JSON.parse(e.target.result);
                     if (!importedData.alunos || !importedData.usuarios) {
-                        showToast('Arquivo inválido.', 'error');
+                        showToast('Arquivo inválido', 'error');
                         return;
                     }
-                    if (!confirm('Isso substituirá todos os dados atuais. Deseja continuar?')) return;
+                    if (!confirm('Substituir todos os dados?')) return;
 
                     const adminExists = importedData.usuarios.some(u => u.id === 'admin_gleuber');
-                    if (!adminExists) { importedData.usuarios.unshift(ADMIN_DATA); }
+                    if (!adminExists) importedData.usuarios.unshift(ADMIN_DATA);
 
                     data.usuarios = importedData.usuarios || [];
                     data.alunos = importedData.alunos || [];
@@ -4618,13 +4193,13 @@
 
                     saveData();
                     window.data = data;
-                    showToast('✅ Backup restaurado com sucesso!');
+                    showToast('✅ Backup restaurado!');
                     document.getElementById('importStatus').innerHTML =
-                        `<span style="color:#22c55e;">✅ Backup restaurado! ${data.alunos.length} alunos, ${data.usuarios.length} usuários.</span>`;
+                        `<span style="color:#22c55e;">✅ Restaurado: ${data.alunos.length} alunos, ${data.usuarios.length} usuários.</span>`;
                     document.getElementById('importStatus').style.display = 'block';
                     initSystem();
                 } catch (error) {
-                    showToast('Erro ao importar backup: ' + error.message, 'error');
+                    showToast('Erro: ' + error.message, 'error');
                     document.getElementById('importStatus').innerHTML =
                         `<span style="color:#ef4444;">❌ Erro: ${error.message}</span>`;
                     document.getElementById('importStatus').style.display = 'block';
@@ -4707,12 +4282,12 @@
 
                     const statusDiv = document.getElementById('csvImportStatus');
                     statusDiv.innerHTML =
-                        `✅ ${importados} alunos importados! ${erros > 0 ? `⚠️ ${erros} erros.` : ''}`;
+                        `✅ ${importados} alunos importados! ${erros > 0 ? `⚠️ ${erros} erros` : ''}`;
                     statusDiv.style.display = 'block';
                     statusDiv.style.color = erros > 0 ? '#f59e0b' : '#22c55e';
                     showToast(`✅ ${importados} alunos importados!`);
                 } catch (error) {
-                    showToast('Erro ao importar CSV: ' + error.message, 'error');
+                    showToast('Erro: ' + error.message, 'error');
                     document.getElementById('csvImportStatus').innerHTML =
                         `<span style="color:#ef4444;">❌ Erro: ${error.message}</span>`;
                     document.getElementById('csvImportStatus').style.display = 'block';
@@ -4741,8 +4316,8 @@
             `).join('');
 
             container.innerHTML += `
-                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-                    <input type="text" id="novaCatNome" placeholder="Nome (ex: Sub-20)" style="flex:1;min-width:100px;padding:8px 12px;border:2px solid #e5e7eb;border-radius:6px;">
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <input type="text" id="novaCatNome" placeholder="Nome" style="flex:1;padding:8px 12px;border:2px solid #e5e7eb;border-radius:6px;">
                     <input type="number" id="novaCatMin" placeholder="Min" style="width:60px;padding:8px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
                     <input type="number" id="novaCatMax" placeholder="Max" style="width:60px;padding:8px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
                     <button class="btn btn-secondary btn-sm" onclick="adicionarCategoria()"><i class="fas fa-plus"></i></button>
@@ -4754,7 +4329,7 @@
                 const horario = data.config.horariosCategoria[cat.nome] || { inicio: '08:00', fim: '09:00' };
                 return `
                     <div class="config-item">
-                        <div class="config-label">${cat.nome}<small>Horário de treino</small></div>
+                        <div class="config-label">${cat.nome}<small>Horário</small></div>
                         <div style="display:flex;gap:6px;align-items:center;">
                             <input type="time" id="horarioInicio_${index}" value="${horario.inicio || '08:00'}" style="width:80px;padding:4px 6px;border:2px solid #e5e7eb;border-radius:6px;">
                             <span style="color:var(--gray-dark);">às</span>
@@ -4774,7 +4349,7 @@
             const nome = document.getElementById('novaCatNome').value.trim();
             const min = parseInt(document.getElementById('novaCatMin').value);
             const max = parseInt(document.getElementById('novaCatMax').value);
-            if (!nome || isNaN(min) || isNaN(max)) { showToast('Preencha todos os campos', 'error'); return; }
+            if (!nome || isNaN(min) || isNaN(max)) { showToast('Preencha todos', 'error'); return; }
             if (min > max) { showToast('Idade mínima > máxima', 'error'); return; }
 
             data.config.categorias.push({ nome, idadeMin: min, idadeMax: max });
@@ -4786,8 +4361,8 @@
         }
 
         function removerCategoria(index) {
-            if (data.config.categorias.length <= 1) { showToast('Deve haver pelo menos uma categoria', 'error'); return; }
-            if (!confirm('Remover esta categoria?')) return;
+            if (data.config.categorias.length <= 1) { showToast('Deve haver pelo menos uma', 'error'); return; }
+            if (!confirm('Remover?')) return;
             data.config.categorias.splice(index, 1);
             saveData();
             window.data = data;
@@ -4828,7 +4403,7 @@
             const container = document.getElementById('listaUsuarios');
             if (data.usuarios.length === 0) {
                 container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-users"></i><h3>Nenhum usuário cadastrado</h3></div>`;
+                    `<div class="empty-state"><i class="fas fa-users"></i><h3>Nenhum usuário</h3></div>`;
                 return;
             }
 
@@ -4838,48 +4413,43 @@
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:13px;">
                         <thead><tr style="background:var(--gray);">
-                            <th style="padding:8px 12px;text-align:left;">Usuário</th>
-                            <th style="padding:8px 12px;text-align:left;">Nome</th>
-                            <th style="padding:8px 12px;text-align:left;">Perfil</th>
-                            <th style="padding:8px 12px;text-align:left;">E-mail</th>
+                            <th style="padding:8px 12px;">Usuário</th>
+                            <th style="padding:8px 12px;">Nome</th>
+                            <th style="padding:8px 12px;">Perfil</th>
+                            <th style="padding:8px 12px;">E-mail</th>
                             <th style="padding:8px 12px;text-align:center;">Status</th>
-                            ${isAdmin ? `<th style="padding:8px 12px;text-align:center;">Permissões</th>` : ''}
-                            ${isAdmin ? `<th style="padding:8px 12px;text-align:center;">Ações</th>` : ''}
+                            ${isAdmin ? `<th style="padding:8px 12px;">Permissões</th>` : ''}
+                            ${isAdmin ? `<th style="padding:8px 12px;">Ações</th>` : ''}
                         </tr></thead>
                         <tbody>
                             ${data.usuarios.map(u => {
-                                const permissoes = u.permissoes || {};
+                                const perms = u.permissoes || {};
                                 const permsList = [];
-                                if (permissoes.alunos) permsList.push('Alunos');
-                                if (permissoes.presencas) permsList.push('Presenças');
-                                if (permissoes.carteirinhas) permsList.push('Carteirinhas');
-                                if (permissoes.relatorios) permsList.push('Relatórios');
-                                if (permissoes.notificacoes) permsList.push('Notificações');
-                                if (permissoes.backup) permsList.push('Backup');
-                                if (permissoes.configuracoes) permsList.push('Config');
-                                if (permissoes.usuarios) permsList.push('Usuários');
+                                if (perms.alunos) permsList.push('Alunos');
+                                if (perms.presencas) permsList.push('Presenças');
+                                if (perms.carteirinhas) permsList.push('Carteirinhas');
+                                if (perms.relatorios) permsList.push('Relatórios');
+                                if (perms.notificacoes) permsList.push('Notificações');
+                                if (perms.backup) permsList.push('Backup');
+                                if (perms.configuracoes) permsList.push('Config');
+                                if (perms.usuarios) permsList.push('Usuários');
 
                                 return `
                                 <tr style="border-bottom:1px solid #e5e7eb;">
                                     <td style="padding:8px 12px;font-weight:600;">${u.usuario || u.email}</td>
                                     <td style="padding:8px 12px;">${u.nome} ${u.id === 'admin_gleuber' ? '👑' : ''}</td>
-                                    <td style="padding:8px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;font-size:11px;">${u.perfil}</span></td>
+                                    <td style="padding:8px 12px;"><span class="badge-categoria">${u.perfil}</span></td>
                                     <td style="padding:8px 12px;color:var(--gray-dark);">${u.email}</td>
                                     <td style="padding:8px 12px;text-align:center;">
-                                        ${u.primeiroAcesso ? 
-                                            '<span class="status-badge" style="background:#fef3c7;color:#d97706;">Pendente</span>' : 
-                                            '<span class="status-badge" style="background:#dcfce7;color:#16a34a;">Ativo</span>'
-                                        }
+                                        ${u.primeiroAcesso ? '<span style="background:#fef3c7;color:#d97706;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;">Pendente</span>' : '<span style="background:#dcfce7;color:#16a34a;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;">Ativo</span>'}
                                     </td>
                                     ${isAdmin ? `
-                                        <td style="padding:8px 12px;font-size:11px;">
-                                            ${permsList.length > 0 ? permsList.join(', ') : 'Nenhuma'}
-                                        </td>
+                                        <td style="padding:8px 12px;font-size:11px;">${permsList.length > 0 ? permsList.join(', ') : 'Nenhuma'}</td>
                                         <td style="padding:8px 12px;text-align:center;">
                                             ${u.id !== 'admin_gleuber' ? `
-                                                <button class="btn btn-primary btn-sm" onclick="abrirAlterarSenha('${u.id}')" title="Alterar Senha"><i class="fas fa-key"></i></button>
-                                                <button class="btn btn-secondary btn-sm" onclick="openModalUsuario('${u.id}')" title="Editar"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-sm" onclick="excluirUsuario('${u.id}')" title="Excluir"><i class="fas fa-trash"></i></button>
+                                                <button class="btn btn-primary btn-sm" onclick="abrirAlterarSenha('${u.id}')"><i class="fas fa-key"></i></button>
+                                                <button class="btn btn-secondary btn-sm" onclick="openModalUsuario('${u.id}')"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-danger btn-sm" onclick="excluirUsuario('${u.id}')"><i class="fas fa-trash"></i></button>
                                             ` : `<span style="font-size:12px;color:var(--secondary);font-weight:600;"><i class="fas fa-shield-alt"></i> Admin</span>`}
                                         </td>
                                     ` : ''}
@@ -4893,7 +4463,7 @@
 
         function openModalUsuario(usuarioId) {
             if (!currentUser || currentUser.perfil !== 'Administrador') {
-                showToast('Apenas administradores podem gerenciar usuários', 'error');
+                showToast('Apenas administradores', 'error');
                 return;
             }
 
@@ -4921,7 +4491,7 @@
                     document.getElementById('permUsuarios').checked = perms.usuarios === true;
 
                     document.getElementById('usuarioSenha').value = '';
-                    document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para manter a senha atual';
+                    document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para manter';
                 } else if (user && user.id === 'admin_gleuber') {
                     showToast('Não é possível editar o administrador principal', 'error');
                     modal.classList.remove('active');
@@ -4930,8 +4500,7 @@
                 document.getElementById('modalUsuarioTitle').textContent = 'Novo Usuário';
                 document.getElementById('usuarioEditId').value = '';
                 document.getElementById('usuarioForm').reset();
-                document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para gerar automaticamente';
-
+                document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para gerar';
                 document.getElementById('permAlunos').checked = true;
                 document.getElementById('permPresencas').checked = true;
                 document.getElementById('permCarteirinhas').checked = true;
@@ -4946,7 +4515,7 @@
         function salvarUsuario(e) {
             e.preventDefault();
             if (!currentUser || currentUser.perfil !== 'Administrador') {
-                showToast('Apenas administradores podem gerenciar usuários', 'error');
+                showToast('Apenas administradores', 'error');
                 return false;
             }
 
@@ -4968,10 +4537,10 @@
                 usuarios: document.getElementById('permUsuarios').checked
             };
 
-            if (!nome || !email) { showToast('Nome e e-mail são obrigatórios', 'error'); return false; }
+            if (!nome || !email) { showToast('Nome e e-mail obrigatórios', 'error'); return false; }
 
             const emailExists = data.usuarios.some(u => u.email === email && u.id !== id);
-            if (emailExists) { showToast('Este e-mail já está cadastrado', 'error'); return false; }
+            if (emailExists) { showToast('E-mail já cadastrado', 'error'); return false; }
 
             let usuario;
 
@@ -4979,7 +4548,7 @@
                 const index = data.usuarios.findIndex(u => u.id === id);
                 if (index === -1) { showToast('Usuário não encontrado', 'error'); return false; }
                 if (data.usuarios[index].id === 'admin_gleuber') {
-                    showToast('Não é possível editar o administrador principal', 'error');
+                    showToast('Não é possível editar o admin principal', 'error');
                     return false;
                 }
 
@@ -4989,9 +4558,9 @@
                 usuario.whatsapp = whatsapp;
                 usuario.perfil = perfil;
                 usuario.permissoes = permissoes;
-                if (senhaInput) { usuario.senha = senhaInput; }
+                if (senhaInput) usuario.senha = senhaInput;
                 data.usuarios[index] = usuario;
-                showToast('Usuário atualizado com sucesso!');
+                showToast('Usuário atualizado!');
             } else {
                 const numero = String(data.proximoNumeroUsuario++).padStart(4, '0');
                 const usuarioGerado = 'user' + numero;
@@ -5021,26 +4590,26 @@
 
         function excluirUsuario(id) {
             if (!currentUser || currentUser.perfil !== 'Administrador') {
-                showToast('Apenas administradores podem excluir usuários', 'error');
+                showToast('Apenas administradores', 'error');
                 return;
             }
-            if (id === 'admin_gleuber') { showToast('Não é possível excluir o administrador principal', 'error'); return; }
-            if (id === currentUser.id) { showToast('Você não pode excluir seu próprio usuário', 'error'); return; }
-            if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+            if (id === 'admin_gleuber') { showToast('Não é possível excluir o admin principal', 'error'); return; }
+            if (id === currentUser.id) { showToast('Não pode excluir seu próprio usuário', 'error'); return; }
+            if (!confirm('Tem certeza?')) return;
 
             data.usuarios = data.usuarios.filter(u => u.id !== id);
             saveData();
             renderUsuarios();
-            showToast('Usuário excluído com sucesso');
+            showToast('Usuário excluído');
         }
 
         function abrirAlterarSenha(userId) {
             if (!currentUser || currentUser.perfil !== 'Administrador') {
-                showToast('Apenas administradores podem alterar senhas', 'error');
+                showToast('Apenas administradores', 'error');
                 return;
             }
             if (userId === 'admin_gleuber') {
-                showToast('Altere a senha master pelo painel de senha master', 'error');
+                showToast('Altere a senha master', 'error');
                 return;
             }
             document.getElementById('alterarSenhaUserId').value = userId;
@@ -5055,8 +4624,8 @@
             const novaSenha = document.getElementById('novaSenhaInput').value;
             const confirmar = document.getElementById('confirmarSenhaInput').value;
 
-            if (novaSenha.length < 6) { showToast('A senha deve ter no mínimo 6 caracteres', 'error'); return false; }
-            if (novaSenha !== confirmar) { showToast('As senhas não coincidem', 'error'); return false; }
+            if (novaSenha.length < 6) { showToast('Mínimo 6 caracteres', 'error'); return false; }
+            if (novaSenha !== confirmar) { showToast('Senhas não coincidem', 'error'); return false; }
 
             const user = data.usuarios.find(u => u.id === userId);
             if (!user) { showToast('Usuário não encontrado', 'error'); return false; }
@@ -5066,7 +4635,7 @@
             saveData();
             renderUsuarios();
             closeModal('modalAlterarSenha');
-            showToast('Senha alterada com sucesso!');
+            showToast('Senha alterada!');
             return false;
         }
 
@@ -5079,28 +4648,28 @@
                 display.textContent = '••••••••';
                 mostrarSenhaFlag = false;
             } else {
-                display.textContent = data.config.senhaMaster || 'Nenhuma senha master definida';
+                display.textContent = data.config.senhaMaster || 'Nenhuma';
                 mostrarSenhaFlag = true;
             }
         }
 
         function copiarSenhaMaster() {
             const senha = data.config.senhaMaster;
-            if (!senha) { showToast('Nenhuma senha master definida', 'error'); return; }
-            navigator.clipboard.writeText(senha).then(() => { showToast('Senha master copiada!'); }).catch(() => {
+            if (!senha) { showToast('Nenhuma senha', 'error'); return; }
+            navigator.clipboard.writeText(senha).then(() => showToast('Copiada!')).catch(() => {
                 const textarea = document.createElement('textarea');
                 textarea.value = senha;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                showToast('Senha master copiada!');
+                showToast('Copiada!');
             });
         }
 
         function alterarSenhaMaster() {
             if (!currentUser || currentUser.perfil !== 'Administrador') {
-                showToast('Apenas administradores podem alterar a senha master', 'error');
+                showToast('Apenas administradores', 'error');
                 return;
             }
             document.getElementById('senhaMasterAtual').value = '';
@@ -5115,16 +4684,16 @@
             const nova = document.getElementById('novaSenhaMaster').value;
             const confirmar = document.getElementById('confirmarSenhaMaster').value;
 
-            if (atual !== data.config.senhaMaster) { showToast('Senha master atual incorreta', 'error'); return false; }
-            if (nova.length < 6) { showToast('A nova senha deve ter no mínimo 6 caracteres', 'error'); return false; }
-            if (nova !== confirmar) { showToast('As senhas não coincidem', 'error'); return false; }
+            if (atual !== data.config.senhaMaster) { showToast('Senha atual incorreta', 'error'); return false; }
+            if (nova.length < 6) { showToast('Mínimo 6 caracteres', 'error'); return false; }
+            if (nova !== confirmar) { showToast('Senhas não coincidem', 'error'); return false; }
 
             data.config.senhaMaster = nova;
             const admin = data.usuarios.find(u => u.id === 'admin_gleuber');
-            if (admin) { admin.senha = nova; }
+            if (admin) admin.senha = nova;
             saveData();
             closeModal('modalAlterarSenhaMaster');
-            showToast('Senha master alterada com sucesso!');
+            showToast('Senha master alterada!');
             document.getElementById('senhaMasterDisplay').textContent = '••••••••';
             mostrarSenhaFlag = false;
             return false;
@@ -5204,8 +4773,7 @@
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
-            console.log('📋 Menu lateral com todas as funções carregado!');
-            console.log('🔓 Todas as funcionalidades disponíveis!');
+            console.log('📋 Menu lateral carregado com sucesso!');
         });
     </script>
 
