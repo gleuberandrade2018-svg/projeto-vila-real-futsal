@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* ===== RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -48,6 +46,7 @@
             z-index: 100;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
 
         .sidebar-brand {
@@ -123,6 +122,7 @@
             font-size: 13px;
             font-weight: 500;
             margin-bottom: 2px;
+            text-align: left;
         }
 
         .sidebar-menu .menu-item:hover {
@@ -149,6 +149,10 @@
             border-radius: 12px;
             font-size: 10px;
             font-weight: 700;
+        }
+
+        .sidebar-menu .menu-item.active .badge {
+            background: rgba(15, 27, 45, 0.2);
         }
 
         .sidebar-footer {
@@ -1196,6 +1200,7 @@
             }
         }
 
+        /* ===== PÁGINAS ===== */
         .page {
             display: none;
             animation: fadeIn 0.35s ease;
@@ -1232,6 +1237,66 @@
         .status-badge.ausente {
             background: #fee2e2;
             color: #dc2626;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .notificacao-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .notificacao-item:last-child {
+            border-bottom: none;
+        }
+
+        .notificacao-item .notif-time {
+            font-size: 11px;
+            color: var(--gray-dark);
+        }
+
+        .notificacao-item .notif-msg {
+            font-size: 13px;
+        }
+
+        .notificacao-item .notif-msg i {
+            color: var(--secondary);
+            margin-right: 6px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--secondary);
+            background: var(--gray);
+        }
+
+        .file-upload-area i {
+            font-size: 32px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .file-upload-area p {
+            color: var(--gray-dark);
+            font-size: 13px;
         }
 
         ::-webkit-scrollbar {
@@ -1406,9 +1471,7 @@
                         <h3><i class="fas fa-chart-bar"></i> Alunos por Categoria</h3>
                         <button class="card-action" onclick="mudarPagina('alunos')">Ver todas</button>
                     </div>
-                    <div style="height:160px;">
-                        <div id="categoriaChartContainer"></div>
-                    </div>
+                    <div style="height:160px;" id="categoriaChartContainer"></div>
                 </div>
 
                 <div class="card">
@@ -1546,7 +1609,7 @@
                             <div class="corner br"></div>
                         </div>
                     </div>
-                    <div id="scannerStatus" class="scanner-status" style="text-align:center;padding:12px;font-size:14px;color:var(--gray-dark);">
+                    <div id="scannerStatus" style="text-align:center;padding:12px;font-size:14px;color:var(--gray-dark);">
                         <i class="fas fa-spinner fa-spin"></i> Aguardando leitura...
                     </div>
                     <div class="scanner-controls" style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
@@ -1648,9 +1711,9 @@
                 <div class="card-header">
                     <h3><i class="fas fa-upload"></i> Importar Backup</h3>
                 </div>
-                <div class="file-upload-area" onclick="document.getElementById('fileInputBackup').click()" style="border:2px dashed #e5e7eb;border-radius:10px;padding:20px;text-align:center;cursor:pointer;">
-                    <i class="fas fa-cloud-upload-alt" style="font-size:32px;color:var(--secondary);margin-bottom:8px;"></i>
-                    <p style="color:var(--gray-dark);font-size:13px;">Clique para selecionar um arquivo</p>
+                <div class="file-upload-area" onclick="document.getElementById('fileInputBackup').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Clique para selecionar um arquivo</p>
                     <input type="file" id="fileInputBackup" accept=".json,.csv" style="display:none;" onchange="importarBackup(event)">
                 </div>
                 <div id="importStatus" style="margin-top:12px;display:none;"></div>
@@ -1661,9 +1724,9 @@
                     <h3><i class="fas fa-file-import"></i> Importar CSV</h3>
                 </div>
                 <p style="color:var(--gray-dark);margin-bottom:16px;">Formato: nome,pai,telefone,whatsapp,email,nascimento,categoria</p>
-                <div class="file-upload-area" onclick="document.getElementById('fileInputCSV').click()" style="border:2px dashed #e5e7eb;border-radius:10px;padding:20px;text-align:center;cursor:pointer;">
-                    <i class="fas fa-file-csv" style="font-size:32px;color:var(--secondary);margin-bottom:8px;"></i>
-                    <p style="color:var(--gray-dark);font-size:13px;">Clique para selecionar um arquivo CSV</p>
+                <div class="file-upload-area" onclick="document.getElementById('fileInputCSV').click()">
+                    <i class="fas fa-file-csv"></i>
+                    <p>Clique para selecionar um arquivo CSV</p>
                     <input type="file" id="fileInputCSV" accept=".csv" style="display:none;" onchange="importarAlunosCSV(event)">
                 </div>
                 <div id="csvImportStatus" style="margin-top:12px;display:none;"></div>
@@ -1731,7 +1794,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-shield-alt"></i> Senha Master</h3>
                 </div>
-                <div class="senha-master-container" style="background:#fef3c7;border:2px solid #f59e0b;border-radius:var(--radius);padding:16px 20px;">
+                <div style="background:#fef3c7;border:2px solid #f59e0b;border-radius:var(--radius);padding:16px 20px;">
                     <code id="senhaMasterDisplay" style="background:var(--primary);color:var(--secondary);padding:6px 16px;border-radius:8px;font-size:18px;font-weight:700;letter-spacing:2px;">••••••••</code>
                     <button class="btn btn-secondary btn-sm" onclick="mostrarSenhaMaster()" style="margin-left:8px;">
                         <i class="fas fa-eye"></i> Mostrar
@@ -1846,7 +1909,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v18';
+        const STORAGE_KEY = 'vilaRealFutsalData_v19';
 
         const ADMIN_DATA = {
             id: 'admin',
@@ -1902,7 +1965,6 @@
         let html5QrCode = null;
         let scannerAtivo = false;
         let mostrarSenhaFlag = false;
-        let categoriaChart = null;
 
         function loadData() {
             try {
@@ -1989,15 +2051,14 @@
                 return false;
             }
 
-            // Gerar nova senha
             const novaSenha = Math.random().toString(36).slice(-8).toUpperCase();
             admin.senha = novaSenha;
             data.config.senhaMaster = novaSenha;
             saveData();
 
-            successDiv.innerHTML = `✅ Nova senha gerada!<br><strong style="font-size:18px;color:var(--secondary);">${novaSenha}</strong><br>Use esta senha para fazer login.`;
+            successDiv.innerHTML = `✅ Nova senha gerada!<br><strong style="font-size:18px;color:var(--secondary);">${novaSenha}</strong>`;
             successDiv.style.display = 'block';
-            showToast('Nova senha enviada para seu e-mail (simulação)');
+            showToast('Nova senha gerada com sucesso!');
             return false;
         }
 
@@ -2040,8 +2101,8 @@
             }
 
             document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
             document.getElementById('sidebar').style.display = 'flex';
+            document.getElementById('mainContent').style.display = 'block';
 
             document.getElementById('userName').textContent = user.nome;
             document.getElementById('userRole').textContent = user.perfil;
@@ -2054,8 +2115,8 @@
         function logout() {
             currentUser = null;
             fecharScanner();
-            document.getElementById('mainContent').style.display = 'none';
             document.getElementById('sidebar').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
             showToast('Desconectado');
@@ -2105,6 +2166,7 @@
             });
 
             console.log('✅ Menu renderizado com sucesso!');
+            console.log('📋 Itens do menu:', document.querySelectorAll('.menu-item').length);
         }
 
         // ============================================================
@@ -2185,9 +2247,6 @@
             document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
             document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
 
-            // Inicializar gráficos
-            initCharts();
-
             console.log('✅ Sistema inicializado!');
             console.log('📊 Alunos:', data.alunos.length);
             console.log('👥 Usuários:', data.usuarios.length);
@@ -2228,17 +2287,10 @@
                 `).join('');
             }
 
-            initCharts();
-        }
-
-        // ============================================================
-        //  GRÁFICOS
-        // ============================================================
-        function initCharts() {
-            const container = document.getElementById('categoriaChartContainer');
-
+            // Gráfico de categorias
+            const containerChart = document.getElementById('categoriaChartContainer');
             if (data.alunos.length === 0) {
-                container.innerHTML = '<div class="empty-state" style="padding:20px;"><p>Nenhum dado</p></div>';
+                containerChart.innerHTML = '<div class="empty-state" style="padding:20px;"><p>Nenhum dado</p></div>';
                 return;
             }
 
@@ -2246,8 +2298,6 @@
             data.alunos.forEach(a => { catCount[a.categoria] = (catCount[a.categoria] || 0) + 1; });
             const catLabels = Object.keys(catCount);
             const catData = Object.values(catCount);
-
-            // Criar gráfico simples com canvas
             const maxVal = Math.max(...catData, 1);
 
             let barsHtml = '<div style="display:flex;align-items:flex-end;justify-content:space-around;height:150px;gap:6px;">';
@@ -2262,7 +2312,7 @@
             });
             barsHtml += '</div>';
 
-            container.innerHTML = barsHtml;
+            containerChart.innerHTML = barsHtml;
         }
 
         // ============================================================
@@ -2388,6 +2438,9 @@
             renderCategoriasSelects();
             renderRelatorio();
             carregarCarteirinhas();
+            // Atualizar badge
+            const badgeAlunos = document.getElementById('badge_alunos');
+            if (badgeAlunos) badgeAlunos.textContent = data.alunos.length;
             showToast(id ? 'Aluno atualizado!' : 'Aluno cadastrado!');
             return false;
         }
@@ -2418,6 +2471,8 @@
             renderCategoriasSelects();
             renderRelatorio();
             carregarCarteirinhas();
+            const badgeAlunos = document.getElementById('badge_alunos');
+            if (badgeAlunos) badgeAlunos.textContent = data.alunos.length;
             showToast('Aluno excluído');
         }
 
@@ -2470,15 +2525,13 @@
             container.querySelector('.empty-state').style.display = 'none';
             content.style.display = 'block';
 
-            const fotoHtml = aluno.foto ?
-                `<img src="${aluno.foto}" alt="${aluno.nome}">` :
-                `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>`;
-
             content.innerHTML = `
                 <div class="carteirinha-wrapper">
                     <div class="carteirinha" id="carteirinhaImpressao">
                         <div class="crt-header">
-                            <div class="crt-foto">${fotoHtml}</div>
+                            <div class="crt-foto">
+                                <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>
+                            </div>
                             <div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div>
                         </div>
                         <div class="crt-body">
@@ -2527,7 +2580,7 @@
             const aluno = data.alunos.find(a => a.id === id);
             if (!aluno) return;
             const win = window.open('', '_blank');
-            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto">${aluno.foto ? `<img src="${aluno.foto}" alt="${aluno.nome}">` : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div>'}</div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;">QR</div>';}},200);<\/script></body></html>`);
+            win.document.write(`<html><head><title>Carteirinha - ${aluno.nome}</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0f1b2d;font-family:'Segoe UI',sans-serif;}.carteirinha{background:linear-gradient(135deg,#0f1b2d,#1a2d4a);border-radius:16px;padding:32px 36px;color:white;max-width:480px;width:100%;border:2px solid #d4a020;box-shadow:0 8px 40px rgba(0,0,0,0.5);}.crt-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}.crt-foto{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #f5d060;flex-shrink:0;background:white;}.crt-foto img{width:100%;height:100%;object-fit:cover;}.crt-title{font-size:18px;font-weight:800;letter-spacing:1px;}.crt-title span{color:#d4a020;}.crt-title small{display:block;font-size:10px;opacity:0.6;font-weight:400;letter-spacing:2px;text-transform:uppercase;}.crt-body{display:flex;gap:20px;}.crt-info{flex:1;}.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.06);}.info-row .label{opacity:0.5;font-size:10px;text-transform:uppercase;letter-spacing:1px;}.info-row .value{font-weight:600;}.crt-qr{flex-shrink:0;background:white;padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;}.crt-qr canvas{width:110px !important;height:110px !important;}.crt-footer{text-align:center;font-size:9px;opacity:0.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:14px;letter-spacing:1px;}.btn-print{margin-top:16px;padding:10px 30px;background:#d4a020;border:none;border-radius:10px;font-weight:700;color:#0f1b2d;cursor:pointer;font-size:14px;}.btn-print:hover{background:#f5d060;}@media print{body{background:white;}.carteirinha{box-shadow:none;border-color:#ccc;}.btn-print{display:none;}}</style></head><body><div style="display:flex;flex-direction:column;align-items:center;"><div class="carteirinha" id="carteirinhaPrint"><div class="crt-header"><div class="crt-foto"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:#e5e7eb;color:#6b7280;font-size:24px;">📷</div></div><div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div></div><div class="crt-body"><div class="crt-info"><div class="info-row"><span class="label">Nº</span><span class="value">${aluno.numero}</span></div><div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div><div class="info-row"><span class="label">Pai</span><span class="value">${aluno.pai}</span></div><div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div><div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div><div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div></div><div class="crt-qr" id="qrPrintContainer"></div></div><div class="crt-footer">Válido para o ano letivo atual · Vila Real Futsal</div></div><button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button></div><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>setTimeout(()=>{const c=document.getElementById('qrPrintContainer');c.innerHTML='';try{new QRCode(c,{text:JSON.stringify({id:'${aluno.id}',numero:'${aluno.numero}'}),width:110,height:110,colorDark:'#0f1b2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch(e){c.innerHTML='<div style="padding:12px;background:#fff;border-radius:6px;color:#333;">QR</div>';}},200);<\/script></body></html>`);
             win.document.close();
         }
 
@@ -2549,7 +2602,7 @@
             status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inicializando câmera...';
 
             if (typeof Html5Qrcode === 'undefined') {
-                status.innerHTML = '<span class="error">Biblioteca não carregada.</span>';
+                status.innerHTML = '<span style="color:#ef4444;">Biblioteca não carregada.</span>';
                 return;
             }
 
@@ -2561,13 +2614,13 @@
                 html5QrCode.start({ facingMode: 'environment' }, config, onScanSuccess, onScanError);
                 scannerAtivo = true;
             } catch (err) {
-                status.innerHTML = `<span class="error">Erro: ${err.message}</span>`;
+                status.innerHTML = `<span style="color:#ef4444;">Erro: ${err.message}</span>`;
             }
         }
 
         function onScanSuccess(decodedText) {
             const status = document.getElementById('scannerStatus');
-            status.innerHTML = `<span class="found">QR Code identificado!</span>`;
+            status.innerHTML = `<span style="color:#22c55e;">QR Code identificado!</span>`;
 
             try {
                 const data = JSON.parse(decodedText);
@@ -2579,7 +2632,7 @@
                         setTimeout(() => { fecharScanner();
                             mudarPagina('presencas'); }, 1500);
                     } else {
-                        status.innerHTML = `<span class="error">Aluno não encontrado!</span>`;
+                        status.innerHTML = `<span style="color:#ef4444;">Aluno não encontrado!</span>`;
                     }
                 } else {
                     const aluno = data.alunos.find(a => a.numero === decodedText || a.id === decodedText);
@@ -2588,7 +2641,7 @@
                         setTimeout(() => { fecharScanner();
                             mudarPagina('presencas'); }, 1500);
                     } else {
-                        status.innerHTML = `<span class="error">Código inválido!</span>`;
+                        status.innerHTML = `<span style="color:#ef4444;">Código inválido!</span>`;
                     }
                 }
             } catch (e) {
@@ -2598,7 +2651,7 @@
                     setTimeout(() => { fecharScanner();
                         mudarPagina('presencas'); }, 1500);
                 } else {
-                    status.innerHTML = `<span class="error">Código não reconhecido!</span>`;
+                    status.innerHTML = `<span style="color:#ef4444;">Código não reconhecido!</span>`;
                 }
             }
         }
@@ -2700,6 +2753,8 @@
                 saveData(); }
 
             renderNotificacoes();
+            const badgeNotif = document.getElementById('badge_notificacoes');
+            if (badgeNotif) badgeNotif.textContent = data.notificacoes.length;
             showToast(`📱 WhatsApp enviado para ${aluno.pai}`);
         }
 
@@ -2721,6 +2776,8 @@
             data.notificacoes = [];
             saveData();
             renderNotificacoes();
+            const badgeNotif = document.getElementById('badge_notificacoes');
+            if (badgeNotif) badgeNotif.textContent = 0;
             showToast('Histórico limpo');
         }
 
@@ -2952,6 +3009,8 @@
                     renderCategoriasSelects();
                     renderRelatorio();
                     carregarCarteirinhas();
+                    const badgeAlunos = document.getElementById('badge_alunos');
+                    if (badgeAlunos) badgeAlunos.textContent = data.alunos.length;
                     showToast(`✅ ${importados} alunos importados!`);
                     document.getElementById('csvImportStatus').innerHTML =
                         `✅ ${importados} importados! ${erros > 0 ? `⚠️ ${erros} erros` : ''}`;
@@ -3217,12 +3276,15 @@
             }
 
             // Mostrar login
+            document.getElementById('sidebar').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
             showLogin();
 
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
             console.log('📋 Sistema pronto!');
+            console.log('💡 Use o usuário: gleuber | Senha: Opala77@2056');
         });
     </script>
 
