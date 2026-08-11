@@ -1092,7 +1092,7 @@
             background: var(--white);
             border-radius: var(--radius);
             padding: 40px 44px;
-            max-width: 420px;
+            max-width: 450px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
@@ -1418,6 +1418,42 @@
             background: #dbeafe;
             color: #2563eb;
         }
+
+        /* ===== SENHA MASTER ===== */
+        .senha-master-container {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+        }
+
+        .senha-master-container h4 {
+            color: #92400e;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .senha-master-container .senha-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .senha-master-container .senha-display code {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .senha-master-container .senha-display .btn {
+            font-size: 12px;
+            padding: 6px 14px;
+        }
     </style>
 </head>
 <body>
@@ -1442,26 +1478,30 @@
 
             <form id="loginForm" onsubmit="return handleLogin(event)">
                 <div class="form-group">
-                    <label><i class="fas fa-user"></i> Número de Acesso</label>
-                    <input type="text" id="loginUser" placeholder="Ex: VR0001" required>
+                    <label><i class="fas fa-user"></i> Usuário ou E-mail</label>
+                    <input type="text" id="loginUser" placeholder="Digite seu usuário ou e-mail" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Senha</label>
                     <input type="password" id="loginPassword" placeholder="••••••••" required>
                 </div>
+                <div id="loginError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i> Entrar
                 </button>
             </form>
 
             <div class="register-link">
-                Primeiro acesso? <a onclick="showRegister()">Cadastre-se aqui</a>
+                <a onclick="showPrimeiroAcesso()">🔑 Primeiro acesso? Clique aqui</a>
+            </div>
+            <div class="register-link" style="margin-top:8px;font-size:12px;color:#6b7280;">
+                <i class="fas fa-shield-alt"></i> Sistema seguro - Apenas administrador pode cadastrar usuários
             </div>
         </div>
     </div>
 
-    <!-- ===== REGISTRO ===== -->
-    <div id="registerContainer" class="login-page" style="display:none;">
+    <!-- ===== PRIMEIRO ACESSO - CRIAÇÃO DE SENHA MASTER ===== -->
+    <div id="primeiroAcessoContainer" class="login-page" style="display:none;">
         <div class="login-box">
             <div class="login-brand">
                 <div class="logo-container">
@@ -1469,32 +1509,29 @@
                          alt="Vila Real Futsal">
                 </div>
                 <h2>VILA <span>REAL</span></h2>
-                <p>Cadastro de Usuário</p>
+                <p>Primeiro Acesso - Criar Administrador</p>
             </div>
 
-            <form id="registerForm" onsubmit="return handleRegister(event)">
+            <form id="primeiroAcessoForm" onsubmit="return handlePrimeiroAcesso(event)">
                 <div class="form-group">
-                    <label>Nome Completo</label>
-                    <input type="text" id="regName" placeholder="Seu nome completo" required>
+                    <label><i class="fas fa-user"></i> Nome do Administrador</label>
+                    <input type="text" id="adminNome" placeholder="Nome completo do administrador" required>
                 </div>
                 <div class="form-group">
-                    <label>E-mail</label>
-                    <input type="email" id="regEmail" placeholder="seu@email.com" required>
+                    <label><i class="fas fa-envelope"></i> E-mail do Administrador</label>
+                    <input type="email" id="adminEmail" placeholder="admin@vilareal.com" required>
                 </div>
                 <div class="form-group">
-                    <label>WhatsApp (com DDD)</label>
-                    <input type="tel" id="regWhatsapp" placeholder="(11) 99999-9999">
+                    <label><i class="fas fa-key"></i> Criar Senha Master</label>
+                    <input type="password" id="adminSenhaMaster" placeholder="Crie uma senha forte" required minlength="6">
+                    <small style="color:var(--gray-dark);font-size:12px;">Mínimo 6 caracteres - Guarde esta senha com segurança!</small>
                 </div>
                 <div class="form-group">
-                    <label>Perfil</label>
-                    <select id="regProfile" required>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Professor">Professor</option>
-                        <option value="Pai">Pai/Responsável</option>
-                    </select>
+                    <label><i class="fas fa-check-circle"></i> Confirmar Senha Master</label>
+                    <input type="password" id="adminSenhaConfirm" placeholder="Confirme a senha" required>
                 </div>
-                <button type="submit" class="btn btn-secondary">
-                    <i class="fas fa-user-plus"></i> Cadastrar
+                <button type="submit" class="btn btn-secondary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-user-cog"></i> Criar Administrador
                 </button>
             </form>
 
@@ -1540,12 +1577,12 @@
                 <i class="fas fa-chart-bar"></i> <span>Relatórios</span>
             </button>
 
-            <div class="menu-label" style="margin-top:16px;">Sistema</div>
+            <div class="menu-label" style="margin-top:16px;">Administração</div>
+            <button class="menu-item" data-page="usuarios" id="navUsuarios">
+                <i class="fas fa-users-cog"></i> <span>Gerenciar Usuários</span>
+            </button>
             <button class="menu-item" data-page="configuracoes" id="navConfig">
                 <i class="fas fa-cog"></i> <span>Configurações</span>
-            </button>
-            <button class="menu-item" data-page="usuarios">
-                <i class="fas fa-users-cog"></i> <span>Usuários</span>
             </button>
         </div>
 
@@ -1908,9 +1945,36 @@
         <div class="page" id="page-usuarios">
             <div class="card">
                 <div class="card-header">
-                    <h3><i class="fas fa-users-cog"></i> Usuários do Sistema</h3>
+                    <h3><i class="fas fa-users-cog"></i> Gerenciar Usuários</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="openModal('modalUsuario')">
+                        <i class="fas fa-user-plus"></i> Novo Usuário
+                    </button>
                 </div>
                 <div id="listaUsuarios"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shield-alt"></i> Senha Master</h3>
+                </div>
+                <div class="senha-master-container" id="senhaMasterContainer">
+                    <h4><i class="fas fa-key"></i> Senha Master do Administrador</h4>
+                    <div class="senha-display">
+                        <code id="senhaMasterDisplay">••••••••</code>
+                        <button class="btn btn-secondary btn-sm" onclick="mostrarSenhaMaster()">
+                            <i class="fas fa-eye"></i> Mostrar
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="copiarSenhaMaster()">
+                            <i class="fas fa-copy"></i> Copiar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="alterarSenhaMaster()">
+                            <i class="fas fa-key"></i> Alterar
+                        </button>
+                    </div>
+                    <small style="color:var(--gray-dark);font-size:12px;display:block;margin-top:8px;">
+                        <i class="fas fa-info-circle"></i> Use esta senha para acessar como administrador
+                    </small>
+                </div>
             </div>
         </div>
 
@@ -1974,12 +2038,104 @@
         </div>
     </div>
 
+    <!-- ===== MODAL USUÁRIO ===== -->
+    <div class="modal-overlay" id="modalUsuario">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> <span id="modalUsuarioTitle">Novo Usuário</span></h2>
+                <button class="modal-close" onclick="closeModal('modalUsuario')">&times;</button>
+            </div>
+            <form id="usuarioForm" onsubmit="return salvarUsuario(event)">
+                <input type="hidden" id="usuarioEditId">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="usuarioNome" placeholder="Nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="usuarioEmail" placeholder="usuario@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp</label>
+                    <input type="tel" id="usuarioWhatsapp" placeholder="(99) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label>Perfil</label>
+                    <select id="usuarioPerfil" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Pai">Pai/Responsável</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Senha Temporária</label>
+                    <input type="text" id="usuarioSenha" placeholder="Deixe em branco para gerar automaticamente">
+                    <small style="color:var(--gray-dark);font-size:12px;">O usuário poderá alterar a senha após o primeiro login</small>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-save"></i> Salvar Usuário
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ALTERAR SENHA ===== -->
+    <div class="modal-overlay" id="modalAlterarSenha">
+        <div class="modal" style="max-width:450px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> Alterar Senha</h2>
+                <button class="modal-close" onclick="closeModal('modalAlterarSenha')">&times;</button>
+            </div>
+            <form id="alterarSenhaForm" onsubmit="return alterarSenhaUsuario(event)">
+                <input type="hidden" id="alterarSenhaUserId">
+                <div class="form-group">
+                    <label>Nova Senha</label>
+                    <input type="password" id="novaSenhaInput" placeholder="Digite a nova senha" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Nova Senha</label>
+                    <input type="password" id="confirmarSenhaInput" placeholder="Confirme a nova senha" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-save"></i> Alterar Senha
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ALTERAR SENHA MASTER ===== -->
+    <div class="modal-overlay" id="modalAlterarSenhaMaster">
+        <div class="modal" style="max-width:450px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> Alterar Senha Master</h2>
+                <button class="modal-close" onclick="closeModal('modalAlterarSenhaMaster')">&times;</button>
+            </div>
+            <form id="alterarSenhaMasterForm" onsubmit="return alterarSenhaMaster(event)">
+                <div class="form-group">
+                    <label>Senha Master Atual</label>
+                    <input type="password" id="senhaMasterAtual" placeholder="Digite a senha master atual" required>
+                </div>
+                <div class="form-group">
+                    <label>Nova Senha Master</label>
+                    <input type="password" id="novaSenhaMaster" placeholder="Digite a nova senha master" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Nova Senha Master</label>
+                    <input type="password" id="confirmarSenhaMaster" placeholder="Confirme a nova senha master" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-save"></i> Alterar Senha Master
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- ===== SCRIPT ===== -->
     <script>
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v5';
+        const STORAGE_KEY = 'vilaRealFutsalData_v6';
 
         function getDefaultData() {
             return {
@@ -2000,10 +2156,12 @@
                     horaInicio: '08:00',
                     horaFim: '12:00',
                     notifAutomatica: true,
-                    mensagemPadrao: 'Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!'
+                    mensagemPadrao: 'Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!',
+                    senhaMaster: ''
                 },
                 proximoNumeroAluno: 1,
-                proximoNumeroUsuario: 1
+                proximoNumeroUsuario: 1,
+                sistemaInicializado: false
             };
         }
 
@@ -2011,6 +2169,7 @@
         let currentUser = null;
         let html5QrCode = null;
         let scannerAtivo = false;
+        let mostrarSenhaFlag = false;
 
         function loadData() {
             try {
@@ -2050,59 +2209,124 @@
         }
 
         // ============================================================
-        //  LOGIN / REGISTRO
+        //  TELAS DE LOGIN E PRIMEIRO ACESSO
         // ============================================================
-        function showRegister() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('registerContainer').style.display = 'flex';
-        }
-
         function showLogin() {
             document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('primeiroAcessoContainer').style.display = 'none';
             document.getElementById('registerContainer').style.display = 'none';
         }
 
-        function handleRegister(e) {
+        function showPrimeiroAcesso() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('primeiroAcessoContainer').style.display = 'flex';
+            document.getElementById('registerContainer').style.display = 'none';
+        }
+
+        // ============================================================
+        //  PRIMEIRO ACESSO - CRIAR ADMIN
+        // ============================================================
+        function handlePrimeiroAcesso(e) {
             e.preventDefault();
-            const nome = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const whatsapp = document.getElementById('regWhatsapp').value.trim();
-            const perfil = document.getElementById('regProfile').value;
 
-            if (!nome || !email) { showToast('Preencha todos os campos', 'error'); return false; }
+            // Verificar se já existe admin
+            if (data.sistemaInicializado) {
+                showToast('Sistema já inicializado! Faça login.', 'error');
+                showLogin();
+                return false;
+            }
 
-            const numero = String(data.proximoNumeroUsuario++).padStart(4, '0');
-            const acesso = 'VR' + numero;
-            const senha = Math.random().toString(36).slice(-6).toUpperCase();
+            const nome = document.getElementById('adminNome').value.trim();
+            const email = document.getElementById('adminEmail').value.trim();
+            const senha = document.getElementById('adminSenhaMaster').value;
+            const confirm = document.getElementById('adminSenhaConfirm').value;
 
-            data.usuarios.push({
-                id: 'user_' + Date.now(),
-                nome,
-                email,
-                whatsapp,
-                perfil,
-                acesso,
-                senha,
-                criadoEm: new Date().toISOString()
-            });
+            if (!nome || !email || !senha || !confirm) {
+                showToast('Preencha todos os campos', 'error');
+                return false;
+            }
+
+            if (senha !== confirm) {
+                showToast('As senhas não coincidem!', 'error');
+                return false;
+            }
+
+            if (senha.length < 6) {
+                showToast('A senha deve ter no mínimo 6 caracteres', 'error');
+                return false;
+            }
+
+            // Criar usuário administrador
+            const usuario = {
+                id: 'admin_' + Date.now(),
+                nome: nome,
+                email: email,
+                perfil: 'Administrador',
+                usuario: 'admin',
+                senha: senha,
+                whatsapp: '',
+                criadoEm: new Date().toISOString(),
+                primeiroAcesso: false
+            };
+
+            data.usuarios = [usuario];
+            data.config.senhaMaster = senha;
+            data.sistemaInicializado = true;
+            data.proximoNumeroUsuario = 2;
 
             saveData();
-            showToast(`Cadastro realizado! Acesso: ${acesso} | Senha: ${senha}`);
-            document.getElementById('registerForm').reset();
+            showToast('✅ Administrador criado com sucesso! Faça login.', 'success');
+
+            // Limpar e mostrar login
+            document.getElementById('primeiroAcessoForm').reset();
             showLogin();
-            document.getElementById('loginUser').value = acesso;
+            document.getElementById('loginUser').value = 'admin';
             document.getElementById('loginPassword').value = senha;
+
             return false;
         }
 
+        // ============================================================
+        //  LOGIN
+        // ============================================================
         function handleLogin(e) {
             e.preventDefault();
-            const acesso = document.getElementById('loginUser').value.trim();
-            const senha = document.getElementById('loginPassword').value.trim();
 
-            const user = data.usuarios.find(u => u.acesso === acesso && u.senha === senha);
+            const loginUser = document.getElementById('loginUser').value.trim();
+            const loginPass = document.getElementById('loginPassword').value.trim();
+            const errorDiv = document.getElementById('loginError');
+
+            errorDiv.style.display = 'none';
+
+            if (!loginUser || !loginPass) {
+                errorDiv.textContent = 'Preencha todos os campos';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            // Verificar se o sistema já foi inicializado
+            if (!data.sistemaInicializado) {
+                showPrimeiroAcesso();
+                errorDiv.textContent = 'Sistema não inicializado. Crie o administrador.';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            // Buscar usuário por usuário ou email
+            const user = data.usuarios.find(u =>
+                (u.usuario && u.usuario === loginUser) ||
+                (u.email && u.email === loginUser)
+            );
+
             if (!user) {
-                showToast('Número de acesso ou senha inválidos', 'error');
+                errorDiv.textContent = 'Usuário não encontrado';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            if (user.senha !== loginPass) {
+                errorDiv.textContent = 'Senha incorreta';
+                errorDiv.style.display = 'block';
                 return false;
             }
 
@@ -2115,7 +2339,10 @@
             document.getElementById('userRole').textContent = user.perfil;
             document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
 
-            document.getElementById('navConfig').style.display = user.perfil === 'Administrador' ? 'flex' : 'none';
+            // Mostrar/ocultar opções de admin
+            const isAdmin = user.perfil === 'Administrador';
+            document.getElementById('navConfig').style.display = isAdmin ? 'flex' : 'none';
+            document.getElementById('navUsuarios').style.display = isAdmin ? 'flex' : 'none';
 
             initSystem();
             return false;
@@ -2129,6 +2356,329 @@
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
             showToast('Desconectado com sucesso');
+        }
+
+        // ============================================================
+        //  GERENCIAR USUÁRIOS (APENAS ADMIN)
+        // ============================================================
+        function openModalUsuario(usuarioId) {
+            if (!currentUser || currentUser.perfil !== 'Administrador') {
+                showToast('Apenas administradores podem gerenciar usuários', 'error');
+                return;
+            }
+
+            const modal = document.getElementById('modalUsuario');
+            modal.classList.add('active');
+
+            if (usuarioId) {
+                const user = data.usuarios.find(u => u.id === usuarioId);
+                if (user) {
+                    document.getElementById('modalUsuarioTitle').textContent = 'Editar Usuário';
+                    document.getElementById('usuarioEditId').value = user.id;
+                    document.getElementById('usuarioNome').value = user.nome;
+                    document.getElementById('usuarioEmail').value = user.email || '';
+                    document.getElementById('usuarioWhatsapp').value = user.whatsapp || '';
+                    document.getElementById('usuarioPerfil').value = user.perfil;
+                    document.getElementById('usuarioSenha').value = '';
+                    document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para manter a senha atual';
+                }
+            } else {
+                document.getElementById('modalUsuarioTitle').textContent = 'Novo Usuário';
+                document.getElementById('usuarioEditId').value = '';
+                document.getElementById('usuarioForm').reset();
+                document.getElementById('usuarioSenha').placeholder = 'Deixe em branco para gerar automaticamente';
+            }
+        }
+
+        function salvarUsuario(e) {
+            e.preventDefault();
+
+            if (!currentUser || currentUser.perfil !== 'Administrador') {
+                showToast('Apenas administradores podem gerenciar usuários', 'error');
+                return false;
+            }
+
+            const id = document.getElementById('usuarioEditId').value;
+            const nome = document.getElementById('usuarioNome').value.trim();
+            const email = document.getElementById('usuarioEmail').value.trim();
+            const whatsapp = document.getElementById('usuarioWhatsapp').value.trim();
+            const perfil = document.getElementById('usuarioPerfil').value;
+            const senhaInput = document.getElementById('usuarioSenha').value.trim();
+
+            if (!nome || !email) {
+                showToast('Nome e e-mail são obrigatórios', 'error');
+                return false;
+            }
+
+            // Verificar se email já existe
+            const emailExists = data.usuarios.some(u =>
+                u.email === email && u.id !== id
+            );
+            if (emailExists) {
+                showToast('Este e-mail já está cadastrado', 'error');
+                return false;
+            }
+
+            let usuario;
+
+            if (id) {
+                // Editando usuário existente
+                const index = data.usuarios.findIndex(u => u.id === id);
+                if (index === -1) {
+                    showToast('Usuário não encontrado', 'error');
+                    return false;
+                }
+
+                usuario = data.usuarios[index];
+                usuario.nome = nome;
+                usuario.email = email;
+                usuario.whatsapp = whatsapp;
+                usuario.perfil = perfil;
+
+                if (senhaInput) {
+                    usuario.senha = senhaInput;
+                }
+
+                data.usuarios[index] = usuario;
+                showToast('Usuário atualizado com sucesso!');
+
+            } else {
+                // Novo usuário
+                const numero = String(data.proximoNumeroUsuario++).padStart(4, '0');
+                const usuarioGerado = 'user' + numero;
+                const senha = senhaInput || Math.random().toString(36).slice(-8).toUpperCase();
+
+                usuario = {
+                    id: 'user_' + Date.now(),
+                    nome: nome,
+                    email: email,
+                    whatsapp: whatsapp,
+                    perfil: perfil,
+                    usuario: usuarioGerado,
+                    senha: senha,
+                    criadoEm: new Date().toISOString(),
+                    primeiroAcesso: true
+                };
+
+                data.usuarios.push(usuario);
+                showToast(`✅ Usuário criado! Usuário: ${usuarioGerado} | Senha: ${senha}`);
+            }
+
+            saveData();
+            closeModal('modalUsuario');
+            renderUsuarios();
+            return false;
+        }
+
+        function excluirUsuario(id) {
+            if (!currentUser || currentUser.perfil !== 'Administrador') {
+                showToast('Apenas administradores podem excluir usuários', 'error');
+                return;
+            }
+
+            if (id === currentUser.id) {
+                showToast('Você não pode excluir seu próprio usuário', 'error');
+                return;
+            }
+
+            if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+
+            data.usuarios = data.usuarios.filter(u => u.id !== id);
+            saveData();
+            renderUsuarios();
+            showToast('Usuário excluído com sucesso');
+        }
+
+        function abrirAlterarSenha(userId) {
+            if (!currentUser || currentUser.perfil !== 'Administrador') {
+                showToast('Apenas administradores podem alterar senhas', 'error');
+                return;
+            }
+
+            document.getElementById('alterarSenhaUserId').value = userId;
+            document.getElementById('novaSenhaInput').value = '';
+            document.getElementById('confirmarSenhaInput').value = '';
+            document.getElementById('modalAlterarSenha').classList.add('active');
+        }
+
+        function alterarSenhaUsuario(e) {
+            e.preventDefault();
+
+            const userId = document.getElementById('alterarSenhaUserId').value;
+            const novaSenha = document.getElementById('novaSenhaInput').value;
+            const confirmar = document.getElementById('confirmarSenhaInput').value;
+
+            if (novaSenha.length < 6) {
+                showToast('A senha deve ter no mínimo 6 caracteres', 'error');
+                return false;
+            }
+
+            if (novaSenha !== confirmar) {
+                showToast('As senhas não coincidem', 'error');
+                return false;
+            }
+
+            const user = data.usuarios.find(u => u.id === userId);
+            if (!user) {
+                showToast('Usuário não encontrado', 'error');
+                return false;
+            }
+
+            user.senha = novaSenha;
+            user.primeiroAcesso = false;
+            saveData();
+            renderUsuarios();
+            closeModal('modalAlterarSenha');
+            showToast('Senha alterada com sucesso!');
+            return false;
+        }
+
+        // ============================================================
+        //  SENHA MASTER
+        // ============================================================
+        function mostrarSenhaMaster() {
+            const display = document.getElementById('senhaMasterDisplay');
+            if (mostrarSenhaFlag) {
+                display.textContent = '••••••••';
+                mostrarSenhaFlag = false;
+            } else {
+                display.textContent = data.config.senhaMaster || 'Nenhuma senha master definida';
+                mostrarSenhaFlag = true;
+            }
+        }
+
+        function copiarSenhaMaster() {
+            const senha = data.config.senhaMaster;
+            if (!senha) {
+                showToast('Nenhuma senha master definida', 'error');
+                return;
+            }
+            navigator.clipboard.writeText(senha).then(() => {
+                showToast('Senha master copiada para a área de transferência!');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = senha;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Senha master copiada!');
+            });
+        }
+
+        function alterarSenhaMaster() {
+            if (!currentUser || currentUser.perfil !== 'Administrador') {
+                showToast('Apenas administradores podem alterar a senha master', 'error');
+                return;
+            }
+            document.getElementById('senhaMasterAtual').value = '';
+            document.getElementById('novaSenhaMaster').value = '';
+            document.getElementById('confirmarSenhaMaster').value = '';
+            document.getElementById('modalAlterarSenhaMaster').classList.add('active');
+        }
+
+        function alterarSenhaMaster(e) {
+            e.preventDefault();
+
+            const atual = document.getElementById('senhaMasterAtual').value;
+            const nova = document.getElementById('novaSenhaMaster').value;
+            const confirmar = document.getElementById('confirmarSenhaMaster').value;
+
+            if (atual !== data.config.senhaMaster) {
+                showToast('Senha master atual incorreta', 'error');
+                return false;
+            }
+
+            if (nova.length < 6) {
+                showToast('A nova senha deve ter no mínimo 6 caracteres', 'error');
+                return false;
+            }
+
+            if (nova !== confirmar) {
+                showToast('As senhas não coincidem', 'error');
+                return false;
+            }
+
+            data.config.senhaMaster = nova;
+            saveData();
+            closeModal('modalAlterarSenhaMaster');
+            showToast('Senha master alterada com sucesso!');
+            document.getElementById('senhaMasterDisplay').textContent = '••••••••';
+            mostrarSenhaFlag = false;
+            return false;
+        }
+
+        // ============================================================
+        //  RENDER USUÁRIOS
+        // ============================================================
+        function renderUsuarios() {
+            const container = document.getElementById('listaUsuarios');
+
+            if (data.usuarios.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>Nenhum usuário cadastrado</h3>
+                        <p>Clique em "Novo Usuário" para adicionar.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const isAdmin = currentUser && currentUser.perfil === 'Administrador';
+
+            container.innerHTML = `
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:var(--gray);">
+                                <th style="padding:8px 12px;text-align:left;">Usuário</th>
+                                <th style="padding:8px 12px;text-align:left;">Nome</th>
+                                <th style="padding:8px 12px;text-align:left;">Perfil</th>
+                                <th style="padding:8px 12px;text-align:left;">E-mail</th>
+                                <th style="padding:8px 12px;text-align:center;">Status</th>
+                                ${isAdmin ? `<th style="padding:8px 12px;text-align:center;">Ações</th>` : ''}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.usuarios.map(u => `
+                                <tr style="border-bottom:1px solid #e5e7eb;">
+                                    <td style="padding:8px 12px;font-weight:600;">${u.usuario || u.email}</td>
+                                    <td style="padding:8px 12px;">${u.nome}</td>
+                                    <td style="padding:8px 12px;">
+                                        <span class="badge-categoria" style="position:static;display:inline-block;font-size:11px;">
+                                            ${u.perfil}
+                                        </span>
+                                    </td>
+                                    <td style="padding:8px 12px;color:var(--gray-dark);">${u.email}</td>
+                                    <td style="padding:8px 12px;text-align:center;">
+                                        ${u.primeiroAcesso ? 
+                                            '<span class="status-badge" style="background:#fef3c7;color:#d97706;">Pendente</span>' : 
+                                            '<span class="status-badge presente">Ativo</span>'
+                                        }
+                                    </td>
+                                    ${isAdmin ? `
+                                        <td style="padding:8px 12px;text-align:center;">
+                                            <button class="btn btn-primary btn-sm" onclick="abrirAlterarSenha('${u.id}')" title="Alterar Senha">
+                                                <i class="fas fa-key"></i>
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm" onclick="openModalUsuario('${u.id}')" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            ${u.id !== currentUser?.id ? `
+                                                <button class="btn btn-danger btn-sm" onclick="excluirUsuario('${u.id}')" title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            ` : ''}
+                                        </td>
+                                    ` : ''}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         }
 
         // ============================================================
@@ -2163,6 +2713,7 @@
             if (page === 'carteirinhas') renderCategoriasSelects();
             if (page === 'dashboard') renderDashboard();
             if (page === 'notificacoes') renderNotificacoes();
+            if (page === 'usuarios') renderUsuarios();
         }
 
         document.querySelectorAll('.menu-item').forEach(btn => {
@@ -2300,21 +2851,6 @@
         //  INICIALIZAÇÃO
         // ============================================================
         function initSystem() {
-            if (data.usuarios.length === 0) {
-                data.usuarios.push({
-                    id: 'admin_default',
-                    nome: 'Administrador',
-                    email: 'admin@vilareal.com',
-                    whatsapp: '',
-                    perfil: 'Administrador',
-                    acesso: 'VR0001',
-                    senha: 'ADMIN123',
-                    criadoEm: new Date().toISOString()
-                });
-                saveData();
-                showToast('Usuário padrão: VR0001 / ADMIN123');
-            }
-
             window.data = data;
 
             renderDashboard();
@@ -2335,6 +2871,9 @@
 
             document.getElementById('alunosCount').textContent = data.alunos.length;
             document.getElementById('notifCount').textContent = data.notificacoes.length;
+
+            // Mostrar senha master
+            document.getElementById('senhaMasterDisplay').textContent = '••••••••';
         }
 
         // ============================================================
@@ -3278,56 +3817,23 @@
         }
 
         // ============================================================
-        //  USUÁRIOS
-        // ============================================================
-        function renderUsuarios() {
-            const container = document.getElementById('listaUsuarios');
-            if (data.usuarios.length === 0) {
-                container.innerHTML =
-                    '<div class="empty-state"><i class="fas fa-users"></i><h3>Nenhum usuário cadastrado</h3></div>';
-                return;
-            }
-
-            container.innerHTML = `
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
-                        <thead>
-                            <tr style="background:var(--gray);">
-                                <th style="padding:8px 12px;text-align:left;">Acesso</th>
-                                <th style="padding:8px 12px;text-align:left;">Nome</th>
-                                <th style="padding:8px 12px;text-align:left;">Perfil</th>
-                                <th style="padding:8px 12px;text-align:left;">E-mail</th>
-                                <th style="padding:8px 12px;text-align:left;">WhatsApp</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${data.usuarios.map(u => `
-                                <tr style="border-bottom:1px solid #e5e7eb;">
-                                    <td style="padding:8px 12px;font-weight:600;">${u.acesso}</td>
-                                    <td style="padding:8px 12px;">${u.nome}</td>
-                                    <td style="padding:8px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;">${u.perfil}</span></td>
-                                    <td style="padding:8px 12px;color:var(--gray-dark);">${u.email}</td>
-                                    <td style="padding:8px 12px;color:var(--gray-dark);">${u.whatsapp || '-'}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        // ============================================================
         //  INICIALIZAR
         // ============================================================
         document.getElementById('mainContent').style.display = 'none';
         document.getElementById('sidebar').style.display = 'none';
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (data.usuarios.length === 0) {
-                showRegister();
+            // Verificar se o sistema já foi inicializado
+            if (!data.sistemaInicializado) {
+                // Mostrar tela de primeiro acesso
+                showPrimeiroAcesso();
+            } else {
+                // Mostrar login normal
+                showLogin();
             }
 
-            if (data.alunos.length === 0) {
+            // Dados de exemplo (apenas se não houver alunos e o sistema estiver inicializado)
+            if (data.sistemaInicializado && data.alunos.length === 0) {
                 const exemplos = [
                     { nome: 'João Pedro Silva', pai: 'Carlos Silva', telefone: '(11) 99999-1111',
                         whatsapp: '(11) 98888-1111', email: 'carlos.silva@email.com', nascimento: '2015-05-10',
@@ -3360,7 +3866,7 @@
                 window.data = data;
             }
 
-            if (data.presencas.length === 0 && data.alunos.length > 0) {
+            if (data.sistemaInicializado && data.presencas.length === 0 && data.alunos.length > 0) {
                 const hoje = new Date().toISOString();
                 data.alunos.slice(0, 4).forEach((aluno, i) => {
                     data.presencas.push({
@@ -3383,7 +3889,7 @@
             console.log('👥 Usuários:', data.usuarios.length);
             console.log('✅ Presenças:', data.presencas.length);
             console.log('📨 Notificações:', data.notificacoes.length);
-            console.log('📷 Scanner QR Code: Disponível');
+            console.log('🔐 Sistema Inicializado:', data.sistemaInicializado);
         });
     </script>
 
