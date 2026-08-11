@@ -9,6 +9,9 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        /* ============================================================
+           RESET E VARIÁVEIS
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -28,6 +31,12 @@
             --radius: 16px;
             --transition: all 0.3s ease;
             --sidebar-width: 250px;
+            --login-bg: linear-gradient(135deg, #0f1b2d, #1a2d4a);
+            --login-logo: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23d4a020"/%3E%3Ctext x="60" y="120" font-size="48" font-weight="900" fill="%230f1b2d" font-family="Arial"%3EPROJETO%3C/text%3E%3Ctext x="140" y="180" font-size="52" font-weight="900" fill="%230f1b2d" font-family="Arial"%3EDE%3C/text%3E%3Ctext x="50" y="260" font-size="58" font-weight="900" fill="%230f1b2d" font-family="Arial"%3EFUTSAL%3C/text%3E%3Ctext x="20" y="330" font-size="30" font-weight="700" fill="%23ffffff" font-family="Arial"%3EVILA REAL%3C/text%3E%3Ctext x="60" y="370" font-size="20" font-weight="400" fill="%23ffffff" font-family="Arial"%3EFUTSAL%3C/text%3E%3C/svg%3E');
+            --login-logo-size: 120px;
+            --login-box-bg: #ffffff;
+            --login-text-color: #0f1b2d;
+            --login-accent-color: #d4a020;
         }
 
         body {
@@ -37,7 +46,133 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* ===== SIDEBAR ===== */
+        /* ============================================================
+           LOGIN PERSONALIZADO
+           ============================================================ */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--login-bg);
+            padding: 20px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background 0.5s ease;
+        }
+
+        .login-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .login-page > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box {
+            background: var(--login-box-bg);
+            border-radius: var(--radius);
+            padding: 40px 44px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .login-box .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-box .login-brand .logo-container {
+            width: var(--login-logo-size);
+            height: var(--login-logo-size);
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 16px;
+            border: 4px solid var(--login-accent-color);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(212, 160, 32, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .login-box .login-brand .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-box .login-brand h2 {
+            color: var(--login-text-color);
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .login-box .login-brand h2 span {
+            color: var(--login-accent-color);
+        }
+
+        .login-box .login-brand p {
+            color: var(--gray-dark);
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .login-box .form-group label {
+            color: var(--login-text-color);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .login-box .form-group input {
+            border: 2px solid #e5e7eb;
+            padding: 12px 16px;
+            font-size: 15px;
+        }
+
+        .login-box .form-group input:focus {
+            border-color: var(--login-accent-color);
+        }
+
+        .login-box .btn-primary {
+            background: var(--login-accent-color);
+            color: var(--login-text-color);
+        }
+
+        .login-box .btn-primary:hover {
+            background: var(--secondary-light);
+            transform: translateY(-2px);
+        }
+
+        .login-box .register-link a {
+            color: var(--login-accent-color);
+        }
+
+        .login-box .register-link a:hover {
+            color: var(--secondary-light);
+        }
+
+        .login-box .forgot-password a {
+            color: var(--gray-dark);
+        }
+
+        .login-box .forgot-password a:hover {
+            color: var(--login-accent-color);
+        }
+
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--primary);
@@ -215,7 +350,9 @@
             color: #ef4444;
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
         .main-content {
             margin-left: var(--sidebar-width);
             flex: 1;
@@ -273,7 +410,9 @@
             color: var(--gray-dark);
         }
 
-        /* ===== CARDS ===== */
+        /* ============================================================
+           CARDS
+           ============================================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -393,7 +532,9 @@
             color: var(--secondary-light);
         }
 
-        /* ===== BOTÕES ===== */
+        /* ============================================================
+           BOTÕES
+           ============================================================ */
         .btn {
             padding: 10px 22px;
             border: none;
@@ -486,7 +627,9 @@
             transform: translateY(-2px);
         }
 
-        /* ===== FOTO PERFIL ===== */
+        /* ============================================================
+           FOTO PERFIL
+           ============================================================ */
         .foto-perfil {
             width: 100px;
             height: 100px;
@@ -523,7 +666,9 @@
             display: none;
         }
 
-        /* ===== LISTAS ===== */
+        /* ============================================================
+           LISTAS
+           ============================================================ */
         .list-item {
             display: flex;
             justify-content: space-between;
@@ -600,7 +745,9 @@
             color: #2563eb;
         }
 
-        /* ===== CHART ===== */
+        /* ============================================================
+           CHART
+           ============================================================ */
         .chart-container {
             position: relative;
             height: 200px;
@@ -639,7 +786,9 @@
             font-weight: 600;
         }
 
-        /* ===== QUICK ACTIONS ===== */
+        /* ============================================================
+           QUICK ACTIONS
+           ============================================================ */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -678,7 +827,9 @@
             color: var(--primary);
         }
 
-        /* ===== ALUNOS GRID ===== */
+        /* ============================================================
+           ALUNOS GRID
+           ============================================================ */
         .alunos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -746,7 +897,9 @@
             flex-wrap: wrap;
         }
 
-        /* ===== CARTEIRINHA ===== */
+        /* ============================================================
+           CARTEIRINHA
+           ============================================================ */
         .carteirinha-wrapper {
             display: flex;
             justify-content: center;
@@ -879,7 +1032,9 @@
             z-index: 1;
         }
 
-        /* ===== QR CODE SCANNER ===== */
+        /* ============================================================
+           QR CODE SCANNER
+           ============================================================ */
         .scanner-container {
             width: 100%;
             max-width: 500px;
@@ -975,7 +1130,9 @@
             font-weight: 700;
         }
 
-        /* ===== MODAL ===== */
+        /* ============================================================
+           MODAL
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1040,7 +1197,9 @@
             transform: rotate(90deg);
         }
 
-        /* ===== FORMULÁRIOS ===== */
+        /* ============================================================
+           FORMULÁRIOS
+           ============================================================ */
         .form-group {
             margin-bottom: 16px;
         }
@@ -1084,7 +1243,9 @@
             gap: 16px;
         }
 
-        /* ===== TOAST ===== */
+        /* ============================================================
+           TOAST
+           ============================================================ */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -1130,7 +1291,9 @@
             }
         }
 
-        /* ===== EMPTY STATE ===== */
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -1153,123 +1316,9 @@
             font-size: 14px;
         }
 
-        /* ===== LOGIN ===== */
-        .login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f1b2d, #1a2d4a);
-            padding: 20px;
-            width: 100%;
-        }
-
-        .login-box {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 40px 44px;
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .login-box .login-brand {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .login-box .login-brand .logo-container {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 16px;
-            border: 4px solid var(--secondary-light);
-            background: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 30px rgba(212, 160, 32, 0.3);
-        }
-
-        .login-box .login-brand .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .login-box .login-brand h2 {
-            color: var(--primary);
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        .login-box .login-brand h2 span {
-            color: var(--secondary);
-        }
-
-        .login-box .login-brand p {
-            color: var(--gray-dark);
-            font-size: 14px;
-            margin-top: 2px;
-        }
-
-        .login-box .form-group {
-            margin-bottom: 18px;
-        }
-
-        .login-box .form-group label {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .login-box .form-group .password-wrapper input {
-            padding-right: 45px;
-        }
-
-        .login-box .btn {
-            width: 100%;
-            justify-content: center;
-            padding: 14px;
-            font-size: 16px;
-        }
-
-        .login-box .register-link {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 14px;
-            color: var(--gray-dark);
-        }
-
-        .login-box .register-link a {
-            color: var(--primary);
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .login-box .register-link a:hover {
-            color: var(--secondary);
-        }
-
-        .login-box .forgot-password {
-            text-align: right;
-            margin-top: 4px;
-            font-size: 13px;
-        }
-
-        .login-box .forgot-password a {
-            color: var(--gray-dark);
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .login-box .forgot-password a:hover {
-            color: var(--secondary);
-        }
-
-        /* ===== CONFIGURAÇÕES ===== */
+        /* ============================================================
+           CONFIGURAÇÕES
+           ============================================================ */
         .config-item {
             display: flex;
             justify-content: space-between;
@@ -1301,7 +1350,26 @@
             font-size: 13px;
         }
 
-        /* ===== NOTIFICAÇÕES ===== */
+        .config-item input[type="color"] {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .config-item input[type="number"] {
+            width: 70px;
+            padding: 4px 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        /* ============================================================
+           NOTIFICAÇÕES
+           ============================================================ */
         .notificacao-item {
             padding: 10px 0;
             border-bottom: 1px solid #f0f2f5;
@@ -1325,7 +1393,9 @@
             margin-right: 6px;
         }
 
-        /* ===== RESPONSIVO ===== */
+        /* ============================================================
+           RESPONSIVO
+           ============================================================ */
         @media (max-width: 1024px) {
             .double-grid {
                 grid-template-columns: 1fr;
@@ -1462,7 +1532,9 @@
             }
         }
 
-        /* ===== SCROLL ===== */
+        /* ============================================================
+           SCROLL
+           ============================================================ */
         ::-webkit-scrollbar {
             width: 5px;
         }
@@ -1474,7 +1546,9 @@
             border-radius: 10px;
         }
 
-        /* ===== PÁGINAS ===== */
+        /* ============================================================
+           PÁGINAS
+           ============================================================ */
         .page {
             display: none;
             animation: fadeIn 0.35s ease;
@@ -1495,7 +1569,9 @@
             }
         }
 
-        /* ===== STATUS BADGE ===== */
+        /* ============================================================
+           STATUS BADGE
+           ============================================================ */
         .status-badge {
             display: inline-block;
             padding: 3px 12px;
@@ -1519,7 +1595,9 @@
             color: #2563eb;
         }
 
-        /* ===== SENHA MASTER ===== */
+        /* ============================================================
+           SENHA MASTER
+           ============================================================ */
         .senha-master-container {
             background: #fef3c7;
             border: 2px solid #f59e0b;
@@ -1558,7 +1636,9 @@
             padding: 6px 14px;
         }
 
-        /* ===== WHATSAPP CONFIG ===== */
+        /* ============================================================
+           WHATSAPP CONFIG
+           ============================================================ */
         .whatsapp-config {
             background: #ecfdf5;
             border: 2px solid #25D366;
@@ -1573,7 +1653,9 @@
             margin-bottom: 8px;
         }
 
-        /* ===== PASSWORD WRAPPER ===== */
+        /* ============================================================
+           PASSWORD WRAPPER
+           ============================================================ */
         .password-wrapper {
             position: relative;
             display: flex;
@@ -1601,7 +1683,9 @@
             color: var(--secondary);
         }
 
-        /* ===== FILE UPLOAD ===== */
+        /* ============================================================
+           FILE UPLOAD
+           ============================================================ */
         .file-upload-area {
             border: 2px dashed #e5e7eb;
             border-radius: 10px;
@@ -1626,6 +1710,72 @@
             color: var(--gray-dark);
             font-size: 13px;
         }
+
+        .file-upload-area .preview {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* ============================================================
+           PREVIEW LOGIN
+           ============================================================ */
+        .login-preview {
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 16px;
+            background: #f8fafc;
+        }
+
+        .login-preview .preview-box {
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-preview .preview-box .preview-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--secondary);
+            margin-bottom: 12px;
+            background: white;
+        }
+
+        .login-preview .preview-box .preview-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-preview .preview-box .preview-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-preview .preview-box .preview-title span {
+            color: var(--secondary);
+        }
+
+        .login-preview .preview-box .preview-sub {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -1640,12 +1790,12 @@
     <div id="loginContainer" class="login-page">
         <div class="login-box">
             <div class="login-brand">
-                <div class="logo-container">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                <div class="logo-container" id="loginLogoContainer">
+                    <img id="loginLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
                          alt="Vila Real Futsal">
                 </div>
-                <h2>VILA <span>REAL</span></h2>
-                <p>Futsal · Gestão de Presenças</p>
+                <h2 id="loginTitle">VILA <span>REAL</span></h2>
+                <p id="loginSubtitle">Futsal · Gestão de Presenças</p>
             </div>
 
             <form id="loginForm" onsubmit="return handleLogin(event)">
@@ -1663,7 +1813,7 @@
                     </div>
                 </div>
                 <div id="loginError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" id="loginButton">
                     <i class="fas fa-sign-in-alt"></i> Entrar
                 </button>
             </form>
@@ -1770,6 +1920,9 @@
             </button>
             <button class="menu-item" data-page="configuracoes" id="navConfig">
                 <i class="fas fa-cog"></i> <span>Configurações</span>
+            </button>
+            <button class="menu-item" data-page="personalizar" id="navPersonalizar">
+                <i class="fas fa-paint-brush"></i> <span>Personalizar</span>
             </button>
         </div>
 
@@ -2205,6 +2358,102 @@
             </div>
         </div>
 
+        <!-- ===== PERSONALIZAR ===== -->
+        <div class="page" id="page-personalizar">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-paint-brush"></i> Personalização da Página de Login</h3>
+                </div>
+
+                <div class="form-row" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Logo da Página de Login</label>
+                        <div class="foto-upload-container">
+                            <div id="loginLogoPreview" style="width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid var(--secondary);background:white;display:flex;align-items:center;justify-content:center;">
+                                <img id="loginLogoPreviewImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E" alt="Logo" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('loginLogoInput').click()">
+                                <i class="fas fa-upload"></i> Alterar Logo
+                            </button>
+                            <input type="file" id="loginLogoInput" accept="image/*" style="display:none;" onchange="alterarLoginLogo(event)">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="resetarLoginLogo()">
+                                <i class="fas fa-undo"></i> Restaurar Padrão
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-image"></i> Fundo da Página de Login</label>
+                        <div class="foto-upload-container">
+                            <div id="loginBgPreview" style="width:100%;height:120px;border-radius:10px;border:2px solid #e5e7eb;background:linear-gradient(135deg,#0f1b2d,#1a2d4a);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;opacity:0.7;">
+                                Fundo atual
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('loginBgInput').click()">
+                                <i class="fas fa-upload"></i> Alterar Fundo
+                            </button>
+                            <input type="file" id="loginBgInput" accept="image/*" style="display:none;" onchange="alterarLoginBg(event)">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="resetarLoginBg()">
+                                <i class="fas fa-undo"></i> Restaurar Padrão
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor Principal</label>
+                        <input type="color" id="loginPrimaryColor" value="#d4a020" onchange="aplicarCoresLogin()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor do Texto</label>
+                        <input type="color" id="loginTextColor" value="#0f1b2d" onchange="aplicarCoresLogin()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Cor do Fundo do Box</label>
+                        <input type="color" id="loginBoxBgColor" value="#ffffff" onchange="aplicarCoresLogin()">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Tamanho do Logo</label>
+                        <input type="number" id="loginLogoSize" value="120" min="60" max="200" onchange="aplicarCoresLogin()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-font"></i> Título da Página</label>
+                    <input type="text" id="loginPageTitle" value="VILA REAL" placeholder="Título da página de login" onchange="atualizarLoginTextos()">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-font"></i> Subtítulo da Página</label>
+                    <input type="text" id="loginPageSubtitle" value="Futsal · Gestão de Presenças" placeholder="Subtítulo da página de login" onchange="atualizarLoginTextos()">
+                </div>
+
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+                    <button class="btn btn-success" onclick="salvarPersonalizacao()">
+                        <i class="fas fa-save"></i> Salvar Personalização
+                    </button>
+                    <button class="btn btn-danger" onclick="resetarPersonalizacao()">
+                        <i class="fas fa-undo"></i> Restaurar Padrão
+                    </button>
+                </div>
+
+                <!-- Preview -->
+                <div class="login-preview">
+                    <h4 style="margin-bottom:8px;color:var(--primary);">Pré-visualização</h4>
+                    <div class="preview-box" id="previewBox">
+                        <div class="preview-logo" id="previewLogo">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E" alt="Logo">
+                        </div>
+                        <div class="preview-title" id="previewTitle">VILA <span>REAL</span></div>
+                        <div class="preview-sub" id="previewSub">Futsal · Gestão de Presenças</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== USUÁRIOS ===== -->
         <div class="page" id="page-usuarios">
             <div class="card">
@@ -2447,7 +2696,7 @@
         // ============================================================
         //  DADOS DO SISTEMA - ADMINISTRADOR PRÉ-CADASTRADO
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v9';
+        const STORAGE_KEY = 'vilaRealFutsalData_v10';
 
         // Dados do administrador (fixos no script)
         const ADMIN_DATA = {
@@ -2486,7 +2735,16 @@
                     senhaMaster: 'Opala77@2056',
                     adminEmail: 'Gleuber.andrade@outlook.com',
                     adminWhatsapp: '111946359524',
-                    whatsappNumero: '111946359524'
+                    whatsappNumero: '111946359524',
+                    // Personalização do Login
+                    loginLogo: '',
+                    loginBg: '',
+                    loginPrimaryColor: '#d4a020',
+                    loginTextColor: '#0f1b2d',
+                    loginBoxBg: '#ffffff',
+                    loginLogoSize: 120,
+                    loginTitle: 'VILA REAL',
+                    loginSubtitle: 'Futsal · Gestão de Presenças'
                 },
                 proximoNumeroAluno: 1,
                 proximoNumeroUsuario: 2,
@@ -2518,6 +2776,15 @@
                         parsed.usuarios.unshift(ADMIN_DATA);
                     }
                     if (!parsed.config.horariosCategoria) parsed.config.horariosCategoria = {};
+                    // Garantir campos de personalização
+                    if (!parsed.config.loginLogo) parsed.config.loginLogo = '';
+                    if (!parsed.config.loginBg) parsed.config.loginBg = '';
+                    if (!parsed.config.loginPrimaryColor) parsed.config.loginPrimaryColor = '#d4a020';
+                    if (!parsed.config.loginTextColor) parsed.config.loginTextColor = '#0f1b2d';
+                    if (!parsed.config.loginBoxBg) parsed.config.loginBoxBg = '#ffffff';
+                    if (!parsed.config.loginLogoSize) parsed.config.loginLogoSize = 120;
+                    if (!parsed.config.loginTitle) parsed.config.loginTitle = 'VILA REAL';
+                    if (!parsed.config.loginSubtitle) parsed.config.loginSubtitle = 'Futsal · Gestão de Presenças';
                     return parsed;
                 }
             } catch (e) { console.error('Erro ao carregar dados', e); }
@@ -2526,13 +2793,211 @@
 
         function saveData() {
             try {
-                // Garantir que o administrador nunca seja removido
                 const adminExists = data.usuarios.some(u => u.id === 'admin_gleuber');
                 if (!adminExists) {
                     data.usuarios.unshift(ADMIN_DATA);
                 }
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
             } catch (e) { console.error('Erro ao salvar dados', e); }
+        }
+
+        // ============================================================
+        //  PERSONALIZAÇÃO DA PÁGINA DE LOGIN
+        // ============================================================
+        function aplicarPersonalizacao() {
+            const config = data.config;
+
+            // Aplicar fundo
+            const loginPage = document.getElementById('loginContainer');
+            if (config.loginBg) {
+                loginPage.style.background = `url(${config.loginBg}) center/cover no-repeat`;
+            } else {
+                loginPage.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            }
+
+            // Aplicar logo
+            const logoImg = document.getElementById('loginLogo');
+            if (config.loginLogo) {
+                logoImg.src = config.loginLogo;
+            } else {
+                logoImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E";
+            }
+
+            // Aplicar cores
+            const root = document.documentElement;
+            root.style.setProperty('--login-accent-color', config.loginPrimaryColor || '#d4a020');
+            root.style.setProperty('--login-text-color', config.loginTextColor || '#0f1b2d');
+            root.style.setProperty('--login-box-bg', config.loginBoxBg || '#ffffff');
+            root.style.setProperty('--login-logo-size', (config.loginLogoSize || 120) + 'px');
+
+            // Aplicar títulos
+            const titleEl = document.querySelector('.login-brand h2');
+            const subtitleEl = document.querySelector('.login-brand p');
+            if (titleEl) {
+                titleEl.innerHTML = (config.loginTitle || 'VILA REAL').replace(/ /g, ' <span>') + '</span>';
+                if (!config.loginTitle || config.loginTitle === 'VILA REAL') {
+                    titleEl.innerHTML = 'VILA <span>REAL</span>';
+                }
+            }
+            if (subtitleEl) {
+                subtitleEl.textContent = config.loginSubtitle || 'Futsal · Gestão de Presenças';
+            }
+
+            // Atualizar preview
+            atualizarPreview();
+        }
+
+        function atualizarPreview() {
+            const config = data.config;
+            const previewBox = document.getElementById('previewBox');
+            const previewLogo = document.getElementById('previewLogo');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewSub = document.getElementById('previewSub');
+
+            // Fundo do preview
+            if (config.loginBg) {
+                previewBox.style.background = `url(${config.loginBg}) center/cover no-repeat`;
+                previewBox.style.backgroundColor = 'transparent';
+            } else {
+                previewBox.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            }
+
+            // Logo do preview
+            if (config.loginLogo) {
+                previewLogo.querySelector('img').src = config.loginLogo;
+            } else {
+                previewLogo.querySelector('img').src =
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E";
+            }
+
+            // Títulos do preview
+            const titleText = config.loginTitle || 'VILA REAL';
+            previewTitle.innerHTML = titleText.replace(/ /g, ' <span>') + '</span>';
+            if (!config.loginTitle || config.loginTitle === 'VILA REAL') {
+                previewTitle.innerHTML = 'VILA <span>REAL</span>';
+            }
+            previewSub.textContent = config.loginSubtitle || 'Futsal · Gestão de Presenças';
+        }
+
+        // ============================================================
+        //  FUNÇÕES DE PERSONALIZAÇÃO
+        // ============================================================
+        function alterarLoginLogo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                document.getElementById('loginLogoPreviewImg').src = dataUrl;
+                data.config.loginLogo = dataUrl;
+                aplicarPersonalizacao();
+                showToast('Logo atualizado! Visualize a prévia acima.');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetarLoginLogo() {
+            const defaultLogo =
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E";
+            document.getElementById('loginLogoPreviewImg').src = defaultLogo;
+            data.config.loginLogo = '';
+            aplicarPersonalizacao();
+            showToast('Logo restaurado para o padrão!');
+        }
+
+        function alterarLoginBg(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                document.getElementById('loginBgPreview').style.background = `url(${dataUrl}) center/cover no-repeat`;
+                document.getElementById('loginBgPreview').textContent = '';
+                data.config.loginBg = dataUrl;
+                aplicarPersonalizacao();
+                showToast('Fundo atualizado! Visualize a prévia acima.');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetarLoginBg() {
+            const preview = document.getElementById('loginBgPreview');
+            preview.style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+            preview.textContent = 'Fundo padrão';
+            data.config.loginBg = '';
+            aplicarPersonalizacao();
+            showToast('Fundo restaurado para o padrão!');
+        }
+
+        function aplicarCoresLogin() {
+            const primary = document.getElementById('loginPrimaryColor').value;
+            const text = document.getElementById('loginTextColor').value;
+            const boxBg = document.getElementById('loginBoxBgColor').value;
+            const size = document.getElementById('loginLogoSize').value;
+
+            data.config.loginPrimaryColor = primary;
+            data.config.loginTextColor = text;
+            data.config.loginBoxBg = boxBg;
+            data.config.loginLogoSize = parseInt(size) || 120;
+
+            aplicarPersonalizacao();
+        }
+
+        function atualizarLoginTextos() {
+            const title = document.getElementById('loginPageTitle').value.trim();
+            const subtitle = document.getElementById('loginPageSubtitle').value.trim();
+
+            data.config.loginTitle = title || 'VILA REAL';
+            data.config.loginSubtitle = subtitle || 'Futsal · Gestão de Presenças';
+
+            aplicarPersonalizacao();
+        }
+
+        function salvarPersonalizacao() {
+            // Salvar cores
+            data.config.loginPrimaryColor = document.getElementById('loginPrimaryColor').value;
+            data.config.loginTextColor = document.getElementById('loginTextColor').value;
+            data.config.loginBoxBg = document.getElementById('loginBoxBgColor').value;
+            data.config.loginLogoSize = parseInt(document.getElementById('loginLogoSize').value) || 120;
+
+            // Salvar textos
+            data.config.loginTitle = document.getElementById('loginPageTitle').value.trim() || 'VILA REAL';
+            data.config.loginSubtitle = document.getElementById('loginPageSubtitle').value.trim() || 'Futsal · Gestão de Presenças';
+
+            saveData();
+            aplicarPersonalizacao();
+            showToast('✅ Personalização salva com sucesso!');
+        }
+
+        function resetarPersonalizacao() {
+            if (!confirm('Deseja restaurar todas as configurações de personalização para o padrão?')) return;
+
+            data.config.loginLogo = '';
+            data.config.loginBg = '';
+            data.config.loginPrimaryColor = '#d4a020';
+            data.config.loginTextColor = '#0f1b2d';
+            data.config.loginBoxBg = '#ffffff';
+            data.config.loginLogoSize = 120;
+            data.config.loginTitle = 'VILA REAL';
+            data.config.loginSubtitle = 'Futsal · Gestão de Presenças';
+
+            // Resetar campos
+            document.getElementById('loginPrimaryColor').value = '#d4a020';
+            document.getElementById('loginTextColor').value = '#0f1b2d';
+            document.getElementById('loginBoxBgColor').value = '#ffffff';
+            document.getElementById('loginLogoSize').value = 120;
+            document.getElementById('loginPageTitle').value = 'VILA REAL';
+            document.getElementById('loginPageSubtitle').value = 'Futsal · Gestão de Presenças';
+
+            // Resetar previews
+            resetarLoginLogo();
+            resetarLoginBg();
+
+            saveData();
+            aplicarPersonalizacao();
+            showToast('✅ Personalização restaurada para o padrão!');
         }
 
         // ============================================================
@@ -2593,6 +3058,7 @@
         function showLogin() {
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('recuperarSenhaContainer').style.display = 'none';
+            aplicarPersonalizacao();
         }
 
         function showRecuperarSenha() {
@@ -2618,14 +3084,12 @@
             if (novaSenha !== confirmar) { errorDiv.textContent = 'As senhas não coincidem';
                 errorDiv.style.display = 'block'; return false; }
 
-            // Verificar se o e-mail corresponde ao administrador
             if (email !== ADMIN_DATA.email) {
                 errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
                 errorDiv.style.display = 'block';
                 return false;
             }
 
-            // Atualizar senha do administrador
             const admin = data.usuarios.find(u => u.id === 'admin_gleuber');
             if (admin) {
                 admin.senha = novaSenha;
@@ -2662,7 +3126,6 @@
                 return false;
             }
 
-            // Buscar usuário por usuário ou email
             const user = data.usuarios.find(u =>
                 (u.usuario && u.usuario === loginUser) ||
                 (u.email && u.email.toLowerCase() === loginUser.toLowerCase())
@@ -2692,6 +3155,7 @@
             const isAdmin = user.perfil === 'Administrador';
             document.getElementById('navConfig').style.display = isAdmin ? 'flex' : 'none';
             document.getElementById('navUsuarios').style.display = isAdmin ? 'flex' : 'none';
+            document.getElementById('navPersonalizar').style.display = isAdmin ? 'flex' : 'none';
 
             initSystem();
             return false;
@@ -2704,6 +3168,7 @@
             document.getElementById('sidebar').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
+            aplicarPersonalizacao();
             showToast('Desconectado com sucesso');
         }
 
@@ -3042,6 +3507,7 @@
                 relatorios: ['Relatórios', 'Análise de frequência'],
                 backup: ['Backup', 'Exportar e importar dados'],
                 configuracoes: ['Configurações', 'Ajustes do sistema'],
+                personalizar: ['Personalizar', 'Personalize a página de login'],
                 usuarios: ['Usuários', 'Gerenciamento de usuários']
             };
 
@@ -3057,6 +3523,7 @@
             if (page === 'notificacoes') renderNotificacoes();
             if (page === 'usuarios') renderUsuarios();
             if (page === 'configuracoes') renderConfiguracoes();
+            if (page === 'personalizar') carregarPersonalizacao();
         }
 
         document.querySelectorAll('.menu-item').forEach(btn => {
@@ -3064,6 +3531,39 @@
                 mudarPagina(this.dataset.page);
             });
         });
+
+        // ============================================================
+        //  CARREGAR PERSONALIZAÇÃO NA PÁGINA
+        // ============================================================
+        function carregarPersonalizacao() {
+            const config = data.config;
+
+            document.getElementById('loginPrimaryColor').value = config.loginPrimaryColor || '#d4a020';
+            document.getElementById('loginTextColor').value = config.loginTextColor || '#0f1b2d';
+            document.getElementById('loginBoxBgColor').value = config.loginBoxBg || '#ffffff';
+            document.getElementById('loginLogoSize').value = config.loginLogoSize || 120;
+            document.getElementById('loginPageTitle').value = config.loginTitle || 'VILA REAL';
+            document.getElementById('loginPageSubtitle').value = config.loginSubtitle || 'Futsal · Gestão de Presenças';
+
+            // Preview do logo
+            if (config.loginLogo) {
+                document.getElementById('loginLogoPreviewImg').src = config.loginLogo;
+            } else {
+                document.getElementById('loginLogoPreviewImg').src =
+                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E";
+            }
+
+            // Preview do fundo
+            if (config.loginBg) {
+                document.getElementById('loginBgPreview').style.background = `url(${config.loginBg}) center/cover no-repeat`;
+                document.getElementById('loginBgPreview').textContent = '';
+            } else {
+                document.getElementById('loginBgPreview').style.background = 'linear-gradient(135deg, #0f1b2d, #1a2d4a)';
+                document.getElementById('loginBgPreview').textContent = 'Fundo padrão';
+            }
+
+            aplicarPersonalizacao();
+        }
 
         // ============================================================
         //  QR CODE SCANNER
@@ -3204,6 +3704,7 @@
             renderRelatorio();
             carregarPresencasHoje();
             renderNotificacoes();
+            carregarPersonalizacao();
 
             document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
                 weekday: 'long',
@@ -3226,7 +3727,6 @@
             document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
             document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
 
-            // Inicializar gráficos
             initCharts();
         }
 
@@ -4236,7 +4736,6 @@
 
                     if (!confirm('Isso substituirá todos os dados atuais. Deseja continuar?')) return;
 
-                    // Garantir que o admin não seja removido
                     const adminExists = importedData.usuarios.some(u => u.id === 'admin_gleuber');
                     if (!adminExists) {
                         importedData.usuarios.unshift(ADMIN_DATA);
@@ -4490,7 +4989,6 @@
         document.getElementById('sidebar').style.display = 'none';
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Garantir que o administrador existe
             const adminExists = data.usuarios.some(u => u.id === 'admin_gleuber');
             if (!adminExists) {
                 data.usuarios.unshift(ADMIN_DATA);
@@ -4561,7 +5059,7 @@
             console.log('📱 WhatsApp:', ADMIN_DATA.whatsapp);
             console.log('📊 Alunos:', data.alunos.length);
             console.log('👥 Usuários:', data.usuarios.length);
-            console.log('✅ Presenças:', data.presencas.length);
+            console.log('🎨 Personalização disponível!');
         });
     </script>
 
