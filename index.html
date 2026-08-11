@@ -19,22 +19,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Proteção contra acesso ao código fonte via DevTools */
-        * {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        /* Permite seleção em campos de input */
-        input,
-        textarea,
-        select,
-        [contenteditable] {
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
         :root {
             --primary: #0f1b2d;
             --primary-light: #1a2d4a;
@@ -1981,7 +1965,7 @@
         </div>
 
         <div class="sidebar-menu" id="sidebarMenu">
-            <!-- Renderizado via JavaScript -->
+            <!-- Renderizado via JavaScript - Menu com todas as funções -->
         </div>
 
         <div class="sidebar-footer">
@@ -2795,7 +2779,6 @@
         //  BLOQUEIO DE DEvTOOLS
         // ============================================================
         (function() {
-            // Bloquear teclas de atalho
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'F12' ||
                     (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
@@ -2806,13 +2789,11 @@
                 }
             });
 
-            // Bloquear clique direito
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
                 return false;
             });
 
-            // Bloquear seleção de texto
             document.addEventListener('selectstart', function(e) {
                 if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
                     e.preventDefault();
@@ -2823,7 +2804,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v14';
+        const STORAGE_KEY = 'vilaRealFutsalData_v15';
 
         const DEFAULT_MENU = [
             { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-home', page: 'dashboard' },
@@ -3105,16 +3086,14 @@
                 }
 
                 const iconHtml = item.icon && item.icon.startsWith('data:') ?
-                    `<img src="${item.icon}" alt="${item.label}" class="menu-icon-img">` :
+                    `<img src="${item.icon}" alt="${item.label}" style="width:20px;height:20px;border-radius:4px;object-fit:cover;">` :
                     `<i class="${item.icon || 'fas fa-circle'}"></i>`;
 
                 html += `
                     <button class="menu-item" data-page="${item.page}" onclick="mudarPagina('${item.page}')">
                         ${iconHtml}
                         <span>${item.label}</span>
-                        <span class="edit-icon" onclick="event.stopPropagation();abrirEditorMenu('${item.id}')" style="display:none;">
-                            <i class="fas fa-pen"></i>
-                        </span>
+                        <span class="badge" id="badge_${item.page}"></span>
                     </button>
                 `;
             });
@@ -3122,8 +3101,8 @@
             container.innerHTML = html;
 
             // Atualizar badges
-            document.getElementById('alunosCount').textContent = data.alunos.length;
-            document.getElementById('notifCount').textContent = data.notificacoes.length;
+            document.getElementById('badge_alunos').textContent = data.alunos.length || '';
+            document.getElementById('badge_notificacoes').textContent = data.notificacoes.length || '';
 
             // Ativar item atual
             const currentPage = document.querySelector('.page.active')?.id?.replace('page-', '') || 'dashboard';
@@ -3173,7 +3152,7 @@
             menu.forEach((item) => {
                 if (item.isSeparator) {
                     html += `
-                        <div class="menu-editor-item" style="background:var(--gray);border-radius:8px;margin-bottom:4px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;">
+                        <div style="background:var(--gray);border-radius:8px;margin-bottom:4px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="font-weight:600;color:var(--gray-dark);font-size:12px;text-transform:uppercase;letter-spacing:1px;">${item.label}</span>
                             <div style="display:flex;gap:4px;">
                                 <button class="btn btn-primary btn-sm" onclick="editarSeparador('${item.id}')"><i class="fas fa-edit"></i></button>
@@ -3189,10 +3168,12 @@
                     `<i class="${item.icon || 'fas fa-circle'}" style="font-size:16px;"></i>`;
 
                 html += `
-                    <div class="menu-editor-item">
-                        <div class="menu-icon-preview">${iconPreview}</div>
-                        <input type="text" class="menu-name-input" value="${item.label}" id="menuName_${item.id}" placeholder="Nome">
-                        <input type="text" class="menu-icon-input" value="${item.icon || ''}" id="menuIcon_${item.id}" placeholder="Ícone">
+                    <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f2f5;">
+                        <div style="width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--gray);overflow:hidden;flex-shrink:0;">
+                            ${iconPreview}
+                        </div>
+                        <input type="text" class="menu-name-input" value="${item.label}" id="menuName_${item.id}" placeholder="Nome" style="flex:1;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;min-width:80px;">
+                        <input type="text" class="menu-icon-input" value="${item.icon || ''}" id="menuIcon_${item.id}" placeholder="Ícone" style="width:100px;padding:4px 8px;border:2px solid #e5e7eb;border-radius:6px;font-size:13px;">
                         <button class="btn btn-secondary btn-sm" onclick="abrirEditorIcone('${item.id}')"><i class="fas fa-image"></i></button>
                         <button class="btn btn-success btn-sm" onclick="salvarItemMenu('${item.id}')"><i class="fas fa-check"></i></button>
                         <button class="btn btn-danger btn-sm" onclick="removerItemMenu('${item.id}')"><i class="fas fa-times"></i></button>
@@ -3201,17 +3182,6 @@
             });
 
             container.innerHTML = html;
-        }
-
-        function abrirEditorMenu(itemId) {
-            mudarPagina('personalizar');
-            setTimeout(() => {
-                const input = document.getElementById(`menuName_${itemId}`);
-                if (input) {
-                    input.focus();
-                    input.select();
-                }
-            }, 300);
         }
 
         function abrirEditorIcone(itemId) {
@@ -3921,6 +3891,8 @@
             renderRelatorio();
             carregarPresencasHoje();
             renderNotificacoes();
+
+            // Renderizar o menu com todas as funções
             renderizarMenu();
 
             document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
@@ -5232,8 +5204,8 @@
             console.log('🏆 Vila Real Futsal - Sistema de Gestão');
             console.log('👑 Administrador:', ADMIN_DATA.nome);
             console.log('📊 Alunos:', data.alunos.length);
-            console.log('✅ Painel lateral totalmente habilitado!');
-            console.log('🔓 Todas as funcionalidades ativas!');
+            console.log('📋 Menu lateral com todas as funções carregado!');
+            console.log('🔓 Todas as funcionalidades disponíveis!');
         });
     </script>
 
