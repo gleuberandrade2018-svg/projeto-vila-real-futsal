@@ -469,6 +469,34 @@
             transform: translateY(-2px);
         }
 
+        /* ===== CAMPO COM OLHO MÁGICO ===== */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: var(--gray-dark);
+            transition: var(--transition);
+            font-size: 18px;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .password-wrapper .toggle-password:hover {
+            color: var(--secondary);
+        }
+
         /* ===== LISTAS ===== */
         .list-item {
             display: flex;
@@ -1148,14 +1176,8 @@
             font-size: 13px;
         }
 
-        .login-box .form-group input {
-            border: 2px solid #e5e7eb;
-            padding: 12px 16px;
-            font-size: 15px;
-        }
-
-        .login-box .form-group input:focus {
-            border-color: var(--secondary);
+        .login-box .form-group .password-wrapper input {
+            padding-right: 45px;
         }
 
         .login-box .btn {
@@ -1180,6 +1202,22 @@
         }
 
         .login-box .register-link a:hover {
+            color: var(--secondary);
+        }
+
+        .login-box .forgot-password {
+            text-align: right;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+        .login-box .forgot-password a {
+            color: var(--gray-dark);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .login-box .forgot-password a:hover {
             color: var(--secondary);
         }
 
@@ -1438,6 +1476,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .senha-master-container .senha-display code {
@@ -1448,11 +1487,28 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 2px;
+            min-width: 120px;
+            text-align: center;
         }
 
         .senha-master-container .senha-display .btn {
             font-size: 12px;
             padding: 6px 14px;
+        }
+
+        /* ===== WHATSAPP CONFIG ===== */
+        .whatsapp-config {
+            background: #ecfdf5;
+            border: 2px solid #25D366;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+
+        .whatsapp-config h4 {
+            color: #065f46;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -1483,7 +1539,12 @@
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-lock"></i> Senha</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div id="loginError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
                 <button type="submit" class="btn btn-primary">
@@ -1491,11 +1552,62 @@
                 </button>
             </form>
 
+            <div class="forgot-password">
+                <a onclick="showRecuperarSenha()"><i class="fas fa-key"></i> Esqueceu a senha master?</a>
+            </div>
+
             <div class="register-link">
                 <a onclick="showPrimeiroAcesso()">🔑 Primeiro acesso? Clique aqui</a>
             </div>
             <div class="register-link" style="margin-top:8px;font-size:12px;color:#6b7280;">
                 <i class="fas fa-shield-alt"></i> Sistema seguro - Apenas administrador pode cadastrar usuários
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RECUPERAR SENHA MASTER ===== -->
+    <div id="recuperarSenhaContainer" class="login-page" style="display:none;">
+        <div class="login-box">
+            <div class="login-brand">
+                <div class="logo-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                         alt="Vila Real Futsal">
+                </div>
+                <h2>VILA <span>REAL</span></h2>
+                <p>Recuperar Senha Master</p>
+            </div>
+
+            <form id="recuperarSenhaForm" onsubmit="return handleRecuperarSenha(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> E-mail do Administrador</label>
+                    <input type="email" id="recuperarEmail" placeholder="Digite o e-mail do administrador" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Nova Senha Master</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="recuperarNovaSenha" placeholder="Digite a nova senha master" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('recuperarNovaSenha', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-check-circle"></i> Confirmar Nova Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="recuperarConfirmarSenha" placeholder="Confirme a nova senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('recuperarConfirmarSenha', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="recuperarError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
+                <button type="submit" class="btn btn-secondary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-save"></i> Recuperar Senha
+                </button>
+            </form>
+
+            <div class="register-link">
+                <a onclick="showLogin()"><i class="fas fa-arrow-left"></i> Voltar para o login</a>
             </div>
         </div>
     </div>
@@ -1520,15 +1632,31 @@
                 <div class="form-group">
                     <label><i class="fas fa-envelope"></i> E-mail do Administrador</label>
                     <input type="email" id="adminEmail" placeholder="admin@vilareal.com" required>
+                    <small style="color:var(--gray-dark);font-size:12px;">Use este e-mail para recuperar a senha master</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-whatsapp"></i> WhatsApp do Administrador</label>
+                    <input type="tel" id="adminWhatsapp" placeholder="(11) 99999-9999">
+                    <small style="color:var(--gray-dark);font-size:12px;">Para envio de notificações automáticas</small>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-key"></i> Criar Senha Master</label>
-                    <input type="password" id="adminSenhaMaster" placeholder="Crie uma senha forte" required minlength="6">
+                    <div class="password-wrapper">
+                        <input type="password" id="adminSenhaMaster" placeholder="Crie uma senha forte" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('adminSenhaMaster', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                     <small style="color:var(--gray-dark);font-size:12px;">Mínimo 6 caracteres - Guarde esta senha com segurança!</small>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-check-circle"></i> Confirmar Senha Master</label>
-                    <input type="password" id="adminSenhaConfirm" placeholder="Confirme a senha" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="adminSenhaConfirm" placeholder="Confirme a senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('adminSenhaConfirm', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-secondary" style="width:100%;justify-content:center;">
                     <i class="fas fa-user-cog"></i> Criar Administrador
@@ -1917,22 +2045,20 @@
                             <div class="config-label">Horário Fim <small>Manhã</small></div>
                             <input type="time" id="horaFim" value="12:00" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;">
                         </div>
-                        <div style="margin-top:16px;">
-                            <h4 style="font-size:15px;color:var(--primary);margin-bottom:12px;">
-                                <i class="fas fa-bell"></i> Configurações de Notificação
-                            </h4>
+
+                        <!-- Configuração WhatsApp -->
+                        <div class="whatsapp-config">
+                            <h4><i class="fab fa-whatsapp"></i> Configuração de WhatsApp</h4>
                             <div class="config-item">
-                                <div class="config-label">Enviar notificação automática</div>
-                                <label style="display:flex;align-items:center;gap:8px;">
-                                    <input type="checkbox" id="notifAutomatica" checked>
-                                    <span style="font-size:13px;">Ativado</span>
-                                </label>
+                                <div class="config-label">Número de WhatsApp <small>Para envio de notificações</small></div>
+                                <input type="tel" id="whatsappNumero" placeholder="(11) 99999-9999" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;width:180px;">
                             </div>
                             <div class="config-item">
                                 <div class="config-label">Mensagem padrão</div>
                                 <input type="text" id="mensagemPadrao" value="Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;width:100%;">
                             </div>
                         </div>
+
                         <button class="btn btn-primary btn-sm" onclick="salvarConfiguracoes()" style="margin-top:12px;">
                             <i class="fas fa-save"></i> Salvar Configurações
                         </button>
@@ -1946,7 +2072,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-users-cog"></i> Gerenciar Usuários</h3>
-                    <button class="btn btn-secondary btn-sm" onclick="openModal('modalUsuario')">
+                    <button class="btn btn-secondary btn-sm" onclick="openModalUsuario()">
                         <i class="fas fa-user-plus"></i> Novo Usuário
                     </button>
                 </div>
@@ -1973,6 +2099,9 @@
                     </div>
                     <small style="color:var(--gray-dark);font-size:12px;display:block;margin-top:8px;">
                         <i class="fas fa-info-circle"></i> Use esta senha para acessar como administrador
+                    </small>
+                    <small style="color:var(--gray-dark);font-size:12px;display:block;margin-top:4px;">
+                        <i class="fas fa-envelope"></i> Recuperação: <span id="adminEmailDisplay">não definido</span>
                     </small>
                 </div>
             </div>
@@ -2069,7 +2198,12 @@
                 </div>
                 <div class="form-group">
                     <label>Senha Temporária</label>
-                    <input type="text" id="usuarioSenha" placeholder="Deixe em branco para gerar automaticamente">
+                    <div class="password-wrapper">
+                        <input type="password" id="usuarioSenha" placeholder="Deixe em branco para gerar automaticamente">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('usuarioSenha', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                     <small style="color:var(--gray-dark);font-size:12px;">O usuário poderá alterar a senha após o primeiro login</small>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
@@ -2090,11 +2224,21 @@
                 <input type="hidden" id="alterarSenhaUserId">
                 <div class="form-group">
                     <label>Nova Senha</label>
-                    <input type="password" id="novaSenhaInput" placeholder="Digite a nova senha" required minlength="6">
+                    <div class="password-wrapper">
+                        <input type="password" id="novaSenhaInput" placeholder="Digite a nova senha" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('novaSenhaInput', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Confirmar Nova Senha</label>
-                    <input type="password" id="confirmarSenhaInput" placeholder="Confirme a nova senha" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmarSenhaInput" placeholder="Confirme a nova senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmarSenhaInput', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
                     <i class="fas fa-save"></i> Alterar Senha
@@ -2113,15 +2257,30 @@
             <form id="alterarSenhaMasterForm" onsubmit="return alterarSenhaMaster(event)">
                 <div class="form-group">
                     <label>Senha Master Atual</label>
-                    <input type="password" id="senhaMasterAtual" placeholder="Digite a senha master atual" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="senhaMasterAtual" placeholder="Digite a senha master atual" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('senhaMasterAtual', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Nova Senha Master</label>
-                    <input type="password" id="novaSenhaMaster" placeholder="Digite a nova senha master" required minlength="6">
+                    <div class="password-wrapper">
+                        <input type="password" id="novaSenhaMaster" placeholder="Digite a nova senha master" required minlength="6">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('novaSenhaMaster', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Confirmar Nova Senha Master</label>
-                    <input type="password" id="confirmarSenhaMaster" placeholder="Confirme a nova senha master" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmarSenhaMaster" placeholder="Confirme a nova senha master" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmarSenhaMaster', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
                     <i class="fas fa-save"></i> Alterar Senha Master
@@ -2135,7 +2294,7 @@
         // ============================================================
         //  DADOS DO SISTEMA
         // ============================================================
-        const STORAGE_KEY = 'vilaRealFutsalData_v6';
+        const STORAGE_KEY = 'vilaRealFutsalData_v7';
 
         function getDefaultData() {
             return {
@@ -2157,7 +2316,10 @@
                     horaFim: '12:00',
                     notifAutomatica: true,
                     mensagemPadrao: 'Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!',
-                    senhaMaster: ''
+                    senhaMaster: '',
+                    adminEmail: '',
+                    adminWhatsapp: '',
+                    whatsappNumero: ''
                 },
                 proximoNumeroAluno: 1,
                 proximoNumeroUsuario: 1,
@@ -2209,18 +2371,97 @@
         }
 
         // ============================================================
+        //  OLHO MÁGICO PARA SENHA
+        // ============================================================
+        function togglePasswordVisibility(inputId, button) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const icon = button.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ============================================================
         //  TELAS DE LOGIN E PRIMEIRO ACESSO
         // ============================================================
         function showLogin() {
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('primeiroAcessoContainer').style.display = 'none';
-            document.getElementById('registerContainer').style.display = 'none';
+            document.getElementById('recuperarSenhaContainer').style.display = 'none';
         }
 
         function showPrimeiroAcesso() {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('primeiroAcessoContainer').style.display = 'flex';
-            document.getElementById('registerContainer').style.display = 'none';
+            document.getElementById('recuperarSenhaContainer').style.display = 'none';
+        }
+
+        function showRecuperarSenha() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('primeiroAcessoContainer').style.display = 'none';
+            document.getElementById('recuperarSenhaContainer').style.display = 'flex';
+            document.getElementById('recuperarError').style.display = 'none';
+        }
+
+        // ============================================================
+        //  RECUPERAR SENHA MASTER
+        // ============================================================
+        function handleRecuperarSenha(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('recuperarEmail').value.trim();
+            const novaSenha = document.getElementById('recuperarNovaSenha').value;
+            const confirmar = document.getElementById('recuperarConfirmarSenha').value;
+            const errorDiv = document.getElementById('recuperarError');
+
+            errorDiv.style.display = 'none';
+
+            if (!email) {
+                errorDiv.textContent = 'Digite o e-mail do administrador';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            if (novaSenha.length < 6) {
+                errorDiv.textContent = 'A nova senha deve ter no mínimo 6 caracteres';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            if (novaSenha !== confirmar) {
+                errorDiv.textContent = 'As senhas não coincidem';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            // Verificar se o e-mail corresponde ao administrador
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+            if (!admin || admin.email !== email) {
+                errorDiv.textContent = 'E-mail não corresponde ao administrador cadastrado';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            // Atualizar senha master
+            data.config.senhaMaster = novaSenha;
+            admin.senha = novaSenha;
+            saveData();
+
+            showToast('✅ Senha master recuperada com sucesso!');
+            document.getElementById('recuperarSenhaForm').reset();
+            showLogin();
+            document.getElementById('loginPassword').value = novaSenha;
+
+            return false;
         }
 
         // ============================================================
@@ -2229,7 +2470,6 @@
         function handlePrimeiroAcesso(e) {
             e.preventDefault();
 
-            // Verificar se já existe admin
             if (data.sistemaInicializado) {
                 showToast('Sistema já inicializado! Faça login.', 'error');
                 showLogin();
@@ -2238,6 +2478,7 @@
 
             const nome = document.getElementById('adminNome').value.trim();
             const email = document.getElementById('adminEmail').value.trim();
+            const whatsapp = document.getElementById('adminWhatsapp').value.trim();
             const senha = document.getElementById('adminSenhaMaster').value;
             const confirm = document.getElementById('adminSenhaConfirm').value;
 
@@ -2256,7 +2497,6 @@
                 return false;
             }
 
-            // Criar usuário administrador
             const usuario = {
                 id: 'admin_' + Date.now(),
                 nome: nome,
@@ -2264,20 +2504,22 @@
                 perfil: 'Administrador',
                 usuario: 'admin',
                 senha: senha,
-                whatsapp: '',
+                whatsapp: whatsapp,
                 criadoEm: new Date().toISOString(),
                 primeiroAcesso: false
             };
 
             data.usuarios = [usuario];
             data.config.senhaMaster = senha;
+            data.config.adminEmail = email;
+            data.config.adminWhatsapp = whatsapp;
             data.sistemaInicializado = true;
             data.proximoNumeroUsuario = 2;
 
             saveData();
+
             showToast('✅ Administrador criado com sucesso! Faça login.', 'success');
 
-            // Limpar e mostrar login
             document.getElementById('primeiroAcessoForm').reset();
             showLogin();
             document.getElementById('loginUser').value = 'admin';
@@ -2304,7 +2546,6 @@
                 return false;
             }
 
-            // Verificar se o sistema já foi inicializado
             if (!data.sistemaInicializado) {
                 showPrimeiroAcesso();
                 errorDiv.textContent = 'Sistema não inicializado. Crie o administrador.';
@@ -2312,7 +2553,6 @@
                 return false;
             }
 
-            // Buscar usuário por usuário ou email
             const user = data.usuarios.find(u =>
                 (u.usuario && u.usuario === loginUser) ||
                 (u.email && u.email === loginUser)
@@ -2339,10 +2579,15 @@
             document.getElementById('userRole').textContent = user.perfil;
             document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
 
-            // Mostrar/ocultar opções de admin
             const isAdmin = user.perfil === 'Administrador';
             document.getElementById('navConfig').style.display = isAdmin ? 'flex' : 'none';
             document.getElementById('navUsuarios').style.display = isAdmin ? 'flex' : 'none';
+
+            // Atualizar e-mail do admin na tela de usuários
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+            if (admin) {
+                document.getElementById('adminEmailDisplay').textContent = admin.email || 'não definido';
+            }
 
             initSystem();
             return false;
@@ -2422,7 +2667,6 @@
             let usuario;
 
             if (id) {
-                // Editando usuário existente
                 const index = data.usuarios.findIndex(u => u.id === id);
                 if (index === -1) {
                     showToast('Usuário não encontrado', 'error');
@@ -2443,7 +2687,6 @@
                 showToast('Usuário atualizado com sucesso!');
 
             } else {
-                // Novo usuário
                 const numero = String(data.proximoNumeroUsuario++).padStart(4, '0');
                 const usuarioGerado = 'user' + numero;
                 const senha = senhaInput || Math.random().toString(36).slice(-8).toUpperCase();
@@ -2556,7 +2799,6 @@
             navigator.clipboard.writeText(senha).then(() => {
                 showToast('Senha master copiada para a área de transferência!');
             }).catch(() => {
-                // Fallback
                 const textarea = document.createElement('textarea');
                 textarea.value = senha;
                 document.body.appendChild(textarea);
@@ -2601,6 +2843,11 @@
             }
 
             data.config.senhaMaster = nova;
+            // Atualizar também a senha do admin
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+            if (admin) {
+                admin.senha = nova;
+            }
             saveData();
             closeModal('modalAlterarSenhaMaster');
             showToast('Senha master alterada com sucesso!');
@@ -2872,8 +3119,20 @@
             document.getElementById('alunosCount').textContent = data.alunos.length;
             document.getElementById('notifCount').textContent = data.notificacoes.length;
 
-            // Mostrar senha master
             document.getElementById('senhaMasterDisplay').textContent = '••••••••';
+
+            const admin = data.usuarios.find(u => u.perfil === 'Administrador');
+            if (admin) {
+                document.getElementById('adminEmailDisplay').textContent = admin.email || 'não definido';
+            }
+
+            // Carregar WhatsApp config
+            if (data.config.whatsappNumero) {
+                document.getElementById('whatsappNumero').value = data.config.whatsappNumero;
+            }
+            if (data.config.mensagemPadrao) {
+                document.getElementById('mensagemPadrao').value = data.config.mensagemPadrao;
+            }
         }
 
         // ============================================================
@@ -3468,14 +3727,14 @@
         }
 
         // ============================================================
-        //  NOTIFICAÇÕES
+        //  NOTIFICAÇÕES COM WHATSAPP
         // ============================================================
         function enviarNotificacaoPresenca(aluno) {
             const mensagem = data.config.mensagemPadrao ||
                 `Prezado(a) ${aluno.pai}, informamos que ${aluno.nome} esteve presente no treino do Vila Real Futsal hoje!`;
 
             let canais = [];
-            if (aluno.whatsapp) canais.push('whatsapp');
+            if (aluno.whatsapp && data.config.whatsappNumero) canais.push('whatsapp');
             if (aluno.email) canais.push('email');
 
             if (canais.length === 0) {
@@ -3500,6 +3759,13 @@
                 data.notificacoes.push(notificacao);
                 saveData();
                 window.data = data;
+
+                // Se for WhatsApp, tentar enviar via link
+                if (canal === 'whatsapp' && aluno.whatsapp) {
+                    const numero = aluno.whatsapp.replace(/\D/g, '');
+                    const msgEncoded = encodeURIComponent(mensagem);
+                    window.open(`https://wa.me/55${numero}?text=${msgEncoded}`, '_blank');
+                }
 
                 console.log(`📨 Enviando ${canal} para ${aluno.pai}:`, mensagem);
 
@@ -3766,6 +4032,7 @@
             document.getElementById('horaFim').value = data.config.horaFim || '12:00';
             document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
             document.getElementById('mensagemPadrao').value = data.config.mensagemPadrao || '';
+            document.getElementById('whatsappNumero').value = data.config.whatsappNumero || '';
         }
 
         function adicionarCategoria() {
@@ -3809,6 +4076,7 @@
             data.config.horaFim = document.getElementById('horaFim').value;
             data.config.notifAutomatica = document.getElementById('notifAutomatica').checked;
             data.config.mensagemPadrao = document.getElementById('mensagemPadrao').value.trim();
+            data.config.whatsappNumero = document.getElementById('whatsappNumero').value.trim();
 
             saveData();
             window.data = data;
@@ -3823,16 +4091,12 @@
         document.getElementById('sidebar').style.display = 'none';
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se o sistema já foi inicializado
             if (!data.sistemaInicializado) {
-                // Mostrar tela de primeiro acesso
                 showPrimeiroAcesso();
             } else {
-                // Mostrar login normal
                 showLogin();
             }
 
-            // Dados de exemplo (apenas se não houver alunos e o sistema estiver inicializado)
             if (data.sistemaInicializado && data.alunos.length === 0) {
                 const exemplos = [
                     { nome: 'João Pedro Silva', pai: 'Carlos Silva', telefone: '(11) 99999-1111',
@@ -3890,6 +4154,7 @@
             console.log('✅ Presenças:', data.presencas.length);
             console.log('📨 Notificações:', data.notificacoes.length);
             console.log('🔐 Sistema Inicializado:', data.sistemaInicializado);
+            console.log('📱 WhatsApp Configurado:', data.config.whatsappNumero || 'Não configurado');
         });
     </script>
 
