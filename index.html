@@ -1,0 +1,3391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vila Real Futsal - Gestão</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0f1b2d;
+            --primary-light: #1a2d4a;
+            --secondary: #d4a020;
+            --secondary-light: #f5d060;
+            --white: #ffffff;
+            --gray: #f0f2f5;
+            --gray-dark: #6b7280;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background: #eef1f5;
+            min-height: 100vh;
+            display: flex;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary);
+            min-height: 100vh;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            padding: 0 20px 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar-brand .logo-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid var(--secondary);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-brand .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-brand .brand-text {
+            color: var(--white);
+        }
+
+        .sidebar-brand .brand-text h2 {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .sidebar-brand .brand-text h2 span {
+            color: var(--secondary);
+        }
+
+        .sidebar-brand .brand-text small {
+            font-size: 10px;
+            opacity: 0.6;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .sidebar-menu .menu-label {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 12px 6px 12px;
+            font-weight: 700;
+        }
+
+        .sidebar-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-menu .menu-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+        }
+
+        .sidebar-menu .menu-item.active {
+            background: var(--secondary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-menu .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-menu .menu-item .badge {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: auto;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--white);
+        }
+
+        .sidebar-footer .user-info .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .sidebar-footer .user-info .user-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .sidebar-footer .user-info .user-role {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .sidebar-footer .btn-logout {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: var(--transition);
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .sidebar-footer .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 24px 32px 32px 32px;
+            min-height: 100vh;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .top-header .page-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .top-header .page-title p {
+            color: var(--gray-dark);
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .top-header .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .top-header .header-actions .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 8px 16px;
+            box-shadow: var(--shadow);
+            gap: 8px;
+        }
+
+        .top-header .header-actions .search-box input {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            background: transparent;
+            min-width: 180px;
+        }
+
+        .top-header .header-actions .search-box i {
+            color: var(--gray-dark);
+        }
+
+        /* ===== CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .stat-card .stat-top .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-card .stat-top .icon {
+            font-size: 28px;
+            color: var(--secondary);
+            opacity: 0.6;
+        }
+
+        .stat-card .label {
+            color: var(--gray-dark);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 6px;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .stat-card .stat-change.up {
+            color: #16a34a;
+            background: #dcfce7;
+        }
+
+        .stat-card .stat-change.down {
+            color: #dc2626;
+            background: #fee2e2;
+        }
+
+        .double-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .card-header h3 i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+
+        .card-header .card-action {
+            font-size: 12px;
+            color: var(--secondary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+
+        .card-header .card-action:hover {
+            color: var(--secondary-light);
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 27, 45, 0.25);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #22c55e;
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 12px;
+        }
+
+        .btn-scan {
+            background: #1a73e8;
+            color: white;
+            font-size: 16px;
+            padding: 14px 28px;
+        }
+
+        .btn-scan:hover {
+            background: #1557b0;
+            transform: scale(1.02);
+        }
+
+        .btn-scan i {
+            font-size: 20px;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+        }
+
+        /* ===== LISTAS ===== */
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item .item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .list-item .item-info .item-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .list-item .item-info .item-text .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .list-item .item-info .item-text .sub {
+            font-size: 12px;
+            color: var(--gray-dark);
+        }
+
+        .list-item .item-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 12px;
+        }
+
+        .list-item .item-badge.cat {
+            background: #e8f0fe;
+            color: var(--primary-light);
+        }
+
+        .list-item .item-badge.presente {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .list-item .item-badge.ausente {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .list-item .item-badge.enviado {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        /* ===== CHART ===== */
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 150px;
+            padding-top: 10px;
+            gap: 6px;
+        }
+
+        .chart-bars .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .chart-bars .bar-item .bar {
+            width: 100%;
+            max-width: 40px;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(180deg, var(--secondary), var(--secondary-light));
+            min-height: 8px;
+            transition: var(--transition);
+        }
+
+        .chart-bars .bar-item .bar-label {
+            font-size: 10px;
+            color: var(--gray-dark);
+            font-weight: 600;
+        }
+
+        /* ===== QUICK ACTIONS ===== */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 8px;
+            background: var(--gray);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--primary);
+        }
+
+        .quick-action:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .quick-action i {
+            font-size: 22px;
+            color: var(--secondary);
+        }
+
+        .quick-action:hover i {
+            color: var(--primary);
+        }
+
+        /* ===== ALUNOS GRID ===== */
+        .alunos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .aluno-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e5e7eb;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .aluno-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .aluno-card .badge-categoria {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .aluno-card .aluno-nome {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .aluno-card .aluno-info {
+            font-size: 13px;
+            color: var(--gray-dark);
+            margin: 3px 0;
+        }
+
+        .aluno-card .aluno-info i {
+            width: 18px;
+            color: var(--secondary);
+        }
+
+        .aluno-card .actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== CARTEIRINHA ===== */
+        .carteirinha-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .carteirinha {
+            background: linear-gradient(135deg, #0f1b2d 0%, #1a2d4a 100%);
+            border-radius: var(--radius);
+            padding: 28px 30px;
+            color: var(--white);
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .carteirinha::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 160, 32, 0.08), transparent);
+            border-radius: 50%;
+        }
+
+        .carteirinha .crt-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .carteirinha .crt-header .crt-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--secondary-light);
+            flex-shrink: 0;
+            background: var(--white);
+        }
+
+        .carteirinha .crt-header .crt-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carteirinha .crt-header .crt-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .carteirinha .crt-header .crt-title span {
+            color: var(--secondary);
+        }
+
+        .carteirinha .crt-header .crt-title small {
+            display: block;
+            font-size: 10px;
+            opacity: 0.6;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .carteirinha .crt-body {
+            display: flex;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .carteirinha .crt-body .crt-info {
+            flex: 1;
+        }
+
+        .carteirinha .crt-body .crt-info .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .carteirinha .crt-body .crt-info .info-row .label {
+            opacity: 0.5;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .carteirinha .crt-body .crt-info .info-row .value {
+            font-weight: 600;
+        }
+
+        .carteirinha .crt-body .crt-qr {
+            flex-shrink: 0;
+            background: var(--white);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carteirinha .crt-body .crt-qr canvas {
+            width: 110px !important;
+            height: 110px !important;
+        }
+
+        .carteirinha .crt-footer {
+            text-align: center;
+            font-size: 9px;
+            opacity: 0.4;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
+            margin-top: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== QR CODE SCANNER ===== */
+        .scanner-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .scanner-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 3px solid var(--secondary);
+            border-radius: 12px;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        .scanner-overlay .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--secondary);
+            border-style: solid;
+            border-width: 0;
+        }
+
+        .scanner-overlay .corner.tl {
+            top: -3px;
+            left: -3px;
+            border-top-width: 4px;
+            border-left-width: 4px;
+            border-radius: 4px 0 0 0;
+        }
+
+        .scanner-overlay .corner.tr {
+            top: -3px;
+            right: -3px;
+            border-top-width: 4px;
+            border-right-width: 4px;
+            border-radius: 0 4px 0 0;
+        }
+
+        .scanner-overlay .corner.bl {
+            bottom: -3px;
+            left: -3px;
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+            border-radius: 0 0 0 4px;
+        }
+
+        .scanner-overlay .corner.br {
+            bottom: -3px;
+            right: -3px;
+            border-bottom-width: 4px;
+            border-right-width: 4px;
+            border-radius: 0 0 4px 0;
+        }
+
+        .scanner-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .scanner-status {
+            text-align: center;
+            padding: 12px;
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+
+        .scanner-status .found {
+            color: #22c55e;
+            font-weight: 700;
+        }
+
+        .scanner-status .error {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.92) translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--gray-dark);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: #ef4444;
+            transform: rotate(90deg);
+        }
+
+        /* ===== FORMULÁRIOS ===== */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(212, 160, 32, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 2000;
+            animation: slideUp 0.3s ease;
+            border-left: 4px solid var(--secondary);
+            max-width: 400px;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        .toast.success {
+            border-left-color: #22c55e;
+        }
+
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+
+        .toast.warning {
+            border-left-color: #f59e0b;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-dark);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: var(--secondary);
+            opacity: 0.4;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* ===== LOGIN ===== */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f1b2d, #1a2d4a);
+            padding: 20px;
+            width: 100%;
+        }
+
+        .login-box {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px 44px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .login-box .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-box .login-brand .logo-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 16px;
+            border: 4px solid var(--secondary-light);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(212, 160, 32, 0.3);
+        }
+
+        .login-box .login-brand .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-box .login-brand h2 {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .login-box .login-brand h2 span {
+            color: var(--secondary);
+        }
+
+        .login-box .login-brand p {
+            color: var(--gray-dark);
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 18px;
+        }
+
+        .login-box .form-group label {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .login-box .form-group input {
+            border: 2px solid #e5e7eb;
+            padding: 12px 16px;
+            font-size: 15px;
+        }
+
+        .login-box .form-group input:focus {
+            border-color: var(--secondary);
+        }
+
+        .login-box .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px;
+            font-size: 16px;
+        }
+
+        .login-box .register-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+
+        .login-box .register-link a {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .login-box .register-link a:hover {
+            color: var(--secondary);
+        }
+
+        /* ===== CONFIGURAÇÕES ===== */
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-item .config-label {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .config-item .config-label small {
+            display: block;
+            font-weight: 400;
+            color: var(--gray-dark);
+            font-size: 12px;
+        }
+
+        /* ===== NOTIFICAÇÕES ===== */
+        .notificacao-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .notificacao-item:last-child {
+            border-bottom: none;
+        }
+
+        .notificacao-item .notif-time {
+            font-size: 11px;
+            color: var(--gray-dark);
+        }
+
+        .notificacao-item .notif-msg {
+            font-size: 13px;
+        }
+
+        .notificacao-item .notif-msg i {
+            color: var(--secondary);
+            margin-right: 6px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 1024px) {
+            .double-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 12px 0;
+            }
+            .sidebar .sidebar-brand .brand-text,
+            .sidebar .sidebar-menu .menu-item span,
+            .sidebar .sidebar-menu .menu-label,
+            .sidebar .sidebar-footer .user-info .user-name,
+            .sidebar .sidebar-footer .user-info .user-role,
+            .sidebar .sidebar-footer .btn-logout span {
+                display: none;
+            }
+            .sidebar .sidebar-brand {
+                padding: 0 10px 16px 10px;
+                justify-content: center;
+            }
+            .sidebar .sidebar-brand .logo-container {
+                width: 40px;
+                height: 40px;
+            }
+            .sidebar .sidebar-menu .menu-item {
+                padding: 10px 12px;
+                justify-content: center;
+            }
+            .sidebar .sidebar-menu .menu-item i {
+                font-size: 18px;
+                margin: 0;
+            }
+            .sidebar .sidebar-footer {
+                padding: 12px 10px;
+            }
+            .sidebar .sidebar-footer .user-info .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            .sidebar .sidebar-footer .btn-logout {
+                padding: 6px;
+                font-size: 0;
+            }
+            .sidebar .sidebar-footer .btn-logout i {
+                font-size: 16px;
+            }
+
+            .main-content {
+                margin-left: 60px;
+                padding: 16px;
+            }
+
+            .top-header .page-title h1 {
+                font-size: 20px;
+            }
+            .top-header .header-actions .search-box input {
+                min-width: 120px;
+                font-size: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .carteirinha .crt-body {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .scanner-overlay {
+                width: 150px;
+                height: 150px;
+            }
+
+            .login-box .login-brand .logo-container {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .login-box {
+                padding: 24px;
+            }
+            .alunos-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+            .top-header .header-actions .search-box {
+                width: 100%;
+            }
+            .top-header .header-actions .search-box input {
+                min-width: 100px;
+                width: 100%;
+            }
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .top-header .header-actions {
+                flex-wrap: wrap;
+            }
+            .top-header .header-actions .search-box {
+                flex: 1;
+            }
+            .scanner-overlay {
+                width: 120px;
+                height: 120px;
+            }
+            .login-box .login-brand .logo-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        /* ===== SCROLL ===== */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--gray);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        /* ===== PÁGINAS ===== */
+        .page {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== STATUS BADGE ===== */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-badge.presente {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.ausente {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-badge.enviado {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Mensagem</span>
+    </div>
+
+    <!-- ===== LOGIN ===== -->
+    <div id="loginContainer" class="login-page">
+        <div class="login-box">
+            <div class="login-brand">
+                <div class="logo-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                         alt="Vila Real Futsal">
+                </div>
+                <h2>VILA <span>REAL</span></h2>
+                <p>Futsal · Gestão de Presenças</p>
+            </div>
+
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Número de Acesso</label>
+                    <input type="text" id="loginUser" placeholder="Ex: VR0001" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Senha</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+
+            <div class="register-link">
+                Primeiro acesso? <a onclick="showRegister()">Cadastre-se aqui</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== REGISTRO ===== -->
+    <div id="registerContainer" class="login-page" style="display:none;">
+        <div class="login-box">
+            <div class="login-brand">
+                <div class="logo-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                         alt="Vila Real Futsal">
+                </div>
+                <h2>VILA <span>REAL</span></h2>
+                <p>Cadastro de Usuário</p>
+            </div>
+
+            <form id="registerForm" onsubmit="return handleRegister(event)">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="regName" placeholder="Seu nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="regEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp (com DDD)</label>
+                    <input type="tel" id="regWhatsapp" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label>Perfil</label>
+                    <select id="regProfile" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Pai">Pai/Responsável</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> Cadastrar
+                </button>
+            </form>
+
+            <div class="register-link">
+                Já tem cadastro? <a onclick="showLogin()">Faça login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="logo-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                     alt="Vila Real Futsal">
+            </div>
+            <div class="brand-text">
+                <h2>VILA <span>REAL</span></h2>
+                <small>Futsal</small>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-label">Menu Principal</div>
+            <button class="menu-item active" data-page="dashboard">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+            </button>
+            <button class="menu-item" data-page="alunos">
+                <i class="fas fa-users"></i> <span>Alunos</span>
+                <span class="badge" id="alunosCount">0</span>
+            </button>
+            <button class="menu-item" data-page="carteirinhas">
+                <i class="fas fa-id-card"></i> <span>Carteirinhas</span>
+            </button>
+            <button class="menu-item" data-page="presencas">
+                <i class="fas fa-qrcode"></i> <span>Presença QR</span>
+            </button>
+            <button class="menu-item" data-page="notificacoes">
+                <i class="fas fa-bell"></i> <span>Notificações</span>
+                <span class="badge" id="notifCount">0</span>
+            </button>
+            <button class="menu-item" data-page="relatorios">
+                <i class="fas fa-chart-bar"></i> <span>Relatórios</span>
+            </button>
+
+            <div class="menu-label" style="margin-top:16px;">Sistema</div>
+            <button class="menu-item" data-page="configuracoes" id="navConfig">
+                <i class="fas fa-cog"></i> <span>Configurações</span>
+            </button>
+            <button class="menu-item" data-page="usuarios">
+                <i class="fas fa-users-cog"></i> <span>Usuários</span>
+            </button>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="avatar" id="userAvatar">U</div>
+                <div>
+                    <div class="user-name" id="userName">Usuário</div>
+                    <div class="user-role" id="userRole">Perfil</div>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> <span>Sair</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content" id="mainContent">
+
+        <div class="top-header">
+            <div class="page-title">
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">Visão geral do sistema</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar aluno..." id="searchInput" oninput="buscarAluno(this.value)">
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="openModal('modalAluno')">
+                    <i class="fas fa-plus"></i> Novo Aluno
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="page active" id="page-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="number" id="totalAlunos">0</div>
+                        <div class="icon"><i class="fas fa-user-graduate"></i></div>
+                    </div>
+                    <div class="label">Alunos Ativos</div>
+                    <span class="stat-change up" id="alunosChange">+0 este mês</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="number" id="totalCategorias">0</div>
+                        <div class="icon"><i class="fas fa-tags"></i></div>
+                    </div>
+                    <div class="label">Categorias</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="number" id="presencasHoje">0</div>
+                        <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                    </div>
+                    <div class="label">Presenças Hoje</div>
+                    <span class="stat-change up" id="presencaPercent">0% do total</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="number" id="frequenciaMedia">0%</div>
+                        <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <div class="label">Frequência Média</div>
+                    <span class="stat-change up">Este mês</span>
+                </div>
+            </div>
+
+            <div class="double-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Alunos por Categoria</h3>
+                        <span class="card-action">Ver todas</span>
+                    </div>
+                    <div style="height:160px;">
+                        <div class="chart-bars" id="chartBars"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt"></i> Próximos Treinos</h3>
+                        <span class="card-action">Ver todos</span>
+                    </div>
+                    <div id="proximosTreinos">
+                        <div class="list-item">
+                            <div class="item-info">
+                                <div><i class="fas fa-futbol" style="color:var(--secondary);"></i></div>
+                                <div class="item-text">
+                                    <div class="name">Treino Sub-10</div>
+                                    <div class="sub">10/05/2025 (Sáb) - 09:00</div>
+                                </div>
+                            </div>
+                            <span class="item-badge cat">Ginásio</span>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-info">
+                                <div><i class="fas fa-futbol" style="color:var(--secondary);"></i></div>
+                                <div class="item-text">
+                                    <div class="name">Treino Sub-12</div>
+                                    <div class="sub">10/05/2025 (Sáb) - 10:30</div>
+                                </div>
+                            </div>
+                            <span class="item-badge cat">Ginásio</span>
+                        </div>
+                        <div class="list-item">
+                            <div class="item-info">
+                                <div><i class="fas fa-futbol" style="color:var(--secondary);"></i></div>
+                                <div class="item-text">
+                                    <div class="name">Treino Sub-14</div>
+                                    <div class="sub">11/05/2025 (Dom) - 09:00</div>
+                                </div>
+                            </div>
+                            <span class="item-badge cat">Ginásio</span>
+                        </div>
+                    </div>
+                    <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--gray-dark);">
+                        <i class="fas fa-clock"></i> Total de treinos: 16
+                    </div>
+                </div>
+            </div>
+
+            <div class="double-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bolt"></i> Acessos Rápidos</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action" onclick="openModal('modalAluno')">
+                            <i class="fas fa-user-plus"></i> Novo Aluno
+                        </button>
+                        <button class="quick-action" onclick="mudarPagina('presencas')">
+                            <i class="fas fa-qrcode"></i> Presença QR
+                        </button>
+                        <button class="quick-action" onclick="abrirScanner()">
+                            <i class="fas fa-camera"></i> Escanear QR
+                        </button>
+                        <button class="quick-action" onclick="mudarPagina('carteirinhas')">
+                            <i class="fas fa-id-card"></i> Carteirinhas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Últimas Presenças</h3>
+                        <span class="card-action">Ver todas</span>
+                    </div>
+                    <div id="ultimasPresencas"></div>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding:20px 0 10px 0;color:var(--gray-dark);font-size:12px;">
+                <p><strong>Nosso objetivo é formar campeões</strong> — dentro e fora das quadras!</p>
+                <p style="margin-top:4px;opacity:0.5;">© 2025 Vila Real Futsal - Todos os direitos reservados.</p>
+            </div>
+        </div>
+
+        <!-- ===== ALUNOS ===== -->
+        <div class="page" id="page-alunos">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Alunos Cadastrados</h3>
+                    <button class="btn btn-secondary btn-sm" onclick="openModal('modalAluno')">
+                        <i class="fas fa-plus"></i> Novo Aluno
+                    </button>
+                </div>
+                <div id="alunosList" class="alunos-grid"></div>
+            </div>
+        </div>
+
+        <!-- ===== CARTEIRINHAS ===== -->
+        <div class="page" id="page-carteirinhas">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-id-card"></i> Carteirinha Digital</h3>
+                </div>
+                <div id="carteirinhaContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-id-card"></i>
+                        <h3>Selecione um aluno</h3>
+                        <p>Escolha um aluno para gerar a carteirinha.</p>
+                        <select id="carteirinhaSelect" onchange="gerarCarteirinha(this.value)" style="max-width:300px;margin:12px auto;padding:10px 14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;">
+                            <option value="">-- Selecione --</option>
+                        </select>
+                    </div>
+                    <div id="carteirinhaContent" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PRESENÇAS ===== -->
+        <div class="page" id="page-presencas">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-qrcode"></i> Confirmação de Presença</h3>
+                </div>
+
+                <div style="text-align:center;margin-bottom:16px;">
+                    <button class="btn btn-scan" onclick="abrirScanner()">
+                        <i class="fas fa-camera"></i> 📷 Abrir Câmera para Escanear QR Code
+                    </button>
+                    <p style="font-size:13px;color:var(--gray-dark);margin-top:8px;">
+                        <i class="fas fa-info-circle"></i> Aponte a câmera para o QR Code da carteirinha
+                    </p>
+                </div>
+
+                <div id="scannerContainer" style="display:none;">
+                    <div class="scanner-container">
+                        <div id="qr-reader"></div>
+                        <div class="scanner-overlay">
+                            <div class="corner tl"></div>
+                            <div class="corner tr"></div>
+                            <div class="corner bl"></div>
+                            <div class="corner br"></div>
+                        </div>
+                    </div>
+                    <div id="scannerStatus" class="scanner-status">
+                        <i class="fas fa-spinner fa-spin"></i> Aguardando leitura...
+                    </div>
+                    <div class="scanner-controls">
+                        <button class="btn btn-danger btn-sm" onclick="fecharScanner()">
+                            <i class="fas fa-times"></i> Fechar Câmera
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="reiniciarScanner()">
+                            <i class="fas fa-redo"></i> Reiniciar
+                        </button>
+                    </div>
+                </div>
+
+                <hr style="margin:20px 0;border-color:#e5e7eb;">
+
+                <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0;">
+                    <div style="display:flex;gap:10px;width:100%;max-width:500px;flex-wrap:wrap;justify-content:center;">
+                        <input type="text" id="qrCodeManual" placeholder="Ou digite o código do aluno" style="flex:1;min-width:200px;padding:12px 16px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;">
+                        <button class="btn btn-success" onclick="confirmarPresencaManual()">
+                            <i class="fas fa-check"></i> Confirmar
+                        </button>
+                    </div>
+                    <div style="font-size:13px;color:var(--gray-dark);">
+                        <i class="fas fa-info-circle"></i> Digite o número do aluno (ex: VRF-000001)
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> Presenças de Hoje</h3>
+                    <span id="dataHoje" style="color:var(--gray-dark);font-size:13px;"></span>
+                </div>
+                <div id="presencasList">
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>Nenhuma presença registrada hoje</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== NOTIFICAÇÕES ===== -->
+        <div class="page" id="page-notificacoes">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bell"></i> Histórico de Notificações</h3>
+                    <button class="btn btn-danger btn-sm" onclick="limparNotificacoes()">
+                        <i class="fas fa-trash"></i> Limpar
+                    </button>
+                </div>
+                <div id="listaNotificacoes">
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h3>Nenhuma notificação</h3>
+                        <p>As notificações enviadas aparecerão aqui.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RELATÓRIOS ===== -->
+        <div class="page" id="page-relatorios">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-bar"></i> Relatório de Frequência</h3>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <select id="filtroCategoria" onchange="renderRelatorio()" style="padding:8px 14px;border:2px solid #e5e7eb;border-radius:8px;">
+                            <option value="">Todas</option>
+                        </select>
+                        <button class="btn btn-secondary btn-sm" onclick="exportarCSV()">
+                            <i class="fas fa-file-csv"></i> Exportar CSV
+                        </button>
+                    </div>
+                </div>
+                <div id="relatorioContainer">
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Nenhum dado disponível</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONFIGURAÇÕES ===== -->
+        <div class="page" id="page-configuracoes">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-cog"></i> Configurações do Sistema</h3>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+                    <div>
+                        <h4 style="font-size:15px;color:var(--primary);margin-bottom:12px;">
+                            <i class="fas fa-tag"></i> Categorias por Idade
+                        </h4>
+                        <div id="configCategorias"></div>
+                    </div>
+                    <div>
+                        <h4 style="font-size:15px;color:var(--primary);margin-bottom:12px;">
+                            <i class="fas fa-calendar-alt"></i> Horários de Treino
+                        </h4>
+                        <div class="config-item">
+                            <div class="config-label">Dias de Treino <small>Segunda a Sexta</small></div>
+                            <input type="text" id="diasTreino" value="Segunda, Terça, Quarta, Quinta, Sexta" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;width:180px;">
+                        </div>
+                        <div class="config-item">
+                            <div class="config-label">Horário Início <small>Manhã</small></div>
+                            <input type="time" id="horaInicio" value="08:00" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;">
+                        </div>
+                        <div class="config-item">
+                            <div class="config-label">Horário Fim <small>Manhã</small></div>
+                            <input type="time" id="horaFim" value="12:00" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;">
+                        </div>
+                        <div style="margin-top:16px;">
+                            <h4 style="font-size:15px;color:var(--primary);margin-bottom:12px;">
+                                <i class="fas fa-bell"></i> Configurações de Notificação
+                            </h4>
+                            <div class="config-item">
+                                <div class="config-label">Enviar notificação automática</div>
+                                <label style="display:flex;align-items:center;gap:8px;">
+                                    <input type="checkbox" id="notifAutomatica" checked>
+                                    <span style="font-size:13px;">Ativado</span>
+                                </label>
+                            </div>
+                            <div class="config-item">
+                                <div class="config-label">Mensagem padrão</div>
+                                <input type="text" id="mensagemPadrao" value="Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!" style="padding:6px 12px;border:2px solid #e5e7eb;border-radius:6px;width:100%;">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="salvarConfiguracoes()" style="margin-top:12px;">
+                            <i class="fas fa-save"></i> Salvar Configurações
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== USUÁRIOS ===== -->
+        <div class="page" id="page-usuarios">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users-cog"></i> Usuários do Sistema</h3>
+                </div>
+                <div id="listaUsuarios"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== MODAL ALUNO ===== -->
+    <div class="modal-overlay" id="modalAluno">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> <span id="modalAlunoTitle">Novo Aluno</span></h2>
+                <button class="modal-close" onclick="closeModal('modalAluno')">&times;</button>
+            </div>
+            <form id="alunoForm" onsubmit="return salvarAluno(event)">
+                <input type="hidden" id="alunoEditId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Número do Aluno</label>
+                        <input type="text" id="alunoNumero" readonly style="background:#f0f2f5;">
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Nascimento</label>
+                        <input type="date" id="alunoNascimento" required onchange="calcularIdade()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="alunoNome" placeholder="Nome completo do aluno" required>
+                </div>
+                <div class="form-group">
+                    <label>Nome do Pai/Mãe</label>
+                    <input type="text" id="alunoPai" placeholder="Nome do pai ou mãe" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Telefone de Emergência</label>
+                        <input type="tel" id="alunoTelefone" placeholder="(99) 99999-9999" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp do Responsável</label>
+                        <input type="tel" id="alunoWhatsapp" placeholder="(99) 99999-9999">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>E-mail do Responsável</label>
+                        <input type="email" id="alunoEmail" placeholder="responsavel@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Idade Atual</label>
+                        <input type="text" id="alunoIdade" readonly style="background:#f0f2f5;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <input type="text" id="alunoCategoria" readonly style="background:#f0f2f5;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                    <i class="fas fa-save"></i> Salvar Aluno
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT ===== -->
+    <script>
+        // ============================================================
+        //  DADOS DO SISTEMA
+        // ============================================================
+        const STORAGE_KEY = 'vilaRealFutsalData_v5';
+
+        function getDefaultData() {
+            return {
+                usuarios: [],
+                alunos: [],
+                presencas: [],
+                notificacoes: [],
+                config: {
+                    categorias: [
+                        { nome: 'Sub-8', idadeMin: 6, idadeMax: 7 },
+                        { nome: 'Sub-10', idadeMin: 8, idadeMax: 9 },
+                        { nome: 'Sub-12', idadeMin: 10, idadeMax: 11 },
+                        { nome: 'Sub-14', idadeMin: 12, idadeMax: 13 },
+                        { nome: 'Sub-16', idadeMin: 14, idadeMax: 15 },
+                        { nome: 'Sub-18', idadeMin: 16, idadeMax: 17 }
+                    ],
+                    diasTreino: 'Segunda, Terça, Quarta, Quinta, Sexta',
+                    horaInicio: '08:00',
+                    horaFim: '12:00',
+                    notifAutomatica: true,
+                    mensagemPadrao: 'Prezado(a) responsável, seu filho(a) esteve presente no treino do Vila Real Futsal hoje! Parabéns pela dedicação!'
+                },
+                proximoNumeroAluno: 1,
+                proximoNumeroUsuario: 1
+            };
+        }
+
+        let data = loadData();
+        let currentUser = null;
+        let html5QrCode = null;
+        let scannerAtivo = false;
+
+        function loadData() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    const defaults = getDefaultData();
+                    for (let key in defaults) {
+                        if (!(key in parsed)) parsed[key] = defaults[key];
+                    }
+                    return parsed;
+                }
+            } catch (e) { console.error('Erro ao carregar dados', e); }
+            return getDefaultData();
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) { console.error('Erro ao salvar dados', e); }
+        }
+
+        // ============================================================
+        //  TOAST
+        // ============================================================
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toastMessage');
+            toast.className = 'toast show ' + type;
+            message.textContent = msg;
+            const icon = toast.querySelector('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' :
+                type === 'error' ? 'fas fa-exclamation-circle' :
+                'fas fa-info-circle';
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        // ============================================================
+        //  LOGIN / REGISTRO
+        // ============================================================
+        function showRegister() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('registerContainer').style.display = 'flex';
+        }
+
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('registerContainer').style.display = 'none';
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const nome = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const whatsapp = document.getElementById('regWhatsapp').value.trim();
+            const perfil = document.getElementById('regProfile').value;
+
+            if (!nome || !email) { showToast('Preencha todos os campos', 'error'); return false; }
+
+            const numero = String(data.proximoNumeroUsuario++).padStart(4, '0');
+            const acesso = 'VR' + numero;
+            const senha = Math.random().toString(36).slice(-6).toUpperCase();
+
+            data.usuarios.push({
+                id: 'user_' + Date.now(),
+                nome,
+                email,
+                whatsapp,
+                perfil,
+                acesso,
+                senha,
+                criadoEm: new Date().toISOString()
+            });
+
+            saveData();
+            showToast(`Cadastro realizado! Acesso: ${acesso} | Senha: ${senha}`);
+            document.getElementById('registerForm').reset();
+            showLogin();
+            document.getElementById('loginUser').value = acesso;
+            document.getElementById('loginPassword').value = senha;
+            return false;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const acesso = document.getElementById('loginUser').value.trim();
+            const senha = document.getElementById('loginPassword').value.trim();
+
+            const user = data.usuarios.find(u => u.acesso === acesso && u.senha === senha);
+            if (!user) {
+                showToast('Número de acesso ou senha inválidos', 'error');
+                return false;
+            }
+
+            currentUser = user;
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('sidebar').style.display = 'flex';
+
+            document.getElementById('userName').textContent = user.nome;
+            document.getElementById('userRole').textContent = user.perfil;
+            document.getElementById('userAvatar').textContent = user.nome.charAt(0).toUpperCase();
+
+            document.getElementById('navConfig').style.display = user.perfil === 'Administrador' ? 'flex' : 'none';
+
+            initSystem();
+            return false;
+        }
+
+        function logout() {
+            currentUser = null;
+            fecharScanner();
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+            showToast('Desconectado com sucesso');
+        }
+
+        // ============================================================
+        //  NAVEGAÇÃO
+        // ============================================================
+        function mudarPagina(page) {
+            fecharScanner();
+            document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.menu-item[data-page="${page}"]`)?.classList.add('active');
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+
+            const titles = {
+                dashboard: ['Dashboard', 'Visão geral do sistema'],
+                alunos: ['Alunos', 'Gerenciamento de alunos'],
+                carteirinhas: ['Carteirinhas', 'Geração de carteirinhas'],
+                presencas: ['Presenças', 'Confirmação via QR Code'],
+                notificacoes: ['Notificações', 'Histórico e envio de mensagens'],
+                relatorios: ['Relatórios', 'Análise de frequência'],
+                configuracoes: ['Configurações', 'Ajustes do sistema'],
+                usuarios: ['Usuários', 'Gerenciamento de usuários']
+            };
+
+            const [title, subtitle] = titles[page] || ['Página', ''];
+            document.getElementById('pageTitle').textContent = title;
+            document.getElementById('pageSubtitle').textContent = subtitle;
+
+            if (page === 'relatorios') renderRelatorio();
+            if (page === 'presencas') carregarPresencasHoje();
+            if (page === 'alunos') renderAlunos();
+            if (page === 'carteirinhas') renderCategoriasSelects();
+            if (page === 'dashboard') renderDashboard();
+            if (page === 'notificacoes') renderNotificacoes();
+        }
+
+        document.querySelectorAll('.menu-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                mudarPagina(this.dataset.page);
+            });
+        });
+
+        // ============================================================
+        //  QR CODE SCANNER
+        // ============================================================
+        function abrirScanner() {
+            const container = document.getElementById('scannerContainer');
+            const status = document.getElementById('scannerStatus');
+
+            container.style.display = 'block';
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inicializando câmera...';
+
+            if (typeof Html5Qrcode === 'undefined') {
+                status.innerHTML =
+                    '<span class="error"><i class="fas fa-exclamation-circle"></i> Biblioteca de QR Code não carregada.</span>';
+                return;
+            }
+
+            try {
+                if (html5QrCode) {
+                    html5QrCode.clear();
+                    html5QrCode = null;
+                }
+
+                html5QrCode = new Html5Qrcode('qr-reader');
+
+                const config = {
+                    fps: 15,
+                    qrbox: { width: 220, height: 220 },
+                    aspectRatio: 1.0
+                };
+
+                html5QrCode.start({ facingMode: 'environment' },
+                    config,
+                    onScanSuccess,
+                    onScanError
+                );
+
+                scannerAtivo = true;
+
+            } catch (err) {
+                status.innerHTML =
+                    `<span class="error"><i class="fas fa-exclamation-circle"></i> Erro ao acessar câmera: ${err.message}</span>`;
+                console.error('Erro no scanner:', err);
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            const status = document.getElementById('scannerStatus');
+            status.innerHTML = `<span class="found"><i class="fas fa-check-circle"></i> QR Code identificado!</span>`;
+
+            try {
+                const data = JSON.parse(decodedText);
+                const alunoId = data.id;
+
+                if (alunoId) {
+                    const aluno = window.data.alunos.find(a => a.id === alunoId);
+                    if (aluno) {
+                        confirmarPresenca(alunoId);
+                        setTimeout(() => {
+                            fecharScanner();
+                            mudarPagina('presencas');
+                        }, 1500);
+                    } else {
+                        status.innerHTML =
+                            `<span class="error"><i class="fas fa-exclamation-circle"></i> Aluno não encontrado!</span>`;
+                        showToast('Aluno não encontrado no sistema', 'error');
+                    }
+                } else {
+                    const aluno = window.data.alunos.find(a => a.numero === decodedText || a.id === decodedText);
+                    if (aluno) {
+                        confirmarPresenca(aluno.id);
+                        setTimeout(() => {
+                            fecharScanner();
+                            mudarPagina('presencas');
+                        }, 1500);
+                    } else {
+                        status.innerHTML =
+                            `<span class="error"><i class="fas fa-exclamation-circle"></i> Código inválido!</span>`;
+                        showToast('Código não reconhecido', 'error');
+                    }
+                }
+            } catch (e) {
+                const aluno = window.data.alunos.find(a => a.numero === decodedText || a.id === decodedText);
+                if (aluno) {
+                    confirmarPresenca(aluno.id);
+                    setTimeout(() => {
+                        fecharScanner();
+                        mudarPagina('presencas');
+                    }, 1500);
+                } else {
+                    status.innerHTML =
+                        `<span class="error"><i class="fas fa-exclamation-circle"></i> Código não reconhecido!</span>`;
+                    showToast('Código não reconhecido', 'error');
+                }
+            }
+        }
+
+        function onScanError(err) {}
+
+        function fecharScanner() {
+            if (html5QrCode && scannerAtivo) {
+                try {
+                    html5QrCode.stop().then(() => {
+                        html5QrCode.clear();
+                        scannerAtivo = false;
+                        document.getElementById('scannerContainer').style.display = 'none';
+                        document.getElementById('scannerStatus').innerHTML =
+                            '<i class="fas fa-spinner fa-spin"></i> Aguardando leitura...';
+                    }).catch(() => {
+                        scannerAtivo = false;
+                        document.getElementById('scannerContainer').style.display = 'none';
+                    });
+                } catch (e) {
+                    scannerAtivo = false;
+                    document.getElementById('scannerContainer').style.display = 'none';
+                }
+            } else {
+                document.getElementById('scannerContainer').style.display = 'none';
+            }
+        }
+
+        function reiniciarScanner() {
+            fecharScanner();
+            setTimeout(() => { abrirScanner(); }, 500);
+        }
+
+        // ============================================================
+        //  INICIALIZAÇÃO
+        // ============================================================
+        function initSystem() {
+            if (data.usuarios.length === 0) {
+                data.usuarios.push({
+                    id: 'admin_default',
+                    nome: 'Administrador',
+                    email: 'admin@vilareal.com',
+                    whatsapp: '',
+                    perfil: 'Administrador',
+                    acesso: 'VR0001',
+                    senha: 'ADMIN123',
+                    criadoEm: new Date().toISOString()
+                });
+                saveData();
+                showToast('Usuário padrão: VR0001 / ADMIN123');
+            }
+
+            window.data = data;
+
+            renderDashboard();
+            renderAlunos();
+            renderCategoriasSelects();
+            renderConfiguracoes();
+            renderUsuarios();
+            renderRelatorio();
+            carregarPresencasHoje();
+            renderNotificacoes();
+
+            document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+
+            document.getElementById('alunosCount').textContent = data.alunos.length;
+            document.getElementById('notifCount').textContent = data.notificacoes.length;
+        }
+
+        // ============================================================
+        //  DASHBOARD
+        // ============================================================
+        function renderDashboard() {
+            const total = data.alunos.length;
+            const categorias = new Set(data.alunos.map(a => a.categoria));
+            const hoje = new Date().toDateString();
+            const presencasHoje = data.presencas.filter(p => new Date(p.data).toDateString() === hoje);
+            const totalPresencas = data.presencas.length;
+
+            document.getElementById('totalAlunos').textContent = total;
+            document.getElementById('totalCategorias').textContent = categorias.size;
+            document.getElementById('presencasHoje').textContent = presencasHoje.length;
+
+            const freq = total > 0 ? Math.round((presencasHoje.length / Math.max(1, total)) * 100) : 0;
+            document.getElementById('presencaPercent').textContent = freq + '% do total';
+            document.getElementById('frequenciaMedia').textContent = totalPresencas > 0 ?
+                Math.round((totalPresencas / (data.alunos.length * 30)) * 100) + '%' : '0%';
+
+            const catCount = {};
+            data.alunos.forEach(a => { catCount[a.categoria] = (catCount[a.categoria] || 0) + 1; });
+            const catNames = Object.keys(catCount);
+            const maxVal = Math.max(...Object.values(catCount), 1);
+
+            const chart = document.getElementById('chartBars');
+            chart.innerHTML = catNames.map(cat => `
+                <div class="bar-item">
+                    <div class="bar" style="height:${(catCount[cat] / maxVal) * 120}px;"></div>
+                    <div class="bar-label">${cat}</div>
+                </div>
+            `).join('');
+
+            const ultimas = data.presencas.slice(-5).reverse();
+            const presencasContainer = document.getElementById('ultimasPresencas');
+            if (ultimas.length === 0) {
+                presencasContainer.innerHTML = '<div class="empty-state" style="padding:20px;"><p>Nenhuma presença registrada</p></div>';
+            } else {
+                presencasContainer.innerHTML = ultimas.map(p => `
+                    <div class="list-item">
+                        <div class="item-info">
+                            <div class="item-avatar">${p.alunoNome.charAt(0)}</div>
+                            <div class="item-text">
+                                <div class="name">${p.alunoNome}</div>
+                                <div class="sub">${p.alunoNumero} · ${p.categoria}</div>
+                            </div>
+                        </div>
+                        <span class="item-badge presente">Presente</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ============================================================
+        //  ALUNOS - CRUD
+        // ============================================================
+        function renderAlunos() {
+            const container = document.getElementById('alunosList');
+            if (data.alunos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column:1/-1;">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Nenhum aluno cadastrado</h3>
+                        <p>Clique em "Novo Aluno" para começar.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = data.alunos.map(aluno => `
+                <div class="aluno-card">
+                    <span class="badge-categoria">${aluno.categoria}</span>
+                    <div class="aluno-nome">${aluno.nome}</div>
+                    <div class="aluno-info"><i class="fas fa-hashtag"></i> Nº ${aluno.numero}</div>
+                    <div class="aluno-info"><i class="fas fa-calendar-alt"></i> ${aluno.idade} anos</div>
+                    <div class="aluno-info"><i class="fas fa-user-friends"></i> ${aluno.pai}</div>
+                    <div class="aluno-info"><i class="fas fa-phone"></i> ${aluno.telefone}</div>
+                    ${aluno.whatsapp ? `<div class="aluno-info"><i class="fab fa-whatsapp"></i> ${aluno.whatsapp}</div>` : ''}
+                    ${aluno.email ? `<div class="aluno-info"><i class="fas fa-envelope"></i> ${aluno.email}</div>` : ''}
+                    <div class="actions">
+                        <button class="btn btn-secondary btn-sm" onclick="verCarteirinha('${aluno.id}')">
+                            <i class="fas fa-id-card"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="editarAluno('${aluno.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="excluirAluno('${aluno.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="confirmarPresenca('${aluno.id}')">
+                            <i class="fas fa-check"></i> Presença
+                        </button>
+                        ${aluno.whatsapp ? `<button class="btn btn-whatsapp btn-sm" onclick="enviarWhatsAppIndividual('${aluno.id}')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>` : ''}
+                        <button class="btn btn-scan btn-sm" onclick="gerarQRCodeAluno('${aluno.id}')" style="background:#1a73e8;color:white;">
+                            <i class="fas fa-qrcode"></i> QR
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function gerarQRCodeAluno(alunoId) {
+            const aluno = data.alunos.find(a => a.id === alunoId);
+            if (!aluno) return;
+
+            const qrData = JSON.stringify({ id: aluno.id, numero: aluno.numero });
+            const win = window.open('', '_blank');
+            win.document.write(`
+                <html>
+                <head>
+                    <title>QR Code - ${aluno.nome}</title>
+                    <style>
+                        body { display:flex; justify-content:center; align-items:center; min-height:100vh; background:#0f1b2d; font-family:'Segoe UI',sans-serif; margin:0; }
+                        .container { background:white; border-radius:16px; padding:40px; text-align:center; max-width:400px; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
+                        .container .logo { width:60px; height:60px; border-radius:50%; overflow:hidden; margin:0 auto 12px; border:2px solid #d4a020; }
+                        .container .logo img { width:100%; height:100%; object-fit:cover; }
+                        .container h2 { color:#0f1b2d; margin-bottom:4px; }
+                        .container h2 span { color:#d4a020; }
+                        .container p { color:#6b7280; margin-bottom:16px; }
+                        #qrCodeContainer { display:flex; justify-content:center; margin:16px 0; }
+                        .info { text-align:left; margin:12px 0; padding:12px; background:#f0f2f5; border-radius:8px; }
+                        .info div { padding:4px 0; font-size:14px; }
+                        .info .label { font-weight:600; color:#0f1b2d; }
+                        .btn { margin-top:16px; padding:10px 30px; background:#d4a020; border:none; border-radius:10px; font-weight:700; color:#0f1b2d; cursor:pointer; font-size:14px; }
+                        .btn:hover { background:#f5d060; }
+                        .btn-close { background:#1a73e8; color:white; margin-left:8px; }
+                        .btn-close:hover { background:#1557b0; }
+                        @media print { body { background:white; } .btn, .btn-close { display:none; } }
+                    </style>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="logo">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E" alt="Vila Real">
+                        </div>
+                        <h2>VILA <span>REAL</span></h2>
+                        <p>QR Code para confirmação de presença</p>
+                        <div id="qrCodeContainer"></div>
+                        <div class="info">
+                            <div><span class="label">Aluno:</span> ${aluno.nome}</div>
+                            <div><span class="label">Nº:</span> ${aluno.numero}</div>
+                            <div><span class="label">Categoria:</span> ${aluno.categoria}</div>
+                        </div>
+                        <div>
+                            <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+                            <button class="btn btn-close" onclick="window.close()">Fechar</button>
+                        </div>
+                    </div>
+                    <script>
+                        setTimeout(() => {
+                            const container = document.getElementById('qrCodeContainer');
+                            try {
+                                new QRCode(container, {
+                                    text: '${qrData}',
+                                    width: 200,
+                                    height: 200,
+                                    colorDark: '#0f1b2d',
+                                    colorLight: '#ffffff',
+                                    correctLevel: QRCode.CorrectLevel.H
+                                });
+                            } catch(e) {
+                                container.innerHTML = '<p style="color:#ef4444;">Erro ao gerar QR Code</p>';
+                            }
+                        }, 200);
+                    <\/script>
+                </body>
+                </html>
+            `);
+            win.document.close();
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            if (id === 'modalAluno') {
+                document.getElementById('modalAlunoTitle').textContent = 'Novo Aluno';
+                document.getElementById('alunoEditId').value = '';
+                document.getElementById('alunoForm').reset();
+                const proximo = String(data.proximoNumeroAluno).padStart(6, '0');
+                document.getElementById('alunoNumero').value = 'VRF-' + proximo;
+                document.getElementById('alunoIdade').value = '';
+                document.getElementById('alunoCategoria').value = '';
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function calcularIdade() {
+            const nasc = document.getElementById('alunoNascimento').value;
+            if (!nasc) return;
+            const hoje = new Date();
+            const nascDate = new Date(nasc);
+            let idade = hoje.getFullYear() - nascDate.getFullYear();
+            const mes = hoje.getMonth() - nascDate.getMonth();
+            if (mes < 0 || (mes === 0 && hoje.getDate() < nascDate.getDate())) idade--;
+            document.getElementById('alunoIdade').value = idade + ' anos';
+
+            const cat = data.config.categorias.find(c => idade >= c.idadeMin && idade <= c.idadeMax);
+            document.getElementById('alunoCategoria').value = cat ? cat.nome : 'Sem categoria';
+        }
+
+        function salvarAluno(e) {
+            e.preventDefault();
+            const id = document.getElementById('alunoEditId').value;
+            const numero = document.getElementById('alunoNumero').value;
+            const nome = document.getElementById('alunoNome').value.trim();
+            const pai = document.getElementById('alunoPai').value.trim();
+            const telefone = document.getElementById('alunoTelefone').value.trim();
+            const whatsapp = document.getElementById('alunoWhatsapp').value.trim();
+            const email = document.getElementById('alunoEmail').value.trim();
+            const nascimento = document.getElementById('alunoNascimento').value;
+            const idade = parseInt(document.getElementById('alunoIdade').value) || 0;
+            const categoria = document.getElementById('alunoCategoria').value;
+
+            if (!nome || !pai || !telefone || !nascimento) {
+                showToast('Preencha todos os campos obrigatórios', 'error');
+                return false;
+            }
+
+            const aluno = {
+                id: id || 'aluno_' + Date.now(),
+                numero,
+                nome,
+                pai,
+                telefone,
+                whatsapp,
+                email,
+                nascimento,
+                idade,
+                categoria,
+                criadoEm: new Date().toISOString()
+            };
+
+            if (id) {
+                const index = data.alunos.findIndex(a => a.id === id);
+                if (index !== -1) data.alunos[index] = aluno;
+            } else {
+                data.alunos.push(aluno);
+                data.proximoNumeroAluno++;
+            }
+
+            saveData();
+            window.data = data;
+            closeModal('modalAluno');
+            renderAlunos();
+            renderDashboard();
+            renderCategoriasSelects();
+            renderRelatorio();
+            document.getElementById('alunosCount').textContent = data.alunos.length;
+            showToast(id ? 'Aluno atualizado!' : 'Aluno cadastrado!');
+            return false;
+        }
+
+        function editarAluno(id) {
+            const aluno = data.alunos.find(a => a.id === id);
+            if (!aluno) return;
+            openModal('modalAluno');
+            document.getElementById('modalAlunoTitle').textContent = 'Editar Aluno';
+            document.getElementById('alunoEditId').value = aluno.id;
+            document.getElementById('alunoNumero').value = aluno.numero;
+            document.getElementById('alunoNome').value = aluno.nome;
+            document.getElementById('alunoPai').value = aluno.pai;
+            document.getElementById('alunoTelefone').value = aluno.telefone;
+            document.getElementById('alunoWhatsapp').value = aluno.whatsapp || '';
+            document.getElementById('alunoEmail').value = aluno.email || '';
+            document.getElementById('alunoNascimento').value = aluno.nascimento;
+            document.getElementById('alunoIdade').value = aluno.idade + ' anos';
+            document.getElementById('alunoCategoria').value = aluno.categoria;
+        }
+
+        function excluirAluno(id) {
+            if (!confirm('Tem certeza que deseja excluir este aluno?')) return;
+            data.alunos = data.alunos.filter(a => a.id !== id);
+            saveData();
+            window.data = data;
+            renderAlunos();
+            renderDashboard();
+            renderCategoriasSelects();
+            renderRelatorio();
+            document.getElementById('alunosCount').textContent = data.alunos.length;
+            showToast('Aluno excluído');
+        }
+
+        function buscarAluno(texto) {
+            const cards = document.querySelectorAll('.aluno-card');
+            const termo = texto.toLowerCase().trim();
+            cards.forEach(card => {
+                const nome = card.querySelector('.aluno-nome')?.textContent?.toLowerCase() || '';
+                card.style.display = nome.includes(termo) ? 'block' : 'none';
+            });
+        }
+
+        // ============================================================
+        //  CARTEIRINHA
+        // ============================================================
+        function renderCategoriasSelects() {
+            const selects = ['carteirinhaSelect', 'filtroCategoria'];
+            selects.forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                const current = sel.value;
+                sel.innerHTML = '<option value="">-- Selecione --</option>';
+                const categorias = [...new Set(data.alunos.map(a => a.categoria))];
+                categorias.forEach(cat => {
+                    sel.innerHTML += `<option value="${cat}">${cat}</option>`;
+                });
+                sel.value = current;
+            });
+        }
+
+        function gerarCarteirinha(alunoId) {
+            const container = document.getElementById('carteirinhaContainer');
+            const content = document.getElementById('carteirinhaContent');
+            const select = document.getElementById('carteirinhaSelect');
+
+            if (!alunoId) {
+                content.style.display = 'none';
+                container.querySelector('.empty-state').style.display = 'block';
+                return;
+            }
+
+            const aluno = data.alunos.find(a => a.id === alunoId);
+            if (!aluno) return;
+
+            container.querySelector('.empty-state').style.display = 'none';
+            content.style.display = 'block';
+
+            content.innerHTML = `
+                <div class="carteirinha-wrapper">
+                    <div class="carteirinha" id="carteirinhaImpressao">
+                        <div class="crt-header">
+                            <div class="crt-logo">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E"
+                                     alt="Vila Real Futsal">
+                            </div>
+                            <div class="crt-title">
+                                VILA <span>REAL</span>
+                                <small>Futsal · Carteirinha de Identificação</small>
+                            </div>
+                        </div>
+                        <div class="crt-body">
+                            <div class="crt-info">
+                                <div class="info-row">
+                                    <span class="label">Nº Aluno</span>
+                                    <span class="value">${aluno.numero}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Nome</span>
+                                    <span class="value">${aluno.nome}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Pai/Mãe</span>
+                                    <span class="value">${aluno.pai}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Telefone</span>
+                                    <span class="value">${aluno.telefone}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Idade</span>
+                                    <span class="value">${aluno.idade} anos</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Categoria</span>
+                                    <span class="value">${aluno.categoria}</span>
+                                </div>
+                            </div>
+                            <div class="crt-qr" id="qrCodeContainerCrt"></div>
+                        </div>
+                        <div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div>
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:14px;">
+                    <button class="btn btn-secondary btn-sm" onclick="imprimirCarteirinha()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="verCarteirinha('${aluno.id}')" style="margin-left:8px;">
+                        <i class="fas fa-expand"></i> Ampliar
+                    </button>
+                    <button class="btn btn-scan btn-sm" onclick="gerarQRCodeAluno('${aluno.id}')" style="background:#1a73e8;color:white;margin-left:8px;">
+                        <i class="fas fa-qrcode"></i> QR Code
+                    </button>
+                </div>
+            `;
+
+            setTimeout(() => {
+                const containerQR = document.getElementById('qrCodeContainerCrt');
+                containerQR.innerHTML = '';
+                try {
+                    new QRCode(containerQR, {
+                        text: JSON.stringify({ id: aluno.id, numero: aluno.numero }),
+                        width: 110,
+                        height: 110,
+                        colorDark: '#0f1b2d',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                } catch (e) {
+                    containerQR.innerHTML =
+                        `<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>`;
+                }
+            }, 100);
+        }
+
+        function verCarteirinha(id) {
+            const aluno = data.alunos.find(a => a.id === id);
+            if (!aluno) return;
+
+            const win = window.open('', '_blank');
+            win.document.write(`
+                <html>
+                <head><title>Carteirinha - ${aluno.nome}</title>
+                <style>
+                    body { margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#0f1b2d; font-family:'Segoe UI',sans-serif; }
+                    .carteirinha { background:linear-gradient(135deg,#0f1b2d,#1a2d4a); border-radius:16px; padding:32px 36px; color:white; max-width:480px; width:100%; border:2px solid #d4a020; box-shadow:0 8px 40px rgba(0,0,0,0.5); }
+                    .crt-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+                    .crt-logo { width:56px; height:56px; border-radius:50%; overflow:hidden; border:2px solid #f5d060; flex-shrink:0; background:white; }
+                    .crt-logo img { width:100%; height:100%; object-fit:cover; }
+                    .crt-title { font-size:18px; font-weight:800; letter-spacing:1px; }
+                    .crt-title span { color:#d4a020; }
+                    .crt-title small { display:block; font-size:10px; opacity:0.6; font-weight:400; letter-spacing:2px; text-transform:uppercase; }
+                    .crt-body { display:flex; gap:20px; }
+                    .crt-info { flex:1; }
+                    .info-row { display:flex; justify-content:space-between; padding:4px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.06); }
+                    .info-row .label { opacity:0.5; font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+                    .info-row .value { font-weight:600; }
+                    .crt-qr { flex-shrink:0; background:white; padding:10px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+                    .crt-qr canvas { width:110px !important; height:110px !important; }
+                    .crt-footer { text-align:center; font-size:9px; opacity:0.4; border-top:1px solid rgba(255,255,255,0.06); padding-top:12px; margin-top:14px; letter-spacing:1px; }
+                    .btn-print { margin-top:16px; padding:10px 30px; background:#d4a020; border:none; border-radius:10px; font-weight:700; color:#0f1b2d; cursor:pointer; font-size:14px; }
+                    .btn-print:hover { background:#f5d060; }
+                    @media print { body { background:white; } .carteirinha { box-shadow:none; border-color:#ccc; } .btn-print { display:none; } }
+                </style>
+                </head>
+                <body>
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                        <div class="carteirinha" id="carteirinhaPrint">
+                            <div class="crt-header">
+                                <div class="crt-logo">
+                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23d4a020'/%3E%3Ctext x='60' y='120' font-size='48' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EPROJETO%3C/text%3E%3Ctext x='140' y='180' font-size='52' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EDE%3C/text%3E%3Ctext x='50' y='260' font-size='58' font-weight='900' fill='%230f1b2d' font-family='Arial'%3EFUTSAL%3C/text%3E%3Ctext x='20' y='330' font-size='30' font-weight='700' fill='%23ffffff' font-family='Arial'%3EVILA REAL%3C/text%3E%3Ctext x='60' y='370' font-size='20' font-weight='400' fill='%23ffffff' font-family='Arial'%3EFUTSAL%3C/text%3E%3C/svg%3E" alt="Vila Real">
+                                </div>
+                                <div class="crt-title">VILA <span>REAL</span><small>Futsal · Carteirinha</small></div>
+                            </div>
+                            <div class="crt-body">
+                                <div class="crt-info">
+                                    <div class="info-row"><span class="label">Nº Aluno</span><span class="value">${aluno.numero}</span></div>
+                                    <div class="info-row"><span class="label">Nome</span><span class="value">${aluno.nome}</span></div>
+                                    <div class="info-row"><span class="label">Pai/Mãe</span><span class="value">${aluno.pai}</span></div>
+                                    <div class="info-row"><span class="label">Telefone</span><span class="value">${aluno.telefone}</span></div>
+                                    <div class="info-row"><span class="label">Idade</span><span class="value">${aluno.idade} anos</span></div>
+                                    <div class="info-row"><span class="label">Categoria</span><span class="value">${aluno.categoria}</span></div>
+                                </div>
+                                <div class="crt-qr" id="qrPrintContainer"></div>
+                            </div>
+                            <div class="crt-footer">Válido para o ano letivo atual · Projeto Vila Real Futsal</div>
+                        </div>
+                        <button class="btn-print" onclick="window.print()">🖨️ Imprimir Carteirinha</button>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script>
+                    <script>
+                        setTimeout(() => {
+                            const container = document.getElementById('qrPrintContainer');
+                            container.innerHTML = '';
+                            try {
+                                new QRCode(container, {
+                                    text: JSON.stringify({ id: '${aluno.id}', numero: '${aluno.numero}' }),
+                                    width: 110,
+                                    height: 110,
+                                    colorDark: '#0f1b2d',
+                                    colorLight: '#ffffff',
+                                    correctLevel: QRCode.CorrectLevel.H
+                                });
+                            } catch(e) {
+                                container.innerHTML = '<div style="padding:12px;background:#fff;border-radius:6px;color:#333;font-weight:700;">QR</div>';
+                            }
+                        }, 200);
+                    <\/script>
+                </body>
+                </html>
+            `);
+            win.document.close();
+        }
+
+        function imprimirCarteirinha() {
+            const conteudo = document.getElementById('carteirinhaImpressao');
+            if (!conteudo) return;
+            const win = window.open('', '_blank');
+            win.document.write(`
+                <html>
+                <head><title>Carteirinha - Vila Real Futsal</title>
+                <style>
+                    body { margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f0f2f5; font-family:'Segoe UI',sans-serif; }
+                    .carteirinha { background:linear-gradient(135deg,#0f1b2d,#1a2d4a); border-radius:16px; padding:32px 36px; color:white; max-width:480px; width:100%; border:2px solid #d4a020; box-shadow:0 8px 40px rgba(0,0,0,0.3); }
+                    .crt-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+                    .crt-logo { width:56px; height:56px; border-radius:50%; overflow:hidden; border:2px solid #f5d060; flex-shrink:0; background:white; }
+                    .crt-logo img { width:100%; height:100%; object-fit:cover; }
+                    .crt-title { font-size:18px; font-weight:800; letter-spacing:1px; }
+                    .crt-title span { color:#d4a020; }
+                    .crt-title small { display:block; font-size:10px; opacity:0.6; font-weight:400; letter-spacing:2px; text-transform:uppercase; }
+                    .crt-body { display:flex; gap:20px; }
+                    .crt-info { flex:1; }
+                    .info-row { display:flex; justify-content:space-between; padding:4px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.06); }
+                    .info-row .label { opacity:0.5; font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+                    .info-row .value { font-weight:600; }
+                    .crt-qr { flex-shrink:0; background:white; padding:10px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+                    .crt-qr canvas { width:110px !important; height:110px !important; }
+                    .crt-footer { text-align:center; font-size:9px; opacity:0.4; border-top:1px solid rgba(255,255,255,0.06); padding-top:12px; margin-top:14px; letter-spacing:1px; }
+                    @media print { body { background:white; } .carteirinha { box-shadow:none; } }
+                </style>
+                </head>
+                <body>
+                    ${conteudo.outerHTML}
+                    <script>
+                        window.onload = function() { window.print(); setTimeout(() => window.close(), 1500); };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            win.document.close();
+        }
+
+        // ============================================================
+        //  PRESENÇAS
+        // ============================================================
+        function confirmarPresenca(alunoId, enviarNotif = true) {
+            if (!alunoId) return;
+            const aluno = data.alunos.find(a => a.id === alunoId);
+            if (!aluno) { showToast('Aluno não encontrado', 'error'); return; }
+
+            const hoje = new Date().toISOString();
+            const jaMarcou = data.presencas.some(p =>
+                p.alunoId === alunoId && new Date(p.data).toDateString() === new Date().toDateString()
+            );
+            if (jaMarcou) {
+                showToast(`${aluno.nome} já teve presença hoje!`, 'warning');
+                return;
+            }
+
+            data.presencas.push({
+                id: 'pres_' + Date.now(),
+                alunoId: alunoId,
+                alunoNome: aluno.nome,
+                alunoNumero: aluno.numero,
+                categoria: aluno.categoria,
+                data: hoje,
+                confirmadoPor: currentUser ? currentUser.nome : 'Sistema',
+                notificacaoEnviada: false
+            });
+
+            saveData();
+            window.data = data;
+            carregarPresencasHoje();
+            renderDashboard();
+            renderRelatorio();
+            showToast(`✅ Presença confirmada: ${aluno.nome}`);
+
+            if (enviarNotif && data.config.notifAutomatica) {
+                enviarNotificacaoPresenca(aluno);
+            }
+
+            return true;
+        }
+
+        function confirmarPresencaManual() {
+            const input = document.getElementById('qrCodeManual');
+            const code = input.value.trim();
+            if (!code) { showToast('Digite o código do aluno', 'error'); return; }
+
+            let aluno = data.alunos.find(a => a.numero === code || a.id === code);
+            if (!aluno) {
+                aluno = data.alunos.find(a => a.nome.toLowerCase().includes(code.toLowerCase()));
+            }
+            if (!aluno) {
+                showToast('Aluno não encontrado', 'error');
+                return;
+            }
+
+            const confirmado = confirmarPresenca(aluno.id);
+            if (confirmado) {
+                input.value = '';
+                if (aluno.whatsapp || aluno.email) {
+                    if (confirm(`Deseja enviar notificação para ${aluno.pai} sobre a presença de ${aluno.nome}?`)) {
+                        enviarNotificacaoPresenca(aluno);
+                    }
+                }
+            }
+        }
+
+        // ============================================================
+        //  NOTIFICAÇÕES
+        // ============================================================
+        function enviarNotificacaoPresenca(aluno) {
+            const mensagem = data.config.mensagemPadrao ||
+                `Prezado(a) ${aluno.pai}, informamos que ${aluno.nome} esteve presente no treino do Vila Real Futsal hoje!`;
+
+            let canais = [];
+            if (aluno.whatsapp) canais.push('whatsapp');
+            if (aluno.email) canais.push('email');
+
+            if (canais.length === 0) {
+                showToast('Aluno sem contato para notificação', 'warning');
+                return;
+            }
+
+            canais.forEach(canal => {
+                const notificacao = {
+                    id: 'notif_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                    alunoId: aluno.id,
+                    alunoNome: aluno.nome,
+                    destinatario: aluno.pai,
+                    mensagem: mensagem,
+                    canal: canal,
+                    destino: canal === 'whatsapp' ? aluno.whatsapp : aluno.email,
+                    data: new Date().toISOString(),
+                    status: 'enviado',
+                    enviadoPor: currentUser ? currentUser.nome : 'Sistema'
+                };
+
+                data.notificacoes.push(notificacao);
+                saveData();
+                window.data = data;
+
+                console.log(`📨 Enviando ${canal} para ${aluno.pai}:`, mensagem);
+
+                const presenca = data.presencas.find(p =>
+                    p.alunoId === aluno.id &&
+                    new Date(p.data).toDateString() === new Date().toDateString()
+                );
+                if (presenca) {
+                    presenca.notificacaoEnviada = true;
+                    saveData();
+                    window.data = data;
+                }
+            });
+
+            renderNotificacoes();
+            document.getElementById('notifCount').textContent = data.notificacoes.length;
+            showToast(`📨 Notificação enviada para ${aluno.pai} (${canais.join(', ')})`);
+        }
+
+        function enviarWhatsAppIndividual(alunoId) {
+            const aluno = data.alunos.find(a => a.id === alunoId);
+            if (!aluno) { showToast('Aluno não encontrado', 'error'); return; }
+            if (!aluno.whatsapp) { showToast('Aluno sem WhatsApp cadastrado', 'error'); return; }
+
+            const numero = aluno.whatsapp.replace(/\D/g, '');
+            const mensagem = encodeURIComponent(
+                `Olá ${aluno.pai}! 👋\n\n` +
+                `O ${aluno.nome} está participando do Projeto Vila Real Futsal.\n` +
+                `Número do aluno: ${aluno.numero}\n` +
+                `Categoria: ${aluno.categoria}\n\n` +
+                `Para mais informações, entre em contato conosco.`
+            );
+
+            window.open(`https://wa.me/55${numero}?text=${mensagem}`, '_blank');
+
+            data.notificacoes.push({
+                id: 'notif_' + Date.now(),
+                alunoId: aluno.id,
+                alunoNome: aluno.nome,
+                destinatario: aluno.pai,
+                mensagem: decodeURIComponent(mensagem),
+                canal: 'whatsapp',
+                destino: aluno.whatsapp,
+                data: new Date().toISOString(),
+                status: 'enviado',
+                enviadoPor: currentUser ? currentUser.nome : 'Sistema'
+            });
+            saveData();
+            window.data = data;
+            renderNotificacoes();
+            document.getElementById('notifCount').textContent = data.notificacoes.length;
+            showToast(`📱 WhatsApp aberto para ${aluno.pai}`);
+        }
+
+        function renderNotificacoes() {
+            const container = document.getElementById('listaNotificacoes');
+
+            if (data.notificacoes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h3>Nenhuma notificação</h3>
+                        <p>As notificações enviadas aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const notifs = [...data.notificacoes].reverse();
+
+            container.innerHTML = notifs.slice(0, 50).map(n => `
+                <div class="notificacao-item">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div class="notif-msg">
+                            <i class="${n.canal === 'whatsapp' ? 'fab fa-whatsapp' : 'fas fa-envelope'}" 
+                               style="color:${n.canal === 'whatsapp' ? '#25D366' : '#ea4335'};"></i>
+                            <strong>${n.alunoNome}</strong> - ${n.destinatario}
+                        </div>
+                        <span class="notif-time">${new Date(n.data).toLocaleString('pt-BR')}</span>
+                    </div>
+                    <div style="font-size:13px;color:var(--gray-dark);margin-top:4px;padding-left:24px;">
+                        ${n.mensagem.length > 100 ? n.mensagem.substring(0, 100) + '...' : n.mensagem}
+                        ${n.canal === 'whatsapp' ? '📱' : '📧'} ${n.destino}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function limparNotificacoes() {
+            if (!confirm('Tem certeza que deseja limpar todo o histórico de notificações?')) return;
+            data.notificacoes = [];
+            saveData();
+            window.data = data;
+            renderNotificacoes();
+            document.getElementById('notifCount').textContent = 0;
+            showToast('Histórico de notificações limpo');
+        }
+
+        // ============================================================
+        //  PRESENÇAS - LISTAGEM
+        // ============================================================
+        function carregarPresencasHoje() {
+            const container = document.getElementById('presencasList');
+            const hoje = new Date().toDateString();
+            const presencasHoje = data.presencas.filter(p => new Date(p.data).toDateString() === hoje);
+
+            if (presencasHoje.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>Nenhuma presença registrada hoje</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = presencasHoje.map(p => `
+                <div class="list-item">
+                    <div class="item-info">
+                        <div class="item-avatar">${p.alunoNome.charAt(0)}</div>
+                        <div class="item-text">
+                            <div class="name">${p.alunoNome}</div>
+                            <div class="sub">${p.alunoNumero} · ${p.categoria}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="item-badge presente">Presente</span>
+                        ${p.notificacaoEnviada ? '<span class="item-badge enviado">📨</span>' : ''}
+                        <span style="font-size:12px;color:var(--gray-dark);">
+                            ${new Date(p.data).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        //  RELATÓRIOS
+        // ============================================================
+        function renderRelatorio() {
+            const container = document.getElementById('relatorioContainer');
+            const filtro = document.getElementById('filtroCategoria').value;
+
+            let alunos = data.alunos;
+            if (filtro) alunos = alunos.filter(a => a.categoria === filtro);
+
+            if (alunos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Nenhum aluno encontrado</h3>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:var(--primary);color:white;">
+                                <th style="padding:10px 12px;text-align:left;">Nº</th>
+                                <th style="padding:10px 12px;text-align:left;">Nome</th>
+                                <th style="padding:10px 12px;text-align:left;">Categoria</th>
+                                <th style="padding:10px 12px;text-align:center;">Presenças</th>
+                                <th style="padding:10px 12px;text-align:center;">Frequência</th>
+                                <th style="padding:10px 12px;text-align:center;">Notificações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            alunos.forEach(aluno => {
+                const presencas = data.presencas.filter(p => p.alunoId === aluno.id);
+                const total = presencas.length;
+                const diasDesde = Math.max(1, Math.floor((new Date() - new Date(aluno.criadoEm)) / (1000 * 60 * 60 * 24)) ||
+                1);
+                const freq = Math.min(100, Math.round((total / diasDesde) * 100));
+                const notifs = data.notificacoes.filter(n => n.alunoId === aluno.id).length;
+
+                html += `
+                    <tr style="border-bottom:1px solid #e5e7eb;">
+                        <td style="padding:10px 12px;font-weight:600;">${aluno.numero}</td>
+                        <td style="padding:10px 12px;">${aluno.nome}</td>
+                        <td style="padding:10px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;">${aluno.categoria}</span></td>
+                        <td style="padding:10px 12px;text-align:center;font-weight:600;">${total}</td>
+                        <td style="padding:10px 12px;text-align:center;">
+                            <div style="display:flex;align-items:center;gap:8px;justify-content:center;">
+                                <div style="background:#e5e7eb;border-radius:10px;height:6px;width:80px;overflow:hidden;">
+                                    <div style="background:${freq > 70 ? '#22c55e' : freq > 40 ? '#d4a020' : '#ef4444'};height:100%;width:${freq}%;border-radius:10px;"></div>
+                                </div>
+                                <span style="font-weight:700;font-size:13px;">${freq}%</span>
+                            </div>
+                        </td>
+                        <td style="padding:10px 12px;text-align:center;">
+                            <span style="font-size:13px;">${notifs}</span>
+                            ${notifs > 0 ? '📨' : ''}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        function exportarCSV() {
+            const filtro = document.getElementById('filtroCategoria').value;
+            let alunos = data.alunos;
+            if (filtro) alunos = alunos.filter(a => a.categoria === filtro);
+
+            if (alunos.length === 0) { showToast('Nenhum dado para exportar', 'error'); return; }
+
+            let csv = 'Número,Nome,Categoria,Presenças,Frequência,Notificações\n';
+            alunos.forEach(aluno => {
+                const presencas = data.presencas.filter(p => p.alunoId === aluno.id);
+                const total = presencas.length;
+                const diasDesde = Math.max(1, Math.floor((new Date() - new Date(aluno.criadoEm)) / (1000 * 60 * 60 * 24)) ||
+                1);
+                const freq = Math.min(100, Math.round((total / diasDesde) * 100));
+                const notifs = data.notificacoes.filter(n => n.alunoId === aluno.id).length;
+                csv += `${aluno.numero},"${aluno.nome}",${aluno.categoria},${total},${freq}%,${notifs}\n`;
+            });
+
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `relatorio_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+            showToast('Relatório exportado!');
+        }
+
+        // ============================================================
+        //  CONFIGURAÇÕES
+        // ============================================================
+        function renderConfiguracoes() {
+            const container = document.getElementById('configCategorias');
+            container.innerHTML = data.config.categorias.map((cat, index) => `
+                <div class="config-item">
+                    <div class="config-label">
+                        ${cat.nome}
+                        <small>${cat.idadeMin} - ${cat.idadeMax} anos</small>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                        <input type="number" id="catMin_${index}" value="${cat.idadeMin}" style="width:50px;padding:4px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
+                        <span style="color:var(--gray-dark);">-</span>
+                        <input type="number" id="catMax_${index}" value="${cat.idadeMax}" style="width:50px;padding:4px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
+                        <button class="btn btn-danger btn-sm" onclick="removerCategoria(${index})"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML += `
+                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <input type="text" id="novaCatNome" placeholder="Nome (ex: Sub-20)" style="flex:1;min-width:100px;padding:8px 12px;border:2px solid #e5e7eb;border-radius:6px;">
+                    <input type="number" id="novaCatMin" placeholder="Min" style="width:60px;padding:8px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
+                    <input type="number" id="novaCatMax" placeholder="Max" style="width:60px;padding:8px 6px;border:2px solid #e5e7eb;border-radius:6px;text-align:center;">
+                    <button class="btn btn-secondary btn-sm" onclick="adicionarCategoria()"><i class="fas fa-plus"></i></button>
+                </div>
+            `;
+
+            document.getElementById('diasTreino').value = data.config.diasTreino || 'Segunda, Terça, Quarta, Quinta, Sexta';
+            document.getElementById('horaInicio').value = data.config.horaInicio || '08:00';
+            document.getElementById('horaFim').value = data.config.horaFim || '12:00';
+            document.getElementById('notifAutomatica').checked = data.config.notifAutomatica !== false;
+            document.getElementById('mensagemPadrao').value = data.config.mensagemPadrao || '';
+        }
+
+        function adicionarCategoria() {
+            const nome = document.getElementById('novaCatNome').value.trim();
+            const min = parseInt(document.getElementById('novaCatMin').value);
+            const max = parseInt(document.getElementById('novaCatMax').value);
+            if (!nome || isNaN(min) || isNaN(max)) { showToast('Preencha todos os campos', 'error'); return; }
+            if (min > max) { showToast('Idade mínima > máxima', 'error'); return; }
+
+            data.config.categorias.push({ nome, idadeMin: min, idadeMax: max });
+            saveData();
+            window.data = data;
+            renderConfiguracoes();
+            renderCategoriasSelects();
+            showToast('Categoria adicionada!');
+        }
+
+        function removerCategoria(index) {
+            if (data.config.categorias.length <= 1) { showToast('Deve haver pelo menos uma categoria', 'error'); return; }
+            if (!confirm('Remover esta categoria?')) return;
+            data.config.categorias.splice(index, 1);
+            saveData();
+            window.data = data;
+            renderConfiguracoes();
+            renderCategoriasSelects();
+            showToast('Categoria removida');
+        }
+
+        function salvarConfiguracoes() {
+            data.config.categorias.forEach((cat, index) => {
+                const min = parseInt(document.getElementById(`catMin_${index}`).value);
+                const max = parseInt(document.getElementById(`catMax_${index}`).value);
+                if (!isNaN(min) && !isNaN(max) && min <= max) {
+                    cat.idadeMin = min;
+                    cat.idadeMax = max;
+                }
+            });
+
+            data.config.diasTreino = document.getElementById('diasTreino').value.trim();
+            data.config.horaInicio = document.getElementById('horaInicio').value;
+            data.config.horaFim = document.getElementById('horaFim').value;
+            data.config.notifAutomatica = document.getElementById('notifAutomatica').checked;
+            data.config.mensagemPadrao = document.getElementById('mensagemPadrao').value.trim();
+
+            saveData();
+            window.data = data;
+            showToast('Configurações salvas!');
+            renderCategoriasSelects();
+        }
+
+        // ============================================================
+        //  USUÁRIOS
+        // ============================================================
+        function renderUsuarios() {
+            const container = document.getElementById('listaUsuarios');
+            if (data.usuarios.length === 0) {
+                container.innerHTML =
+                    '<div class="empty-state"><i class="fas fa-users"></i><h3>Nenhum usuário cadastrado</h3></div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead>
+                            <tr style="background:var(--gray);">
+                                <th style="padding:8px 12px;text-align:left;">Acesso</th>
+                                <th style="padding:8px 12px;text-align:left;">Nome</th>
+                                <th style="padding:8px 12px;text-align:left;">Perfil</th>
+                                <th style="padding:8px 12px;text-align:left;">E-mail</th>
+                                <th style="padding:8px 12px;text-align:left;">WhatsApp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.usuarios.map(u => `
+                                <tr style="border-bottom:1px solid #e5e7eb;">
+                                    <td style="padding:8px 12px;font-weight:600;">${u.acesso}</td>
+                                    <td style="padding:8px 12px;">${u.nome}</td>
+                                    <td style="padding:8px 12px;"><span class="badge-categoria" style="position:static;display:inline-block;">${u.perfil}</span></td>
+                                    <td style="padding:8px 12px;color:var(--gray-dark);">${u.email}</td>
+                                    <td style="padding:8px 12px;color:var(--gray-dark);">${u.whatsapp || '-'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // ============================================================
+        //  INICIALIZAR
+        // ============================================================
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('sidebar').style.display = 'none';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (data.usuarios.length === 0) {
+                showRegister();
+            }
+
+            if (data.alunos.length === 0) {
+                const exemplos = [
+                    { nome: 'João Pedro Silva', pai: 'Carlos Silva', telefone: '(11) 99999-1111',
+                        whatsapp: '(11) 98888-1111', email: 'carlos.silva@email.com', nascimento: '2015-05-10',
+                        idade: 9, categoria: 'Sub-10' },
+                    { nome: 'Lucas Oliveira Santos', pai: 'Ana Santos', telefone: '(11) 99999-2222',
+                        whatsapp: '(11) 98888-2222', email: 'ana.santos@email.com', nascimento: '2014-08-20',
+                        idade: 10, categoria: 'Sub-12' },
+                    { nome: 'Miguel Pereira Lima', pai: 'José Oliveira', telefone: '(11) 99999-3333',
+                        whatsapp: '(11) 98888-3333', email: 'jose.oliveira@email.com', nascimento: '2012-03-15',
+                        idade: 12, categoria: 'Sub-14' },
+                    { nome: 'Arthur Rodrigues', pai: 'Roberto Paula', telefone: '(11) 99999-4444',
+                        whatsapp: '(11) 98888-4444', email: 'roberto.paula@email.com', nascimento: '2016-11-30',
+                        idade: 8, categoria: 'Sub-10' },
+                    { nome: 'Enzo Gabriel Alves', pai: 'Marcos Ferreira', telefone: '(11) 99999-5555',
+                        whatsapp: '(11) 98888-5555', email: 'marcos.ferreira@email.com', nascimento: '2010-07-25',
+                        idade: 14, categoria: 'Sub-16' },
+                ];
+
+                exemplos.forEach((ex, i) => {
+                    const numero = 'VRF-' + String(i + 1).padStart(6, '0');
+                    data.alunos.push({
+                        id: 'aluno_' + Date.now() + '_' + i,
+                        numero,
+                        ...ex,
+                        criadoEm: new Date().toISOString()
+                    });
+                });
+                data.proximoNumeroAluno = exemplos.length + 1;
+                saveData();
+                window.data = data;
+            }
+
+            if (data.presencas.length === 0 && data.alunos.length > 0) {
+                const hoje = new Date().toISOString();
+                data.alunos.slice(0, 4).forEach((aluno, i) => {
+                    data.presencas.push({
+                        id: 'pres_' + Date.now() + '_' + i,
+                        alunoId: aluno.id,
+                        alunoNome: aluno.nome,
+                        alunoNumero: aluno.numero,
+                        categoria: aluno.categoria,
+                        data: hoje,
+                        confirmadoPor: 'Sistema',
+                        notificacaoEnviada: false
+                    });
+                });
+                saveData();
+                window.data = data;
+            }
+
+            console.log('🏆 Vila Real Futsal - Sistema de Gestão');
+            console.log('📊 Alunos:', data.alunos.length);
+            console.log('👥 Usuários:', data.usuarios.length);
+            console.log('✅ Presenças:', data.presencas.length);
+            console.log('📨 Notificações:', data.notificacoes.length);
+            console.log('📷 Scanner QR Code: Disponível');
+        });
+    </script>
+
+</body>
+</html>
